@@ -37,7 +37,7 @@ Iotichthys 프로젝트의 시각적 아이덴티티는 이름의 유래와 서�
 - Laravel 백엔드: API 서비스, 비즈니스 로직, 사용자 관리
 - RESTful API: 디바이스 관리, 데이터 쿼리, 알림 설정
 - WebSocket 서버: 실시간 데이터 스트리밍
-- 대시보드 프론트엔드: Vue.js 또는 React 기반 사용자 인터페이스
+- 대시보드 프론트엔드: Laravel Livewire
 
 #### 4. 분석 및 시각화 레이어
 - 데이터 처리 파이프라인: 원시 데이터 정제 및 집계
@@ -68,8 +68,8 @@ Iotichthys 프로젝트의 시각적 아이덴티티는 이름의 유래와 서�
 - **인증**: Laravel Sanctum/Passport
 
 ### 프론트엔드
-- **프레임워크**: Vue.js/React
-- **데이터 시각화**: Chart.js, D3.js, 또는 Apache ECharts
+- **프레임워크**: Laravel Livewire
+- **데이터 시각화**: Chart.js, D3.js
 - **실시간 업데이트**: WebSockets (Laravel WebSockets 또는 Pusher)
 
 ## 🛠️ 설치 및 설정
@@ -162,10 +162,6 @@ Iotichthys에 대한 기여를 환영합니다! 다음 단계를 따라주세요
 ## 📜 라이선스
 
 이 프로젝트는 MIT 라이선스 하에 제공됩니다 - 자세한 내용은 LICENSE 파일을 참조하세요.
-
-## 📧 연락처
-
-프로젝트 관리자 - [your-email@example.com](mailto:your-email@example.com)
 
 ---
 
