@@ -6,7 +6,7 @@ use App\Models\Organization;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class index extends Component
+class Index extends Component
 {
     use WithPagination;
 
