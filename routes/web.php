@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
@@ -24,8 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
-    Route::get('organizations', \App\Livewire\Organizations\index::class)->name('organizations.index');
-    Route::get('organizations/{organization}', \App\Livewire\Organizations\show::class)->name('organizations.show');
+    Route::get('organizations', \App\Livewire\Organization\index::class)->name('organization.index');
+    Route::get('organizations/{organization}', \App\Livewire\Organization\show::class)->name('organization.show');
     Route::get('teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');

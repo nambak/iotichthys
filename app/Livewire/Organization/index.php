@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Organizations;
+namespace App\Livewire\Organization;
 
 use App\Models\Organization;
 use Livewire\Component;

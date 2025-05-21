@@ -69,7 +69,7 @@
                     @endif
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-center font-medium">
-                    <a href="{{ route('organizations.show', $organization) }}" class="text-primary mr-3">보기</a>
+                    <a href="{{ route('organization.show', $organization) }}" class="text-primary mr-3">보기</a>
 
                     @if ($organization->pivot && $organization->pivot->is_owner)
                         <button wire:click="edit({{ $organization->id }})" class="mr-3">수정</button>
