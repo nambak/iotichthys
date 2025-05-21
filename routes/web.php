@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     Route::get('organizations', \App\Livewire\Organization\Index::class)->name('organization.index');
-    Route::get('organizations/{organization}', \App\Livewire\Organization\show::class)->name('organization.show');
+    Route::get('organizations/{organization}', \App\Livewire\Organization\Show::class)->name('organization.show');
     Route::get('teams', [TeamController::class, 'index'])->name('teams.index');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
