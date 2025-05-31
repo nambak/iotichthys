@@ -3,7 +3,6 @@
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
-
     <form wire:submit="login" class="flex flex-col gap-6">
         <!-- Email Address -->
         <flux:input
