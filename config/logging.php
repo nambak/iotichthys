@@ -128,10 +128,13 @@ return [
         ],
 
         'betterstack' => [
-            'driver' => 'custom',
-            'via' => App\Logging\BetterStackLogger::class,
-            'source_token' => env('BETTERSTACK_SOURCE_TOKEN'),
-            'endpoint' => env('BETTERSTACK_ENDPOINT'),
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => Logtail\Monolog\LogtailHandler::class,
+            'handler_with' => [
+                'sourceToken' => env('BETTERSTACK_SOURCE_TOKEN'),
+                'endpoint' => env('BETTERSTACK_ENDPOINT'),
+            ],
         ],
 
     ],
