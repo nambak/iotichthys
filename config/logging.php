@@ -127,6 +127,13 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'betterstack' => [
+            'driver' => 'custom',
+            'via' => App\Logging\BetterStackLogger::class,
+            'source_token' => env('BETTERSTACK_SOURCE_TOKEN'),
+            'endpoint' => env('BETTERSTACK_ENDPOINT'),
+        ],
+
     ],
 
 ];
