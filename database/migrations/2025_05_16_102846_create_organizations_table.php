@@ -14,13 +14,16 @@ return new class extends Migration {
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->comment('사업자명');
+            $table->string('owner')->comment('대표자');
+            $table->string('business_register_number')->comment('사업자 번호');
+            $table->string('address')->comment('사업장 주소');
+            $table->string('phone_number')->comment('사업자 대표전화');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 
     /**
