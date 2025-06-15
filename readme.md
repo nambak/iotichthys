@@ -1,4 +1,10 @@
+![ProjectLogo](https://raw.githubusercontent.com/nambak/iotichthys/main/public/iotichthys_logo.png)
+
 # Iotichthys (이오티크티스)
+
+[![Build](https://github.com/nambak/iotichthys/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nambak/iotichthys/actions/workflows/build.yml)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/nambak/iotichthys?utm_source=oss&utm_medium=github&utm_campaign=nambak%2Fiotichthys&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+![Coverage](https://raw.githubusercontent.com/nambak/iotichthys/image-data/coverage.svg)
 
 
 > Laravel과 AWS IoT Core MQTT 서비스를 통합한 IoT 클라우드 서비스 플랫폼
