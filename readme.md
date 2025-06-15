@@ -1,4 +1,4 @@
-![ProjectLogo](https://raw.githubusercontent.com/nambak/iotichthys/public/iotichthys_logo.png)
+![ProjectLogo](https://raw.githubusercontent.com/nambak/iotichthys/main/public/iotichthys_logo.png)
 
 # Iotichthys (이오티크티스)
 
