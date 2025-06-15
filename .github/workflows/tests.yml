@@ -50,5 +50,22 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      - name: Run Tests
-        run: ./vendor/bin/pest
+      - name: Run Tests with Coverage
+        run: ./vendor/bin/pest --coverage --coverage-clover=coverage.xml
+        
+      - name: Make coverage badge
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        with:
+          coverage_badge_path: output/coverage.svg
+          push_badge: false
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Git push to image-data branch
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          publish_dir: ./output
+          publish_branch: image-data
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
