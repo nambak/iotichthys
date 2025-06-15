@@ -1,3 +1,5 @@
+![ProjectLogo](https://raw.githubusercontent.com/nambak/iotichthys/public/iotichthys_logo.png)
+
 # Iotichthys (이오티크티스)
 
 [![Build](https://github.com/nambak/iotichthys/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nambak/iotichthys/actions/workflows/build.yml)
