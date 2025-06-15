@@ -64,7 +64,6 @@ jobs:
           coverage_badge_path: output/coverage.svg
           push_badge: false
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_report_path: coverage.xml
         
       - name: Git push to image-data branch
         uses: peaceiris/actions-gh-pages@v3
