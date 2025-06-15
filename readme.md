@@ -1,5 +1,7 @@
 # Iotichthys (이오티크티스)
 
+[![Build](https://github.com/nambak/iotichthys/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nambak/iotichthys/actions/workflows/build.yml)
+
 
 > Laravel과 AWS IoT Core MQTT 서비스를 통합한 IoT 클라우드 서비스 플랫폼
 
