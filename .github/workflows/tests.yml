@@ -52,14 +52,20 @@ jobs:
 
       - name: Run Tests with Coverage
         run: ./vendor/bin/pest --coverage --coverage-clover=coverage.xml
-        
+
+      - name: Check if coverage file exists
+        run: |
+          ls -la coverage.xml
+          cat coverage.xml | head -20
+
       - name: Make coverage badge
         uses: timkrase/phpunit-coverage-badge@v1.2.1
         with:
           coverage_badge_path: output/coverage.svg
           push_badge: false
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          
+          coverage_report_path: coverage.xml
+        
       - name: Git push to image-data branch
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
