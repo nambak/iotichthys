@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -58,6 +60,11 @@ class User extends Authenticatable
             ->implode('');
     }
 
+    /**
+     * 사용자가 속한 조직
+     *
+     * @return BelongsToMany
+     */
     public function organizations()
     {
         return $this->belongsToMany(Organization::class, 'user_organizations')
@@ -65,6 +72,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * 사용자가 속한 팀
+     *
+     * @return BelongsToMany
+     */
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'user_teams')
@@ -72,6 +84,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * 사용자의 역할
+     *
+     * @return BelongsToMany
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles')
@@ -80,38 +97,55 @@ class User extends Authenticatable
     }
 
     /**
-     * 특정 범위(조직/팀)에서 사용자가 권한을 가지는지 확인하는 메소드
-     * $scope는 Organization 또는 Team 모델 인스턴스
+     * 특정 역할을 가지고 있는지 확인
      *
-     * @param $permission
-     * @param $scope
+     * @param string|array $roles
+     * @param string|null $scope
+     * @param int|null $scopeId
      * @return bool
      */
-    public function hasPermission($permission, $scope = null)
+    public function hasRole(string|array $roles, ?string $scope = null, ?int $scopeId = null): bool
     {
-        if (is_string($permission)) {
-            $permission = Permission::where('slug', $permission)->first();
-            if (!$permission) return false;
+        if (is_string($roles)) {
+            $roles = [$roles];
         }
 
-        // 사용자의 모든 역할 가져오기 (전역 역할 + 특정 범위 역할)
-        $roles = $this->roles;
+        $query = $this->roles()->whereIn('slug', $roles);
 
-        if ($scope) {
-            // 특정 범위에서의 역할만 필터링
-            $roles = $roles->filter(function ($role) use ($scope) {
-                return $role->pivot->roleable_id === $scope->id &&
-                    $role->pivot->roleable_type === get_class($scope);
-            });
+        if ($scope && $scopeId) {
+            $query->wherePivot('roleable_type', $scope)
+                ->wherePivot('roleable_id', $scopeId);
+        } elseif (!$scope && !$scopeId) {
+            // 시스템 역할만 확인
+            $query->where('is_system_role', true);
         }
 
-        // 역할들이 해당 권한을 가지는지 확인
-        foreach ($roles as $role) {
-            if ($role->permissions->contains('id', $permission->id)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $query->exists();
     }
+
+    /**
+     * 특정 권한을 가지고 있는지 확인
+     *
+     * @param string|array $permissions
+     * @return bool
+     */
+    public function hasPermission(string|array $permissions): bool
+    {
+        if (is_string($permissions)) {
+            $permissions = [$permissions];
+        }
+
+        // 시스템 관리자는 모든 권한을 가짐
+        if ($this->hasRole('system-admin')) {
+            return true;
+        }
+
+        // 사용자의 역할을 통해 권한 확인
+        return $this->roles()
+            ->whereHas('permissions', function ($query) use ($permissions) {
+                $query->whereIn('slug', $permissions);
+            })
+            ->exists();
+    }
+
 }
