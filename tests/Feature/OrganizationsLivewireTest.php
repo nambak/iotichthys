@@ -32,7 +32,7 @@ describe('조직 생성', function () {
             ->set('name', $companyName)
             ->set('phoneNumber', $phoneNumber)
             ->set('businessRegisterNumber', $businessRegisterNumber)
-            ->call('saveOrganization')
+            ->call('save')
             ->assertSet('showCreateModal', false)
             ->assertHasNoErrors();
 
