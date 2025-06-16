@@ -5,8 +5,10 @@
                 <flux:heading size="xl" level="1" class="mb-6">{{ __('조직 관리') }}</flux:heading>
                 <flux:subheading size="lg" class="mb-6">{{ __('조직을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
+
+            <!-- TODO: 조직 생성 권한 체크 -->
             <flux:modal.trigger name="create-organization">
-                <flux:button variant="primary" wire:click="create" icon="plus">{{ __('새 조직 추가') }}</flux:button>
+                <flux:button variant="primary" icon="plus">{{ __('새 조직 추가') }}</flux:button>
             </flux:modal.trigger>
         </div>
         <flux:separator variant="subtle" />
