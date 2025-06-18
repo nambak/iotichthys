@@ -2,13 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Organization>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<Organization>
  */
 class OrganizationFactory extends Factory
 {
+    /**
+     * @var class-string<\App\Models\Organization>
+     */
+    protected $model = Organization::class;
+
     /**
      * Define the model's default state.
      *
@@ -22,7 +28,7 @@ class OrganizationFactory extends Factory
             'business_register_number' => fake()->numerify('###########'),
             'address'                  => fake()->address(),
             'phone_number'             => fake()->phoneNumber(),
-            'slug'                     => fake()->slug(),
+            'slug'                     => fake()->unique()->slug(),
         ];
     }
 }

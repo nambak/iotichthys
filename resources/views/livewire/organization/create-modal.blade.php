@@ -3,7 +3,7 @@
         <div>
             <flux:heading size="lg">{{ __('새 조직 추가') }}</flux:heading>
         </div>
-        <form wire:submit.prevent="save" class=:"font-size-[14px]">
+        <form wire:submit.prevent="save" class="font-size-[14px]">
             <div class="space-y-6">
                 <flux:field>
                     <flux:input

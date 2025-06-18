@@ -67,7 +67,7 @@
                     {{ $organization->phone_number }}
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->created_at }}
+                    {{ $organization->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square class="size-4 mr-1"/>
@@ -76,7 +76,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
                     {{ __('조직이 없습니다. 새 조직을 생성해보세요!') }}
                 </td>
             </tr>
