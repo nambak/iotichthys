@@ -12,7 +12,7 @@ if ($name && (is_null($message) || $message === '') && filter_var($nested, FILTE
 }
 
 $classes = Flux::classes('text-sm font-medium text-red-500 dark:text-red-400')
-    ->add($message ? '' : 'hidden');
+    ->unless($message, 'hidden');
 @endphp
 
 <div role="alert" aria-live="polite" aria-atomic="true" {{ $attributes->class($classes) }} data-flux-error>
