@@ -13,7 +13,7 @@ class Index extends Component
 
     public function render()
     {
-        $organizations = Organization::paginate(10);
+        $organizations = Organization::withCount('users')->paginate(10);
 
         return view('livewire.organization.index', compact('organizations'));
     }
