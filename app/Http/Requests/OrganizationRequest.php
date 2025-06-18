@@ -26,7 +26,7 @@ class OrganizationRequest extends FormRequest
             'owner'                  => ['required', 'min:2'],
             'address'                => ['required', 'min:10'],
             'phoneNumber'            => ['required', 'starts_with:0', 'digits_between:9,10'],
-            'businessRegisterNumber' => ['required', 'digits:10', 'unique:organizations'],
+            'businessRegisterNumber' => ['required', 'digits:10', 'unique:organizations,business_register_number'],
         ];
     }
 
