@@ -2,24 +2,17 @@
 
 namespace App\Livewire\Organization;
 
+use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
 use Livewire\Component;
 
 class CreateModal extends Component
 {
-    public $name;
-    public $owner;
-    public $businessRegisterNumber;
-    public $address;
-    public $phoneNumber;
-
-    protected $rules = [
-        'name'                   => 'required|min:1',
-        'owner'                  => 'required|min:2',
-        'businessRegisterNumber' => 'required|min:10',
-        'address'                => 'required|min:10',
-        'phoneNumber'            => 'required|min:9',
-    ];
+    public string $name;
+    public string $owner;
+    public string $address;
+    public string $phoneNumber;
+    public string $businessRegisterNumber;
 
     /**
      * 조직 생성 모달
@@ -41,10 +34,9 @@ class CreateModal extends Component
      */
     public function save()
     {
-        // TODO: 권한 체크 - Organization 생성 정책 확인
-        // $this->authorize('create', Organization::class);
-
-        $validatedData = $this->validate();
+        // Form Request를 사용한 validation
+        $request = new OrganizationRequest();
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
         $organization = new Organization();
 
