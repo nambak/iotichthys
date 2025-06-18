@@ -37,7 +37,7 @@ class OrganizationRequest extends FormRequest
     {
         return [
             'name.required'                   => '조직이름을 입력해 주세요',
-            'name.min'                        => '최소 1글자 이상 입력해 주세요',
+            'name.min'                        => '조직이름을 다시 확인해 주세요',
             'owner.required'                  => '대표자명을 입력해 주세요',
             'owner.min'                       => '최소 2글자 이상 입력해 주세요',
             'businessRegisterNumber.required' => '사업자 번호를 입력해 주세요',
