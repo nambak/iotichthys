@@ -16,9 +16,9 @@ $classes = Flux::classes('text-sm font-medium text-red-500 dark:text-red-400')
 @endphp
 
 <div role="alert" aria-live="polite" aria-atomic="true" {{ $attributes->class($classes) }} data-flux-error>
-    <?php if ($message) : ?>
+    @if($message)
         <flux:icon icon="exclamation-triangle" variant="mini" class="inline" />
 
         {{ $message }}
-    <?php endif; ?>
+    @endif
 </div>
