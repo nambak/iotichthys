@@ -7,8 +7,8 @@
             <div class="space-y-6">
                 <flux:field>
                     <flux:input
-                        label="조직 이름"
-                        placeholder="조직 이름을 입력해 주세요"
+                        label="사업자명"
+                        placeholder="사업자명을 입력해 주세요"
                         wire:model="name"
                     />
                 </flux:field>
