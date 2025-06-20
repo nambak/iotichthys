@@ -25,6 +25,6 @@ class Index extends Component
     public function refreshAfterCreate()
     {
         $this->resetPage();
-        session()->flash('success', '조직이 성공적으로 생성되었습니다.');
+        session()->flash('success',  __('messages.organization_created'));
     }
 }
