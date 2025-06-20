@@ -120,7 +120,7 @@ describe('유효성 검증 테스트', function () {
                 ->set('phoneNumber', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['businessRegisterNumber' => 'required'])
-                ->assertSee('사업자 번호를 입력해 주세요');
+                ->assertSee('사업자번호를 입력해 주세요');
         });
 
         it('사업자번호가 10자리가 아니면 에러 발생', function () {
@@ -132,7 +132,19 @@ describe('유효성 검증 테스트', function () {
                 ->set('phoneNumber', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['businessRegisterNumber' => 'digits'])
-                ->assertSee('10자리 사업자 번호를 입력해 주세요');
+                ->assertSee('10자리 사업자번호를 입력해 주세요');
+        });
+
+        it('숫자외에 다른 문자열이 입력되면 에러 발생', function () {
+            Livewire::test(CreateModal::class)
+                ->set('name', fake()->company)
+                ->set('owner', fake()->name)
+                ->set('businessRegisterNumber', 'ABCDEFGHIJ')
+                ->set('address', fake()->address)
+                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->call('save')
+                ->assertHasErrors(['businessRegisterNumber' => 'numeric'])
+                ->assertSee('사업자번호를 다시 확인해 주세요');
         });
 
         it('이미 등록된 사업자번호를 입력하면 에러 발생', function () {
@@ -150,7 +162,7 @@ describe('유효성 검증 테스트', function () {
                 ->set('phoneNumber', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['businessRegisterNumber' => 'unique'])
-                ->assertSee('이미 등록된 사업자 번호입니다');
+                ->assertSee('이미 등록된 사업자번호입니다');
         });
 
         it('유효한 사업자번호를 입력한 경우 검증을 통과', function () {
@@ -248,6 +260,18 @@ describe('유효성 검증 테스트', function () {
                 ->set('phoneNumber', '01234567890')
                 ->call('save')
                 ->assertHasErrors(['phoneNumber' => 'digits_between'])
+                ->assertSee('전화번호를 다시 확인해 주세요');
+        });
+
+        it('숫자외에 다른 문자열이 입력되면 에러 발생', function () {
+            Livewire::test(CreateModal::class)
+                ->set('name', fake()->company)
+                ->set('owner', fake()->name)
+                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('address', fake()->address)
+                ->set('phoneNumber', '0ABCDEFGHI')
+                ->call('save')
+                ->assertHasErrors(['phoneNumber' => 'numeric'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
