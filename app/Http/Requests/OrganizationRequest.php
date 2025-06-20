@@ -38,21 +38,21 @@ class OrganizationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'                   => '사업자명을 입력해 주세요',
-            'name.min'                        => '사업자명은 최소 2글자 최대 30글자 입니다',
-            'name.max'                        => '사업자명은 최소 2글자 최대 30글자 입니다',
-            'owner.required'                  => '대표자명을 입력해 주세요',
-            'owner.min'                       => '최소 2글자 이상 입력해 주세요',
-            'address.required'                => '사업장 주소를 입력해 주세요',
-            'address.min'                     => '주소를 자세히 입력해 주세요',
-            'phoneNumber.required'            => '사업자 전화번호를 입력해 주세요',
-            'phoneNumber.numeric'             => '전화번호를 다시 확인해 주세요',
-            'phoneNumber.starts_with'         => '전화번호를 다시 확인해 주세요',
-            'phoneNumber.digits_between'      => '전화번호를 다시 확인해 주세요',
-            'businessRegisterNumber.required' => '사업자번호를 입력해 주세요',
-            'businessRegisterNumber.numeric'  => '사업자번호를 다시 확인해 주세요',
-            'businessRegisterNumber.digits'   => '10자리 사업자번호를 입력해 주세요',
-            'businessRegisterNumber.unique'   => '이미 등록된 사업자번호입니다',
+            'name.required'                   => __('validation.organization.name.required'),
+            'name.min'                        => __('validation.organization.name.min'),
+            'name.max'                        => __('validation.organization.name.max'),
+            'owner.required'                  => __('validation.organization.owner.required'),
+            'owner.min'                       => __('validation.organization.owner.min'),
+            'address.required'                => __('validation.organization.address.required'),
+            'address.min'                     => __('validation.organization.address.min'),
+            'phoneNumber.required'            => __('validation.organization.phoneNumber.required'),
+            'phoneNumber.numeric'             => __('validation.organization.phoneNumber.numeric'),
+            'phoneNumber.starts_with'         => __('validation.organization.phoneNumber.starts_with'),
+            'phoneNumber.digits_between'      => __('validation.organization.phoneNumber.digits_between'),
+            'businessRegisterNumber.required' => __('validation.organization.businessRegisterNumber.required'),
+            'businessRegisterNumber.numeric'  => __('validation.organization.businessRegisterNumber.numeric'),
+            'businessRegisterNumber.digits'   => __('validation.organization.businessRegisterNumber.digits'),
+            'businessRegisterNumber.unique'   => __('validation.organization.businessRegisterNumber.unique'),
         ];
     }
 }
