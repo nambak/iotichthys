@@ -22,7 +22,7 @@ class OrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                   => ['required'],
+            'name'                   => ['required', 'min:2', 'max:30'],
             'owner'                  => ['required', 'min:2'],
             'address'                => ['required', 'min:10'],
             'phoneNumber'            => ['required', 'starts_with:0', 'digits_between:9,10'],
@@ -36,7 +36,9 @@ class OrganizationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'                   => '조직이름을 입력해 주세요',
+            'name.required'                   => '사업자명을 입력해 주세요',
+            'name.min'                        => '사업자명은 최소 2글자 최대 30글자 입니다',
+            'name.max'                        => '사업자명은 최소 2글자 최대 30글자 입니다',
             'owner.min'                       => '최소 2글자 이상 입력해 주세요',
             'owner.required'                  => '대표자명을 입력해 주세요',
             'address.min'                     => '주소를 자세히 입력해 주세요',
