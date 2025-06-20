@@ -227,8 +227,7 @@ describe('유효성 검증 테스트', function () {
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
-        it('전화번호가 9-10자리가 아니면 에러 발생', function () {
-            // 8자리
+        it('전화번호가 8자리면 에러 발생', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
@@ -238,8 +237,9 @@ describe('유효성 검증 테스트', function () {
                 ->call('save')
                 ->assertHasErrors(['phoneNumber' => 'digits_between'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
+        });
 
-            // 11자리
+        it('전화번호가 11자리면 에러 발생', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
