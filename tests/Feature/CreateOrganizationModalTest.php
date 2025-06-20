@@ -131,7 +131,7 @@ describe('유효성 검증 테스트', function () {
     });
 
     describe('사업장 주소 검증', function () {
-        it('주소가 비어있으면 에러 발상', function () {
+        it('주소가 비어있으면 에러 발생', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
@@ -180,7 +180,7 @@ describe('유효성 검증 테스트', function () {
                 ->assertSee('사업자 전화번호를 입력해 주세요');
         });
 
-        it ('전화번호가 0으로 시작하지 않으면 에러 발생', function () {
+        it('전화번호가 0으로 시작하지 않으면 에러 발생', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
