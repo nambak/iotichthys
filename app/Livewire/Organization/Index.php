@@ -25,6 +25,6 @@ class Index extends Component
     public function refreshAfterCreate()
     {
         $this->resetPage();
-        session()->flash('success',  __('messages.organization_created'));
+        session()->flash('success', __('messages.organization_created'));
     }
 }
