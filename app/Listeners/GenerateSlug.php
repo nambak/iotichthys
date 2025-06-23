@@ -40,7 +40,8 @@ class GenerateSlug
      */
     private function generateUniqueSlug(string $name): string
     {
-        $baseSlug = Str::slug($name, '-', config('app.locale'));
+        $locale = app()->getLocale();
+        $baseSlug = Str::slug($name, '-', $locale);
         $slug = $baseSlug;
         $counter = 1;
 
