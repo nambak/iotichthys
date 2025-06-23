@@ -18,5 +18,5 @@ test('slug는 사업자명으로 자동 생성', function () {
         ['name' => 'My Company Name']
     );
 
-    expect($organization->slug)->toContain('my-company-name');;
+    expect($organization->slug)->toContain('my-company-name');
 });

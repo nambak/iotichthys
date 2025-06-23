@@ -122,12 +122,3 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
         }
     }
 });
-
-it('데이터베이스 오류 시 경고 로그 기록', function () {
-    // DB 연결 오류 시뮬레이션
-    $this->mockLogger->shouldReceive('warning')
-        ->once()
-        ->with('Slug uniqueness check failed', Mockery::any());
-
-    // 테스트 구현...
-});

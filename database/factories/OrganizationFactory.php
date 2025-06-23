@@ -28,7 +28,6 @@ class OrganizationFactory extends Factory
             'business_register_number' => fake()->numerify('###########'),
             'address'                  => fake()->address(),
             'phone_number'             => fake()->phoneNumber(),
-            'slug'                     => fake()->unique()->slug(),
         ];
     }
 }

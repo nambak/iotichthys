@@ -41,7 +41,6 @@ class GenerateSlug
      */
     private function generateUniqueSlugWithRetry(string $name): string
     {
-        // Application 인스턴스에서 locale 가져오기
         $locale = app()->getLocale();
         $baseSlug = Str::slug($name, '-', $locale);
 
