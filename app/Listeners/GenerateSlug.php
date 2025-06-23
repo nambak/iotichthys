@@ -11,6 +11,8 @@ use Psr\Log\LoggerInterface;
 class GenerateSlug
 {
     private const MAX_RETRY_ATTEMPTS = 5;
+    private const MAX_SLUG_LENGTH = 255;
+    private const SUFFIX_RESERVED_LENGTH = 20; // suffix를 위한 예약 공간
 
     public function __construct(
         private LoggerInterface $logger,
@@ -42,7 +44,7 @@ class GenerateSlug
     private function generateUniqueSlugWithRetry(string $name): string
     {
         $locale = app()->getLocale();
-        $baseSlug = Str::slug($name, '-', $locale);
+        $baseSlug = $this->createTruncatedSlug($name, $locale);
 
         for ($attempt = 0; $attempt < self::MAX_RETRY_ATTEMPTS; $attempt++) {
             try {
@@ -69,6 +71,67 @@ class GenerateSlug
         }
 
         throw new \RuntimeException("Failed to generate unique slug for name: {$name}");
+    }
+
+    /**
+     * 길이 제한을 고려한 기본 slug 생성
+     *
+     * @param string $name
+     * @param string $locale
+     * @return string
+     */
+    private function createTruncatedSlug(string $name, string $locale): string
+    {
+        // 기본 slug 생성
+        $baseSlug = Str::slug($name, '-', $locale);
+
+        // 빈 slug 처리
+        if (empty($baseSlug)) {
+            $baseSlug = 'organization';
+        }
+
+        // suffix를 위한 공간을 고려하여 길이 제한
+        $maxBaseLength = self::MAX_SLUG_LENGTH - self::SUFFIX_RESERVED_LENGTH;
+
+        if (strlen($baseSlug) > $maxBaseLength) {
+            // 단어 경계에서 자르기 시도
+            $truncated = $this->truncateAtWordBoundary($baseSlug, $maxBaseLength);
+
+            // 단어 경계에서 잘리지 않으면 강제로 자르기
+            if (strlen($truncated) > $maxBaseLength) {
+                $truncated = substr($baseSlug, 0, $maxBaseLength);
+            }
+
+            // 끝에 하이픈이 있으면 제거
+            $baseSlug = rtrim($truncated, '-');
+        }
+
+        return $baseSlug;
+    }
+
+    /**
+     * 단어 경계에서 문자열 자르기
+     *
+     * @param string $text
+     * @param int $maxLength
+     * @return string
+     */
+    private function truncateAtWordBoundary(string $text, int $maxLength): string
+    {
+        if (strlen($text) <= $maxLength) {
+            return $text;
+        }
+
+        // 최대 길이에서 역방향으로 하이픈 찾기
+        $truncated = substr($text, 0, $maxLength);
+        $lastHyphenPos = strrpos($truncated, '-');
+
+        // 하이픈을 찾았고, 너무 짧지 않으면 거기서 자르기
+        if ($lastHyphenPos !== false && $lastHyphenPos > $maxLength * 0.7) {
+            return substr($truncated, 0, $lastHyphenPos);
+        }
+
+        return $truncated;
     }
 
     /**

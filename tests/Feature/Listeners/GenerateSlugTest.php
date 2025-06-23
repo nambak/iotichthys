@@ -122,3 +122,76 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
         }
     }
 });
+
+it('slug가 중복되지 않게 생성', function () {
+    // Given - 기존 slug가 존재 함
+    Organization::factory()->create([
+        'name' => 'Test Organization',
+        'slug' => 'test-organization'
+    ]);
+
+    // When - 같은 이름으로 새 organization 생성
+    $newOrganization = new Organization(['name' => 'Test Organization']);
+    $event = new OrganizationCreating($newOrganization);
+    $this->listener->handle($event);
+
+    // Then - 고유한 slug 생성 확인
+    expect($newOrganization->slug)
+        ->not->toBe('test-organization')
+        ->toContain('test-organization')
+        ->and(Organization::where('slug', $newOrganization->slug)->count())->toBe(0);
+});
+
+it('사업자명에 특수 문자가 포함된 경우', function () {
+    // Given - 특수 문자가 포함된 다양한 이름들
+    $specialNames = [
+        'Test & Company #1!',
+        'Test & Company #2@',
+        'Test & Company #3%',
+        'Test/Company\\Name',
+        'Test   Multiple   Spaces',
+        '!!!Special!!!Characters!!!',
+    ];
+
+    $generatedSlugs = [];
+
+    foreach ($specialNames as $name) {
+        // When - slug 생성
+        $organization = new Organization(['name' => $name]);
+        $event = new OrganizationCreating($organization);
+        $this->listener->handle($event);
+
+        $generatedSlugs[] = $organization->slug;
+
+        // Then - 유효한 slug 형식인지 확인
+        expect($organization->slug)
+            ->toMatch('/^[a-z0-9가-힣\-]+$/u') // 영문, 숫자, 한글, 하이픈만
+            ->not->toBeEmpty();
+    }
+
+    // 모든 slug가 고유한지 확인
+    expect(array_unique($generatedSlugs))->toHaveCount(count($generatedSlugs));
+});
+
+it('매우 긴 조직명의 slug 생성', function () {
+    // Given - 매우 긴 이름들
+    $longNames = [
+        str_repeat('Very Long Organization Name ', 5),
+        str_repeat('超长的组织名称', 20),
+        str_repeat('매우긴조직이름', 15),
+    ];
+
+    foreach ($longNames as $longName) {
+        // When - slug 생성
+        $organization = new Organization(['name' => $longName]);
+        $event = new OrganizationCreating($organization);
+        $this->listener->handle($event);
+
+        dump($organization->slug, strlen($organization->slug));
+
+        // Then - DB 컬럼 길이 제한 준수
+        expect(strlen($organization->slug))
+            ->toBeLessThanOrEqual(255) // 일반적인 VARCHAR 길이
+            ->toBeGreaterThan(0);
+    }
+});
