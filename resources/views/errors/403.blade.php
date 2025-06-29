@@ -7,12 +7,12 @@
     <title>접근이 제한된 영역입니다</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/iotichthys_logo.png" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/iotichthys_logo.png" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Noto+Sans+KR:wght@100..900&display=swap"
+          rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/error.css') }}">
@@ -38,7 +38,8 @@
             적절한 권한이 필요하거나 관리자에게 문의하세요.
         </p>
         <div class="error-actions">
-            <a href="{{ url('/') }}" class="relative items-center font-medium justify-center gap-2 p-6 whitespace-nowrap disabled:opacity-75 disabled:cursor-default disabled:pointer-events-none h-10 text-sm rounded-lg inline-flex  bg-[var(--color-accent)] hover:bg-[color-mix(in_oklab,_var(--color-accent),_transparent_10%)] text-white border border-black/10 dark:border-0 shadow-[inset_0px_1px_--theme(--color-white/.2)] *:transition-opacity [&[disabled]]:pointer-events-none w-full">
+            <a href="{{ url('/') }}"
+               class="relative items-center font-medium justify-center gap-2 p-6 whitespace-nowrap disabled:opacity-75 disabled:cursor-default disabled:pointer-events-none h-10 text-sm rounded-lg inline-flex  bg-[var(--color-accent)] hover:bg-[color-mix(in_oklab,_var(--color-accent),_transparent_10%)] text-white border border-black/10 dark:border-0 shadow-[inset_0px_1px_--theme(--color-white/.2)] *:transition-opacity [&[disabled]]:pointer-events-none w-full">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9,22 9,12 15,12 15,22"/>
