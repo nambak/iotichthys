@@ -8,7 +8,9 @@
 
             <!-- TODO: 조직 생성 권한 체크 -->
             <flux:modal.trigger name="create-organization">
-                <flux:button variant="primary" icon="plus">{{ __('새 조직 추가') }}</flux:button>
+                <flux:button  dusk="create-organization-button" variant="primary" icon="plus">
+                    {{ __('새 조직 추가') }}
+                </flux:button>
             </flux:modal.trigger>
         </div>
         <flux:separator variant="subtle"/>

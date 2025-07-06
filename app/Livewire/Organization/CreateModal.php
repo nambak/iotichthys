@@ -60,4 +60,13 @@ class CreateModal extends Component
 
         $this->dispatch('organization-created');
     }
+
+    public function resetForm()
+    {
+        $this->name = '';
+        $this->owner = '';
+        $this->businessRegisterNumber = '';
+        $this->address = '';
+        $this->phoneNumber = '';
+    }
 }

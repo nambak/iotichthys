@@ -1,4 +1,4 @@
-<flux:modal name="create-organization" class="md:w-96">
+<flux:modal name="create-organization" class="md:w-96" @close="resetForm">
     <div class="space-y-6">
         <div>
             <flux:heading size="lg">{{ __('새 조직 추가') }}</flux:heading>
