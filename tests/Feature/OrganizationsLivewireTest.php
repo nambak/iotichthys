@@ -23,7 +23,7 @@ describe('조직 생성', function () {
         $owner = fake()->name;
         $address = fake()->address;
         $companyName = fake()->company;
-        $phoneNumber = fake()->phoneNumber;
+        $phoneNumber = '02' . fake()->numerify('########');
         $businessRegisterNumber = fake()->numerify('##########');
 
         Livewire::test(CreateModal::class)
