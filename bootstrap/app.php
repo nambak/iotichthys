@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // 개발환경이 아닐 때만 Sentry 통합 활성화
-        if (app()->environment() !== 'local') {
+        if (env('APP_ENV') !== 'local') {
             Integration::handles($exceptions);
         }
     })->create();
