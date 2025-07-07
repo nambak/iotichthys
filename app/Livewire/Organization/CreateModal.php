@@ -11,8 +11,8 @@ class CreateModal extends Component
     public string $name;
     public string $owner;
     public string $address;
-    public string $phoneNumber;
-    public string $businessRegisterNumber;
+    public string $phone_number;
+    public string $business_register_number;
 
     /**
      * 조직 생성 모달
@@ -38,15 +38,7 @@ class CreateModal extends Component
         $request = new OrganizationRequest();
         $validatedData = $this->validate($request->rules(), $request->messages());
 
-        $organization = new Organization();
-
-        $organization->name = $validatedData['name'];
-        $organization->owner = $validatedData['owner'];
-        $organization->address = $validatedData['address'];
-        $organization->phone_number = $validatedData['phoneNumber'];
-        $organization->business_register_number = $validatedData['businessRegisterNumber'];
-
-        $organization->save();
+        Organization::create($validatedData);
 
         $this->modal('create-organization')->close();
 
@@ -57,8 +49,8 @@ class CreateModal extends Component
     {
         $this->name = '';
         $this->owner = '';
-        $this->businessRegisterNumber = '';
+        $this->business_register_number = '';
         $this->address = '';
-        $this->phoneNumber = '';
+        $this->phone_number = '';
     }
 }

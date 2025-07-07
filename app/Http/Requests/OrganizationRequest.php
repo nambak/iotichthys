@@ -22,13 +22,11 @@ class OrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                   => ['required', 'min:2', 'max:30'],
-            'owner'                  => ['required', 'min:2'],
-            'address'                => ['required', 'min:10'],
-            'phoneNumber'            => ['required', 'numeric', 'starts_with:0', 'digits_between:9,10'],
-            'businessRegisterNumber' => [
-                'required', 'numeric', 'digits:10', 'unique:organizations,business_register_number'
-            ],
+            'name'                     => ['required', 'min:2', 'max:30'],
+            'owner'                    => ['required', 'min:2'],
+            'address'                  => ['required', 'min:10'],
+            'phone_number'             => ['required', 'numeric', 'starts_with:0', 'digits_between:9,10'],
+            'business_register_number' => ['required', 'numeric', 'digits:10', 'unique:organizations,business_register_number'],
         ];
     }
 
@@ -45,14 +43,14 @@ class OrganizationRequest extends FormRequest
             'owner.min'                       => __('validation.organization.owner.min'),
             'address.required'                => __('validation.organization.address.required'),
             'address.min'                     => __('validation.organization.address.min'),
-            'phoneNumber.required'            => __('validation.organization.phoneNumber.required'),
-            'phoneNumber.numeric'             => __('validation.organization.phoneNumber.numeric'),
-            'phoneNumber.starts_with'         => __('validation.organization.phoneNumber.starts_with'),
-            'phoneNumber.digits_between'      => __('validation.organization.phoneNumber.digits_between'),
-            'businessRegisterNumber.required' => __('validation.organization.businessRegisterNumber.required'),
-            'businessRegisterNumber.numeric'  => __('validation.organization.businessRegisterNumber.numeric'),
-            'businessRegisterNumber.digits'   => __('validation.organization.businessRegisterNumber.digits'),
-            'businessRegisterNumber.unique'   => __('validation.organization.businessRegisterNumber.unique'),
+            'phone_number.required'            => __('validation.organization.phoneNumber.required'),
+            'phone_number.numeric'             => __('validation.organization.phoneNumber.numeric'),
+            'phone_number.starts_with'         => __('validation.organization.phoneNumber.starts_with'),
+            'phone_number.digits_between'      => __('validation.organization.phoneNumber.digits_between'),
+            'business_register_number.required' => __('validation.organization.businessRegisterNumber.required'),
+            'business_register_number.numeric'  => __('validation.organization.businessRegisterNumber.numeric'),
+            'business_register_number.digits'   => __('validation.organization.businessRegisterNumber.digits'),
+            'business_register_number.unique'   => __('validation.organization.businessRegisterNumber.unique'),
         ];
     }
 }

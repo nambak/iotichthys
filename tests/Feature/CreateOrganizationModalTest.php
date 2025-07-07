@@ -18,9 +18,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', '')
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['name' => 'required'])
                 ->assertSee('사업자명을 입력해 주세요');
@@ -30,9 +30,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', '가')
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['name' => 'min'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
@@ -42,9 +42,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', '가나다라바마바사아자차카타파하가나다라바마바사아자차카타파하가')
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['name' => 'max'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
@@ -54,9 +54,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', '가나다라바마바사아자차카타파하가나다라바마바사아자차카타파하')
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });
@@ -65,9 +65,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });
@@ -78,9 +78,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', '')
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['owner' => 'required'])
                 ->assertSee('대표자명을 입력해 주세요');
@@ -90,9 +90,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', '홍')
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['owner' => 'min'])
                 ->assertSee('최소 2글자 이상 입력해 주세요');
@@ -102,9 +102,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });
@@ -115,11 +115,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', '')
+                ->set('business_register_number', '')
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
-                ->assertHasErrors(['businessRegisterNumber' => 'required'])
+                ->assertHasErrors(['business_register_number' => 'required'])
                 ->assertSee('사업자번호를 입력해 주세요');
         });
 
@@ -127,11 +127,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', '123456789')
+                ->set('business_register_number', '123456789')
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
-                ->assertHasErrors(['businessRegisterNumber' => 'digits'])
+                ->assertHasErrors(['business_register_number' => 'digits'])
                 ->assertSee('10자리 사업자번호를 입력해 주세요');
         });
 
@@ -139,11 +139,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', 'ABCDEFGHIJ')
+                ->set('business_register_number', 'ABCDEFGHIJ')
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
-                ->assertHasErrors(['businessRegisterNumber' => 'numeric'])
+                ->assertHasErrors(['business_register_number' => 'numeric'])
                 ->assertSee('사업자번호를 다시 확인해 주세요');
         });
 
@@ -157,11 +157,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', $existingBusinessNumber)
+                ->set('business_register_number', $existingBusinessNumber)
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
-                ->assertHasErrors(['businessRegisterNumber' => 'unique'])
+                ->assertHasErrors(['business_register_number' => 'unique'])
                 ->assertSee('이미 등록된 사업자번호입니다');
         });
 
@@ -169,9 +169,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });
@@ -182,9 +182,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', '')
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['address' => 'required'])
                 ->assertSee('사업장 주소를 입력해 주세요');
@@ -194,9 +194,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', '123456789')
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasErrors(['address' => 'min'])
                 ->assertSee('주소를 자세히 입력해 주세요');
@@ -206,9 +206,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });
@@ -219,11 +219,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '')
+                ->set('phone_number', '')
                 ->call('save')
-                ->assertHasErrors(['phoneNumber' => 'required'])
+                ->assertHasErrors(['phone_number' => 'required'])
                 ->assertSee('사업자 전화번호를 입력해 주세요');
         });
 
@@ -231,11 +231,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '123456789')
+                ->set('phone_number', '123456789')
                 ->call('save')
-                ->assertHasErrors(['phoneNumber' => 'starts_with'])
+                ->assertHasErrors(['phone_number' => 'starts_with'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
@@ -243,11 +243,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '01234567')
+                ->set('phone_number', '01234567')
                 ->call('save')
-                ->assertHasErrors(['phoneNumber' => 'digits_between'])
+                ->assertHasErrors(['phone_number' => 'digits_between'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
@@ -255,11 +255,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '01234567890')
+                ->set('phone_number', '01234567890')
                 ->call('save')
-                ->assertHasErrors(['phoneNumber' => 'digits_between'])
+                ->assertHasErrors(['phone_number' => 'digits_between'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
@@ -267,11 +267,11 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '0ABCDEFGHI')
+                ->set('phone_number', '0ABCDEFGHI')
                 ->call('save')
-                ->assertHasErrors(['phoneNumber' => 'numeric'])
+                ->assertHasErrors(['phone_number' => 'numeric'])
                 ->assertSee('전화번호를 다시 확인해 주세요');
         });
 
@@ -279,9 +279,9 @@ describe('유효성 검증 테스트', function () {
             Livewire::test(CreateModal::class)
                 ->set('name', fake()->company)
                 ->set('owner', fake()->name)
-                ->set('businessRegisterNumber', fake()->unique()->numerify('##########'))
+                ->set('business_register_number', fake()->unique()->numerify('##########'))
                 ->set('address', fake()->address)
-                ->set('phoneNumber', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02' . fake()->numerify('########'))
                 ->call('save')
                 ->assertHasNoErrors();
         });

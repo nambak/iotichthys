@@ -23,7 +23,7 @@
                     <flux:input
                         label="사업자 번호"
                         placeholder="-을 제외한 사업자 번호를 입력해 주세요"
-                        wire:model="businessRegisterNumber"
+                        wire:model="business_register_number"
                     />
                 </flux:field>
                 <flux:field>
@@ -37,7 +37,7 @@
                     <flux:input
                         label="사업자 전화번호"
                         placeholder="-를 제외한 대표 전화 번호를 입력해 주세요 "
-                        wire:model="phoneNumber"
+                        wire:model="phone_number"
                     />
                 </flux:field>
                 <div class="flex">
