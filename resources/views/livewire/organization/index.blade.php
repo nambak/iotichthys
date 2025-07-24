@@ -110,21 +110,41 @@
     function organizationIndex() {
         return {
             init() {
+                // Listen for Livewire events
                 this.$wire.on('show-error-toast', (event) => {
                     this.showErrorToast(event.message);
                 });
             },
             
             showErrorToast(message) {
-                document.querySelector('#toast-danger').classList.remove('hidden');
-                document.querySelector('#toast-danger').classList.add('flex');
-                document.querySelector('#toast-danger .text-sm').textContent = message;
-                setTimeout(() => {
-                    document.querySelector('#toast-danger').classList.remove('flex');
-                    document.querySelector('#toast-danger').classList.add('hidden');
-                }, 5000);
+                const toast = document.querySelector('#toast-danger');
+                if (toast) {
+                    toast.classList.remove('hidden');
+                    toast.classList.add('flex');
+                    toast.querySelector('.text-sm').textContent = message;
+                    setTimeout(() => {
+                        toast.classList.remove('flex');
+                        toast.classList.add('hidden');
+                    }, 5000);
+                }
             }
         }
     }
+    
+    // Also listen globally for Livewire events as backup
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('show-error-toast', (event) => {
+            const toast = document.querySelector('#toast-danger');
+            if (toast) {
+                toast.classList.remove('hidden');
+                toast.classList.add('flex');
+                toast.querySelector('.text-sm').textContent = event.message;
+                setTimeout(() => {
+                    toast.classList.remove('flex');
+                    toast.classList.add('hidden');
+                }, 5000);
+            }
+        });
+    });
 </script>
 
