@@ -67,27 +67,6 @@
             openAddressSearch() {
                 new daum.Postcode({
                     oncomplete: function (data) {
-                        // 각 주소의 타입을 확인
-                        let addr = '';
-                        let extraAddr = '';
-
-                        addr = data.roadAddress;
-
-                        // 법정동명이 있을 때 추가한다. (법정리는 제외)
-                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                            extraAddr += data.bname;
-                        }
-                        // 건물명이 있고, 공동주택일 때 추가한다.
-                        if (data.buildingName !== '' && data.apartment === 'Y') {
-                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                        }
-                        // 표시할 참고항목이 있을 때, 괄호까지 추가한 최종 문자열을 만든다.
-                        if (extraAddr !== '') {
-                            extraAddr = ' (' + extraAddr + ')';
-                        }
-
-                        console.log('addressData :', data);
-
                         // Livewire 컴포넌트에 주소 데이터 전달
                         Livewire.dispatch('address-selected', {
                             postcode: data.zonecode,
