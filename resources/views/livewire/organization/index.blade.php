@@ -1,4 +1,10 @@
-<section class="w-full">
+<section class="w-full" x-data="organizationIndex()">
+    @if (session('success'))
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="relative mb-6 w-full">
         <div class="flex justify-between items-center">
             <div>
@@ -72,8 +78,12 @@
                     {{ $organization->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <flux:icon.pencil-square class="size-4 mr-1"/>
-                    <flux:icon.trash class="size-4"/>
+                    <flux:icon.pencil-square class="size-4 mr-1 cursor-pointer hover:text-blue-600"/>
+                    <flux:icon.trash 
+                        class="size-4 cursor-pointer hover:text-red-600" 
+                        wire:click="delete({{ $organization->id }})"
+                        wire:confirm="정말로 이 조직을 삭제하시겠습니까?"
+                    />
                 </td>
             </tr>
             @empty
@@ -95,4 +105,26 @@
     <!-- 조직 생성 모달 -->
     <livewire:organization.create-modal/>
 </section>
+
+<script>
+    function organizationIndex() {
+        return {
+            init() {
+                this.$wire.on('show-error-toast', (event) => {
+                    this.showErrorToast(event.message);
+                });
+            },
+            
+            showErrorToast(message) {
+                document.querySelector('#toast-danger').classList.remove('hidden');
+                document.querySelector('#toast-danger').classList.add('flex');
+                document.querySelector('#toast-danger .text-sm').textContent = message;
+                setTimeout(() => {
+                    document.querySelector('#toast-danger').classList.remove('flex');
+                    document.querySelector('#toast-danger').classList.add('hidden');
+                }, 5000);
+            }
+        }
+    }
+</script>
 
