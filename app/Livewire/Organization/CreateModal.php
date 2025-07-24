@@ -56,11 +56,9 @@ class CreateModal extends Component
     }
 
     #[On('address-selected')]
-    public function updateAddress($postcode, $address)
+    public function updateAddress($data)
     {
-        if (isset($postcode, $address)) {
-            $this->postcode = $postcode;
-            $this->address = $address;
-        }
+        $this->postcode = $data->zonecode;
+        $this->address = $data->roadAddress;
     }
 }

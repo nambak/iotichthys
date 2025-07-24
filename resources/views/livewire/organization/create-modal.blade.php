@@ -68,10 +68,7 @@
                 new daum.Postcode({
                     oncomplete: function (data) {
                         // Livewire 컴포넌트에 주소 데이터 전달
-                        Livewire.dispatch('address-selected', {
-                            postcode: data.zonecode,
-                            address: data.roadAddress,
-                        });
+                        Livewire.dispatch('address-selected', data);
                     },
 
                     // 팝업 스타일 설정
