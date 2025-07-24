@@ -4,19 +4,20 @@ namespace App\Livewire\Organization;
 
 use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CreateModal extends Component
 {
     public string $name;
     public string $owner;
+    public string $postcode;
     public string $address;
+    public string $detail_address;
     public string $phone_number;
     public string $business_register_number;
 
     /**
-     * 조직 생성 모달
-     *
      * @return \Illuminate\Contracts\View\Factory|
      *         \Illuminate\Contracts\View\View|
      *         \Illuminate\Foundation\Application|
@@ -49,8 +50,17 @@ class CreateModal extends Component
     {
         $this->name = '';
         $this->owner = '';
-        $this->business_register_number = '';
         $this->address = '';
         $this->phone_number = '';
+        $this->business_register_number = '';
+    }
+
+    #[On('address-selected')]
+    public function updateAddress($postcode, $address)
+    {
+        if (isset($postcode, $address)) {
+            $this->postcode = $postcode;
+            $this->address = $address;
+        }
     }
 }

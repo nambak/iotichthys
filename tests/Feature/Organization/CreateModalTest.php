@@ -287,3 +287,78 @@ describe('유효성 검증 테스트', function () {
         });
     });
 });
+
+describe('주소 검색 결과 반영 테스트', function () {
+    it('주소 데이터 결과 전달되면 반영되어야 함', function () {
+        $addressData = [
+            'postcode' => '12345',
+            'address'  => '서울특별시 강남구 테헤란로 123',
+        ];
+
+        Livewire::test(CreateModal::class)
+            ->dispatch('address-selected', $addressData)
+            ->assertSet('postcode', '12345')
+            ->assertSet('address', '서울특별시 강남구 테헤란로 123')
+            ->assertSeeHtml('wire:model="postcode"')
+            ->assertSeeHtml('wire:model="address"')
+            ->assertSeeHtml('value="12345"')
+            ->assertSeeHtml('value="서울특별시 강남구 테헤란로 123"');
+    });
+
+    it('빈 주소 데이터 결과가 전달되면 빈 값으로 반영되어야 함', function () {
+        $component = Livewire::test(CreateModal::class);
+
+        // 초기값 설정
+        $component->set('postcode', '')
+            ->set('address', '');
+
+        // 빈 배열로 이벤트 디스패치
+        $component->dispatch('address-selected', [])
+            ->assertSet('postcode', '')
+            ->assertSet('address', '');
+    });
+
+    it('주소 데이터 값이 null일 경우, 빈 값으로 반영되어야 함', function () {
+        $component = Livewire::test(CreateModal::class);
+
+        // 초기값 설정
+        $component->set('postcode', '')
+            ->set('address', '');
+
+        // null로 이벤트 디스패치
+        $component->dispatch('address-selected', null)
+            ->assertSet('postcode', '')
+            ->assertSet('address', '');
+    });
+
+    it('주소 데이터 값에 address 값이 누락되었을 경우, 빈 값을 반영되어야 함', function () {
+        $addressData = [
+            'postcode' => '54321',
+            // address 필드 누락
+        ];
+
+        $component = Livewire::test(CreateModal::class);
+
+        // 초기값 설정
+        $component->set('postcode', '')
+            ->set('address', '');
+
+        // 부분 데이터로 이벤트 디스패치
+        $component->dispatch('address-selected', $addressData)
+            ->assertSet('postcode', '')
+            ->assertSet('address', ''); // address는 변경되지 않음
+    });
+
+    it('주소 데이터 형식이 배열이 아닌 경우, 빈 값으로 반영되어야 함', function () {
+        $component = Livewire::test(CreateModal::class);
+
+        // 초기값 설정
+        $component->set('postcode', '')
+            ->set('address', '');
+
+        // 문자열로 이벤트 디스패치 (배열이 아님)
+        $component->dispatch('address-selected', 'not_an_array')
+            ->assertSet('postcode', '')
+            ->assertSet('address', '');
+    });
+});
