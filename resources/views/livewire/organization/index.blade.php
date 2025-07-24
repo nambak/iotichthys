@@ -1,9 +1,4 @@
 <section class="w-full" x-data="organizationIndex()">
-    @if (session('success'))
-        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <div class="relative mb-6 w-full">
         <div class="flex justify-between items-center">
@@ -81,8 +76,7 @@
                     <flux:icon.pencil-square class="size-4 mr-1 cursor-pointer hover:text-blue-600"/>
                     <flux:icon.trash 
                         class="size-4 cursor-pointer hover:text-red-600" 
-                        wire:click="delete({{ $organization->id }})"
-                        wire:confirm="정말로 이 조직을 삭제하시겠습니까?"
+                        onclick="confirmDelete('정말로 이 조직을 삭제하시겠습니까?', () => $wire.delete({{ $organization->id }}))"
                     />
                 </td>
             </tr>
@@ -112,21 +106,12 @@
             init() {
                 // Listen for Livewire events
                 this.$wire.on('show-error-toast', (event) => {
-                    this.showErrorToast(event.message);
+                    showErrorToast(event.message);
                 });
-            },
-            
-            showErrorToast(message) {
-                const toast = document.querySelector('#toast-danger');
-                if (toast) {
-                    toast.classList.remove('hidden');
-                    toast.classList.add('flex');
-                    toast.querySelector('.text-sm').textContent = message;
-                    setTimeout(() => {
-                        toast.classList.remove('flex');
-                        toast.classList.add('hidden');
-                    }, 5000);
-                }
+                
+                this.$wire.on('organization-deleted', () => {
+                    showSuccessToast('조직이 성공적으로 삭제되었습니다.');
+                });
             }
         }
     }
@@ -134,16 +119,11 @@
     // Also listen globally for Livewire events as backup
     document.addEventListener('livewire:init', () => {
         Livewire.on('show-error-toast', (event) => {
-            const toast = document.querySelector('#toast-danger');
-            if (toast) {
-                toast.classList.remove('hidden');
-                toast.classList.add('flex');
-                toast.querySelector('.text-sm').textContent = event.message;
-                setTimeout(() => {
-                    toast.classList.remove('flex');
-                    toast.classList.add('hidden');
-                }, 5000);
-            }
+            showErrorToast(event.message);
+        });
+        
+        Livewire.on('organization-deleted', () => {
+            showSuccessToast('조직이 성공적으로 삭제되었습니다.');
         });
     });
 </script>

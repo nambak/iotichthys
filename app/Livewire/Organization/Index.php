@@ -25,7 +25,6 @@ class Index extends Component
     public function refreshAfterCreate()
     {
         $this->resetPage();
-        session()->flash('success', __('messages.organization_created'));
     }
 
     /**
@@ -53,6 +52,6 @@ class Index extends Component
     #[On('organization-deleted')] 
     public function refreshAfterDelete()
     {
-        session()->flash('success', __('messages.organization_deleted'));
+        // Event handled in frontend with SweetAlert2
     }
 }
