@@ -25,13 +25,16 @@ describe('조직 생성', function () {
         $companyName = fake()->company;
         $phoneNumber = '02' . fake()->numerify('########');
         $businessRegisterNumber = fake()->numerify('##########');
+        $postcode = fake()->postcode;
 
         Livewire::test(CreateModal::class)
             ->set('owner', $owner)
             ->set('address', $address)
             ->set('name', $companyName)
-            ->set('phoneNumber', $phoneNumber)
-            ->set('businessRegisterNumber', $businessRegisterNumber)
+            ->set('phone_number', $phoneNumber)
+            ->set('business_register_number', $businessRegisterNumber)
+            ->set('postcode', $postcode)
+            ->set('detail_address', $address)
             ->call('save')
             ->assertSet('showCreateModal', false)
             ->assertHasNoErrors();

@@ -27,22 +27,35 @@
                     />
                 </flux:field>
                 <flux:field>
-                    <flux:label>사업장 주소</flux:label>
-                    <div class="grid grid-cols-[3fr_1fr] items-end gap-2">
+                    <div class="grid grid-cols-[3fr_1fr] items-top gap-2">
                         <flux:input
+                                label="우편번호"
+                                id="postcode-input"
                                 class="w-full"
-                                placeholder="우편번호"
                                 wire:model="postcode"
                         />
                         <flux:button
-                                class="w-fit"
+                                class="w-fit mt-6"
                                 dusk="search-address-button"
                                 @click="openAddressSearch"
                         >주소 검색
                         </flux:button>
                     </div>
-                    <flux:input placeholder="주소" wire:model="address"/>
-                    <flux:input placeholder="상세주소" wire:model="detail_address"/>
+                </flux:field>
+                <flux:field>
+                    <flux:input
+                            label="주소"
+                            id="address-input"
+                            class="mt-2"
+                            wire:model="address"
+                    />
+                </flux:field>
+                <flux:field>
+                    <flux:input
+                            label="상세주소"
+                            id="detail-address-input"
+                            wire:model="detail_address"
+                    />
                 </flux:field>
                 <flux:field>
                     <flux:input
@@ -67,8 +80,23 @@
             openAddressSearch() {
                 new daum.Postcode({
                     oncomplete: function (data) {
-                        // Livewire 컴포넌트에 주소 데이터 전달
-                        Livewire.dispatch('address-selected', data);
+                        const postcodeInput = document.getElementById('postcode-input');
+                        const addressInput = document.getElementById('address-input');
+
+                        if (postcodeInput) {
+                            postcodeInput.value = data.zonecode || '';
+                        }
+
+                        if (addressInput) {
+                            addressInput.value = data.roadAddress || '';
+                        }
+
+                        // 상세주소 입력 필드에 포커스
+                        const detailAddressInput = document.getElementById('detail-address-input');
+                        if (detailAddressInput) {
+                            detailAddressInput.focus();
+                        }
+
                     },
 
                     // 팝업 스타일 설정

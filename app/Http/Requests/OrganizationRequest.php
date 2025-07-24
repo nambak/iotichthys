@@ -53,6 +53,12 @@ class OrganizationRequest extends FormRequest
             'business_register_number.numeric'  => __('validation.organization.businessRegisterNumber.numeric'),
             'business_register_number.digits'   => __('validation.organization.businessRegisterNumber.digits'),
             'business_register_number.unique'   => __('validation.organization.businessRegisterNumber.unique'),
+            'postcode.digits'                   => __('validation.organization.postcode.digits'),
+            'postcode.numeric'                  => __('validation.organization.postcode.numeric'),
+            'postcode.required'                 => __('validation.organization.postcode.required'),
+            'detail_address.max'                => __('validation.organization.detailAddress.max'),
+            'detail_address.required'           => __('validation.organization.detailAddress.required'),
+
         ];
     }
 }
