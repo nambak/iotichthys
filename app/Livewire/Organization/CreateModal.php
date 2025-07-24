@@ -53,6 +53,8 @@ class CreateModal extends Component
         $this->address = '';
         $this->phone_number = '';
         $this->business_register_number = '';
+        $this->postcode = '';
+        $this->detail_address = '';
     }
 
     #[On('address-selected')]
