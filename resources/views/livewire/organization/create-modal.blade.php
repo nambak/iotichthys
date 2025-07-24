@@ -98,6 +98,10 @@
                         }
 
                     },
+                    onerror: function(error) {
+                        showErrorToast('주소 검색 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                        console.error('Daum Postcode API Error:', error);
+                    },
 
                     // 팝업 스타일 설정
                     width: '100%',
@@ -112,5 +116,15 @@
                 }).open();
             }
         }
+    }
+
+    function showErrorToast(message) {
+        document.querySelector('#toast-danger').classList.remove('hidden');
+        document.querySelector('#toast-danger').classList.add('flex');
+        document.querySelector('#toast-danger .text-sm').textContent = message;
+        setTimeout(() => {
+            document.querySelector('#toast-danger').classList.remove('flex');
+            document.querySelector('#toast-danger').classList.add('hidden');
+        }, 3000);
     }
 </script>
