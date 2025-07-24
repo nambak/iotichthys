@@ -15,6 +15,8 @@ class Organization extends Model
         'name',
         'owner',
         'address',
+        'postcode',
+        'detail_address',
         'phone_number',
         'business_register_number',
     ];
