@@ -45,7 +45,12 @@ class Index extends Component
      */
     public function deleteOrganization(Organization $organization)
     {
-        // TODO: 조직 삭제 권한 체크 필요
+        // 권한 체크
+        if (!auth()->user()->can('delete', $organization)) {
+            session()->flash('error', __('messages.organization_delete_unauthorized'));
+            return;
+        }
+        
         // TODO: 조직에 연결된 팀이나 사용자가 있는지 확인
         
         $organization->delete();
@@ -62,6 +67,12 @@ class Index extends Component
      */
     public function editOrganization(Organization $organization)
     {
+        // 권한 체크
+        if (!auth()->user()->can('update', $organization)) {
+            session()->flash('error', __('messages.organization_edit_unauthorized'));
+            return;
+        }
+        
         $this->dispatch('open-edit-organization', organizationId: $organization->id);
     }
 }

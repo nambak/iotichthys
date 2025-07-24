@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Organization;
 
-use App\Http\Requests\OrganizationRequest;
+use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -39,6 +39,13 @@ class EditModal extends Component
     public function openEdit($organizationId)
     {
         $organization = Organization::findOrFail($organizationId);
+        
+        // 권한 체크
+        if (!auth()->user()->can('update', $organization)) {
+            session()->flash('error', __('messages.organization_edit_unauthorized'));
+            return;
+        }
+        
         $this->organization = $organization;
         $this->name = $organization->name;
         $this->owner = $organization->owner;
@@ -63,19 +70,19 @@ class EditModal extends Component
             return;
         }
 
-        // Form Request를 사용한 validation (수정 시 unique 규칙 수정)
-        $request = new OrganizationRequest();
-        $rules = $request->rules();
-        
-        // 수정 시에는 현재 조직의 사업자번호는 unique 체크에서 제외
-        $rules['business_register_number'] = [
-            'required', 
-            'numeric', 
-            'digits:10', 
-            'unique:organizations,business_register_number,' . $this->organization->id
-        ];
+        // 권한 체크
+        if (!auth()->user()->can('update', $this->organization)) {
+            session()->flash('error', __('messages.organization_edit_unauthorized'));
+            return;
+        }
 
-        $validatedData = $this->validate($rules, $request->messages());
+        // Use the UpdateOrganizationRequest for validation
+        $request = new UpdateOrganizationRequest();
+        
+        // Set the organization_id in the request for unique validation
+        request()->merge(['organization_id' => $this->organization->id]);
+        
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
         $this->organization->update($validatedData);
 
