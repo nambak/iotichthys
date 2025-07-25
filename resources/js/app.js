@@ -2,22 +2,7 @@ import Swal from 'sweetalert2';
 
 // Set up SweetAlert2 with dark theme defaults
 window.Swal = Swal.mixin({
-    customClass: {
-        popup: 'dark:bg-gray-800 dark:text-white',
-        title: 'dark:text-white',
-        htmlContainer: 'dark:text-gray-300',
-        confirmButton: 'bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2',
-        cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 mr-2',
-    },
-    buttonsStyling: false,
-    background: 'var(--swal2-background, #1f2937)',
-    color: 'var(--swal2-color, #f9fafb)',
-    showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-    }
+    theme: 'dark',
 });
 
 // Global function for confirmation dialogs

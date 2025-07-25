@@ -45,13 +45,4 @@ class Index extends Component
         $this->dispatch('organization-deleted');
         $this->resetPage();
     }
-
-    /**
-     * 조직 삭제 성공 시 처리
-     */
-    #[On('organization-deleted')] 
-    public function refreshAfterDelete()
-    {
-        // Event handled in frontend with SweetAlert2
-    }
 }

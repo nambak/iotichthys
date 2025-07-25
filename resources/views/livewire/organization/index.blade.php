@@ -9,7 +9,7 @@
 
             <!-- TODO: 조직 생성 권한 체크 -->
             <flux:modal.trigger name="create-organization">
-                <flux:button  dusk="create-organization-button" variant="primary" icon="plus">
+                <flux:button dusk="create-organization-button" variant="primary" icon="plus">
                     {{ __('새 조직 추가') }}
                 </flux:button>
             </flux:modal.trigger>
@@ -75,8 +75,8 @@
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square class="size-4 mr-1 cursor-pointer hover:text-blue-600"/>
                     <flux:icon.trash 
-                        class="size-4 cursor-pointer hover:text-red-600" 
-                        onclick="confirmDelete('정말로 이 조직을 삭제하시겠습니까?', () => $wire.delete({{ $organization->id }}))"
+                        class="size-4 cursor-pointer hover:text-red-600"
+                        @click="confirmDeleteOrganization({{ $organization->id }})"
                     />
                 </td>
             </tr>
@@ -103,28 +103,21 @@
 <script>
     function organizationIndex() {
         return {
+            confirmDeleteOrganization(organizationId) {
+                confirmDelete('정말로 이 조직을 삭제하시겠습니까?', () => {
+                    this.$wire.delete(organizationId);
+                });
+            },
+
             init() {
-                // Listen for Livewire events
                 this.$wire.on('show-error-toast', (event) => {
                     showErrorToast(event.message);
                 });
-                
+
                 this.$wire.on('organization-deleted', () => {
                     showSuccessToast('조직이 성공적으로 삭제되었습니다.');
                 });
             }
         }
     }
-    
-    // Also listen globally for Livewire events as backup
-    document.addEventListener('livewire:init', () => {
-        Livewire.on('show-error-toast', (event) => {
-            showErrorToast(event.message);
-        });
-        
-        Livewire.on('organization-deleted', () => {
-            showSuccessToast('조직이 성공적으로 삭제되었습니다.');
-        });
-    });
 </script>
-
