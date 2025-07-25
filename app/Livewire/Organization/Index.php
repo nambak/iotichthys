@@ -25,6 +25,24 @@ class Index extends Component
     public function refreshAfterCreate()
     {
         $this->resetPage();
-        session()->flash('success', __('messages.organization_created'));
+    }
+
+    /**
+     * 조직 삭제
+     */
+    public function delete($organizationId)
+    {
+        $organization = Organization::findOrFail($organizationId);
+        
+        // 조직에 속한 사용자가 있는지 확인
+        if ($organization->users()->count() > 0) {
+            $this->dispatch('show-error-toast', ['message' => __('messages.organization_delete_has_users')]);
+            return;
+        }
+
+        $organization->delete();
+        
+        $this->dispatch('organization-deleted');
+        $this->resetPage();
     }
 }

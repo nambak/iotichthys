@@ -64,3 +64,30 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* SweetAlert2 Dark Theme Overrides */
+.dark .swal2-popup {
+    @apply bg-gray-800 text-white;
+    --swal2-background: #1f2937;
+    --swal2-color: #f9fafb;
+}
+
+.dark .swal2-title {
+    @apply text-white;
+}
+
+.dark .swal2-html-container {
+    @apply text-gray-300;
+}
+
+.dark .swal2-toast {
+    @apply bg-gray-800 text-white border border-gray-700;
+}
+
+.dark .swal2-toast .swal2-title {
+    @apply text-gray-100;
+}
+
+.colored-toast .swal2-toast {
+    @apply shadow-lg;
+}

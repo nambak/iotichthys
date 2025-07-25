@@ -117,14 +117,4 @@
             }
         }
     }
-
-    function showErrorToast(message) {
-        document.querySelector('#toast-danger').classList.remove('hidden');
-        document.querySelector('#toast-danger').classList.add('flex');
-        document.querySelector('#toast-danger .text-sm').textContent = message;
-        setTimeout(() => {
-            document.querySelector('#toast-danger').classList.remove('flex');
-            document.querySelector('#toast-danger').classList.add('hidden');
-        }, 3000);
-    }
 </script>
