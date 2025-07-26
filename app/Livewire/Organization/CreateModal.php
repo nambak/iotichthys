@@ -16,6 +16,8 @@ class CreateModal extends Component
     public string $phone_number = '';
     public string $business_register_number = '';
 
+    protected $listeners = ['addressSelected'];
+
     /**
      * @return \Illuminate\Contracts\View\Factory|
      *         \Illuminate\Contracts\View\View|
@@ -47,15 +49,22 @@ class CreateModal extends Component
 
     public function resetForm()
     {
-        $this->name = '';
-        $this->owner = '';
-        $this->address = '';
-        $this->phone_number = '';
-        $this->business_register_number = '';
-        $this->postcode = '';
-        $this->detail_address = '';
+        $this->reset([
+            'name',
+            'owner',
+            'postcode',
+            'address',
+            'detail_address',
+            'phone_number',
+            'business_register_number'
+        ]);
+
         $this->resetValidation();
+    }
 
-
+    public function addressSelected($data)
+    {
+        $this->postcode = $data['postcode'] ?? '';
+        $this->address = $data['address'] ?? '';
     }
 }
