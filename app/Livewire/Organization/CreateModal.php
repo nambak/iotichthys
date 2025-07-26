@@ -16,8 +16,6 @@ class CreateModal extends Component
     public string $phone_number = '';
     public string $business_register_number = '';
 
-    protected $listeners = ['addressSelected'];
-
     /**
      * @return \Illuminate\Contracts\View\Factory|
      *         \Illuminate\Contracts\View\View|
@@ -60,11 +58,5 @@ class CreateModal extends Component
         ]);
 
         $this->resetValidation();
-    }
-
-    public function addressSelected($data)
-    {
-        $this->postcode = $data['postcode'] ?? '';
-        $this->address = $data['address'] ?? '';
     }
 }
