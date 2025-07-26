@@ -47,15 +47,16 @@ class CreateModal extends Component
 
     public function resetForm()
     {
-        $this->name = '';
-        $this->owner = '';
-        $this->address = '';
-        $this->phone_number = '';
-        $this->business_register_number = '';
-        $this->postcode = '';
-        $this->detail_address = '';
+        $this->reset([
+            'name',
+            'owner',
+            'postcode',
+            'address',
+            'detail_address',
+            'phone_number',
+            'business_register_number'
+        ]);
+
         $this->resetValidation();
-
-
     }
 }
