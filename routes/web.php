@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('organizations', \App\Livewire\Organization\Index::class)->name('organization.index');
     Route::get('organizations/{organization}', \App\Livewire\Organization\Show::class)->name('organization.show');
-    Route::get('teams', [\App\Http\Controllers\TeamController::class, 'index'])->name('teams.index');
+    Route::get('teams', \App\Livewire\Teams\Index::class)->name('teams.index');
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::get('roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
 });
