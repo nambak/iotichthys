@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class OrganizationRequest extends FormRequest
+class UpdateOrganizationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +29,12 @@ class OrganizationRequest extends FormRequest
             'detail_address'           => ['nullable', 'max:255'],
             'postcode'                 => ['nullable', 'numeric', 'digits:5'],
             'phone_number'             => ['required', 'numeric', 'starts_with:0', 'digits_between:9,10'],
-            'business_register_number' => ['required', 'numeric', 'digits:10', 'unique:organizations,business_register_number'],
+            'business_register_number' => [
+                'required', 
+                'numeric', 
+                'digits:10',
+                Rule::unique('organizations', 'business_register_number')->ignore($this->route('organization') ?? request('organization_id'))
+            ],
         ];
     }
 
@@ -56,7 +62,6 @@ class OrganizationRequest extends FormRequest
             'postcode.digits'                   => __('validation.organization.postcode.digits'),
             'postcode.numeric'                  => __('validation.organization.postcode.numeric'),
             'detail_address.max'                => __('validation.organization.detailAddress.max'),
-
         ];
     }
 }

@@ -73,11 +73,21 @@
                     {{ $organization->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <flux:icon.pencil-square class="size-4 mr-1 cursor-pointer hover:text-blue-600"/>
-                    <flux:icon.trash 
-                        class="size-4 cursor-pointer hover:text-red-600"
-                        @click="confirmDeleteOrganization({{ $organization->id }})"
-                    />
+                    <button   
+                        wire:click="editOrganization({{ $organization->id }})"
+                        class="mr-2 text-blue-600 hover:text-blue-800 transition-colors"
+                        title="수정"
+                    >
+                        <flux:icon.pencil-square class="size-4"/>
+                    </button>
+                    <button 
+                        wire:click="deleteOrganization({{ $organization->id }})"
+                        wire:confirm="정말로 이 조직을 삭제하시겠습니까?"
+                        class="text-red-600 hover:text-red-800 transition-colors"
+                        title="삭제"
+                    >
+                        <flux:icon.trash class="size-4"/>
+                    </button>
                 </td>
             </tr>
             @empty
@@ -98,6 +108,9 @@
 
     <!-- 조직 생성 모달 -->
     <livewire:organization.create-modal/>
+    
+    <!-- 조직 수정 모달 -->
+    <livewire:organization.edit-modal/>
 </section>
 
 <script>
