@@ -39,13 +39,9 @@ class EditModal extends Component
     public function openEdit($organizationId)
     {
         $organization = Organization::findOrFail($organizationId);
-        
-        // 권한 체크
-        if (!auth()->user()->can('update', $organization)) {
-            session()->flash('error', __('messages.organization_edit_unauthorized'));
-            return;
-        }
-        
+
+        // TODO: 권한 체크
+
         $this->organization = $organization;
         $this->name = $organization->name;
         $this->owner = $organization->owner;
@@ -70,25 +66,31 @@ class EditModal extends Component
             return;
         }
 
-        // 권한 체크
-        if (!auth()->user()->can('update', $this->organization)) {
-            session()->flash('error', __('messages.organization_edit_unauthorized'));
-            return;
-        }
+        //  TODO: 권한 체크
 
-        // Use the UpdateOrganizationRequest for validation
         $request = new UpdateOrganizationRequest();
-        
-        // Set the organization_id in the request for unique validation
+
         request()->merge(['organization_id' => $this->organization->id]);
-        
-        $validatedData = $this->validate($request->rules(), $request->messages());
 
-        $this->organization->update($validatedData);
+        try {
+            $validatedData = $this->validate($request->rules(), $request->messages());
+            \Log::info('EditModal: Validation passed', $validatedData);
 
-        $this->modal('edit-organization')->close();
+            $this->organization->update($validatedData);
+            \Log::info('EditModal: Organization updated successfully');
 
-        $this->dispatch('organization-updated');
+            $this->modal('edit-organization')->close();
+            \Log::info('EditModal: Modal closed');
+
+            // 이벤트 발생 전 로그
+            \Log::info('EditModal: About to dispatch organization-updated event');
+            $this->dispatch('organization-updated');
+            \Log::info('EditModal: organization-updated event dispatched');
+
+        } catch (\Exception $e) {
+            \Log::error('EditModal: Error in save method', ['error' => $e->getMessage()]);
+            session()->flash('error', 'An error occurred while updating the organization.');
+        }
     }
 
     /**

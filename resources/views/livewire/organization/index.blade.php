@@ -73,21 +73,14 @@
                     {{ $organization->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <button   
-                        wire:click="editOrganization({{ $organization->id }})"
-                        class="mr-2 text-blue-600 hover:text-blue-800 transition-colors"
-                        title="수정"
-                    >
-                        <flux:icon.pencil-square class="size-4"/>
-                    </button>
-                    <button 
-                        wire:click="deleteOrganization({{ $organization->id }})"
-                        wire:confirm="정말로 이 조직을 삭제하시겠습니까?"
-                        class="text-red-600 hover:text-red-800 transition-colors"
-                        title="삭제"
-                    >
-                        <flux:icon.trash class="size-4"/>
-                    </button>
+                    <flux:icon.pencil-square
+                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
+                            wire:click="editOrganization({{ $organization->id }})"
+                    />
+                    <flux:icon.trash
+                            class="size-4 hover:text-red-600 transition-colors"
+                            @click="deleteOrganization({{ $organization->id }})"
+                    />
                 </td>
             </tr>
             @empty
@@ -116,7 +109,7 @@
 <script>
     function organizationIndex() {
         return {
-            confirmDeleteOrganization(organizationId) {
+            deleteOrganization(organizationId) {
                 confirmDelete('정말로 이 조직을 삭제하시겠습니까?', () => {
                     this.$wire.delete(organizationId);
                 });
@@ -128,7 +121,15 @@
                 });
 
                 this.$wire.on('organization-deleted', () => {
-                    showSuccessToast('조직이 성공적으로 삭제되었습니다.');
+                    showSuccessToast('조직이 삭제되었습니다.');
+                });
+
+                this.$wire.on('organization-created', () => {
+                    showSuccessToast('조직이 생성되었습니다.')
+                });
+
+                this.$wire.on('organization-updated', () => {
+                    showSuccessToast('조직이 수정되었습니다.');
                 });
             }
         }

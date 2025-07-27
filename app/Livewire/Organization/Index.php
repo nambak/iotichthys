@@ -19,18 +19,12 @@ class Index extends Component
     }
 
     /**
-     * 조직 생성 성공 시 처리
-     */
-    #[On('organization-created')]
-    public function refreshAfterCreate()
-    {
-        $this->resetPage();
-    }
-
-    /**
      * 조직 삭제
+     *
+     * @param int $organizationId
+     * @return void
      */
-    public function delete($organizationId)
+    public function delete($organizationId): void
     {
         $organization = Organization::findOrFail($organizationId);
         
@@ -47,21 +41,12 @@ class Index extends Component
     }
 
     /**
-     * 조직 수정 성공 시 처리
-     */
-    #[On('organization-updated')]
-    public function refreshAfterUpdate()
-    {
-        session()->flash('success', __('messages.organization_updated'));
-    }
-
-    /**
      * 조직 삭제
      *
      * @param Organization $organization
      * @return void
      */
-    public function deleteOrganization(Organization $organization)
+    public function deleteOrganization(Organization $organization): void
     {
         // 권한 체크
         if (!auth()->user()->can('delete', $organization)) {
@@ -73,7 +58,6 @@ class Index extends Component
         
         $organization->delete();
         
-        session()->flash('success', __('messages.organization_deleted'));
         $this->resetPage();
     }
 
@@ -83,14 +67,28 @@ class Index extends Component
      * @param Organization $organization
      * @return void
      */
-    public function editOrganization(Organization $organization)
+    public function editOrganization(Organization $organization): void
     {
-        // 권한 체크
-        if (!auth()->user()->can('update', $organization)) {
-            session()->flash('error', __('messages.organization_edit_unauthorized'));
-            return;
-        }
-        
+        // TODO: 권한 체크
+
         $this->dispatch('open-edit-organization', organizationId: $organization->id);
+    }
+
+    /**
+     * 조직 생성 성공 시 처리
+     */
+    #[On('organization-created')]
+    public function refreshAfterCreate()
+    {
+        $this->resetPage();
+    }
+
+    /**
+     * 조직 수정 성공 시 처리
+     */
+    #[On('organization-updated')]
+    public function refreshAfterUpdate()
+    {
+        $this->resetPage();
     }
 }

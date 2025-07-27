@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrganizationRequest extends FormRequest
 {
@@ -28,7 +29,12 @@ class OrganizationRequest extends FormRequest
             'detail_address'           => ['nullable', 'max:255'],
             'postcode'                 => ['nullable', 'numeric', 'digits:5'],
             'phone_number'             => ['required', 'numeric', 'starts_with:0', 'digits_between:9,10'],
-            'business_register_number' => ['required', 'numeric', 'digits:10', 'unique:organizations,business_register_number'],
+            'business_register_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                Rule::unique('organizations', 'business_register_number')
+                    ->whereNull('deleted_at')],
         ];
     }
 
