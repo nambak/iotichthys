@@ -64,7 +64,7 @@
                     {{ $team->organization->name }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
-                    {{ Str::limit($team->description, 50) }}
+                    {{ $team->description ? \Illuminate\Support\Str::limit($team->description, 50) : '-' }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->users_count }}명
