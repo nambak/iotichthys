@@ -80,16 +80,9 @@
             openAddressSearch() {
                 new daum.Postcode({
                     oncomplete: function (data) {
-                        const postcodeInput = document.getElementById('postcode-input');
-                        const addressInput = document.getElementById('address-input');
-
-                        if (postcodeInput) {
-                            postcodeInput.value = data.zonecode || '';
-                        }
-
-                        if (addressInput) {
-                            addressInput.value = data.roadAddress || '';
-                        }
+                        // 🔥 @this.set()으로 Livewire 프로퍼티에 직접 값 설정
+                        @this.set('postcode', data.zonecode || '');
+                        @this.set('address', data.roadAddress || '');
 
                         // 상세주소 입력 필드에 포커스
                         const detailAddressInput = document.getElementById('detail-address-input');
@@ -98,7 +91,7 @@
                         }
 
                     },
-                    onerror: function(error) {
+                    onerror: function (error) {
                         showErrorToast('주소 검색 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
                         console.error('Daum Postcode API Error:', error);
                     },
@@ -116,15 +109,5 @@
                 }).open();
             }
         }
-    }
-
-    function showErrorToast(message) {
-        document.querySelector('#toast-danger').classList.remove('hidden');
-        document.querySelector('#toast-danger').classList.add('flex');
-        document.querySelector('#toast-danger .text-sm').textContent = message;
-        setTimeout(() => {
-            document.querySelector('#toast-danger').classList.remove('flex');
-            document.querySelector('#toast-danger').classList.add('hidden');
-        }, 3000);
     }
 </script>
