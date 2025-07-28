@@ -5,7 +5,6 @@ namespace App\Livewire\Teams;
 use App\Http\Requests\TeamRequest;
 use App\Models\Organization;
 use App\Models\Team;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CreateModal extends Component
@@ -20,14 +19,6 @@ class CreateModal extends Component
         $organizations = Organization::orderBy('name')->get();
         
         return view('livewire.teams.create-modal', compact('organizations'));
-    }
-
-    /**
-     * 팀명 변경 시 자동으로 slug 생성
-     */
-    public function updatedName($value)
-    {
-        $this->slug = Str::slug($value);
     }
 
     /**

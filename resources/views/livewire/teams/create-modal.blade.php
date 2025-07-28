@@ -1,4 +1,4 @@
-<div x-data="createTeamModal()">
+<div>
     <flux:modal name="create-team" class="md:w-96" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 팀 생성') }}</flux:heading>
@@ -12,7 +12,7 @@
                         wire:model="organization_id"
                     >
                         @foreach($organizations as $organization)
-                            <flux:option value="{{ $organization->id }}">{{ $organization->name }}</flux:option>
+                            <flux:select.option value="{{ $organization->id }}">{{ $organization->name }}</flux:select.option>
                         @endforeach
                     </flux:select>
                 </flux:field>
@@ -21,16 +21,7 @@
                     <flux:input
                         label="팀명"
                         placeholder="팀명을 입력해 주세요"
-                        wire:model.live="name"
-                    />
-                </flux:field>
-                
-                <flux:field>
-                    <flux:input
-                        label="팀 식별자"
-                        placeholder="팀 식별자가 자동으로 생성됩니다"
-                        wire:model="slug"
-                        description="영어 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다"
+                        wire:model="name"
                     />
                 </flux:field>
                 
@@ -51,11 +42,3 @@
         </form>
     </flux:modal>
 </div>
-
-<script>
-    function createTeamModal() {
-        return {
-            // 추가 JavaScript 로직이 필요한 경우 여기에 구현
-        }
-    }
-</script>

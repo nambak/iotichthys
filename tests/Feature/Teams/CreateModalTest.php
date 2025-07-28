@@ -2,7 +2,6 @@
 
 use App\Livewire\Teams\CreateModal;
 use App\Models\Organization;
-use App\Models\Team;
 use Livewire\Livewire;
 
 describe('teams/create-modal 컴포넌트', function () {
@@ -77,81 +76,6 @@ describe('팀 생성 유효성 검증 테스트', function () {
                 ->set('organization_id', $this->organization->id)
                 ->set('name', 'Test Team')
                 ->set('slug', 'test-team')
-                ->call('save')
-                ->assertHasNoErrors();
-        });
-    });
-
-    describe('팀 식별자(slug) 검증', function () {
-        it('팀 식별자가 비어있으면 에러 발생', function () {
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', '')
-                ->call('save')
-                ->assertHasErrors(['slug' => 'required'])
-                ->assertSee('팀 식별자를 입력해 주세요');
-        });
-
-        it('팀 식별자가 2자 미만이면 에러 발생', function () {
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', 'a')
-                ->call('save')
-                ->assertHasErrors(['slug' => 'min'])
-                ->assertSee('팀 식별자는 최소 2글자 이상 입력해 주세요');
-        });
-
-        it('팀 식별자가 50자 초과하면 에러 발생', function () {
-            $longSlug = str_repeat('a', 51);
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', $longSlug)
-                ->call('save')
-                ->assertHasErrors(['slug' => 'max'])
-                ->assertSee('팀 식별자는 최대 50글자까지 입력할 수 있습니다');
-        });
-
-        it('팀 식별자에 대문자가 포함되면 에러 발생', function () {
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', 'Test-Team')
-                ->call('save')
-                ->assertHasErrors(['slug' => 'regex'])
-                ->assertSee('팀 식별자는 영어 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다');
-        });
-
-        it('팀 식별자에 특수문자가 포함되면 에러 발생', function () {
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', 'test_team')
-                ->call('save')
-                ->assertHasErrors(['slug' => 'regex'])
-                ->assertSee('팀 식별자는 영어 소문자, 숫자, 하이픈(-)만 사용할 수 있습니다');
-        });
-
-        it('이미 사용 중인 팀 식별자를 입력하면 에러 발생', function () {
-            // 기존 팀 생성
-            Team::factory()->create(['slug' => 'existing-team']);
-
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', 'existing-team')
-                ->call('save')
-                ->assertHasErrors(['slug' => 'unique'])
-                ->assertSee('이미 사용 중인 팀 식별자입니다');
-        });
-
-        it('유효한 팀 식별자를 입력한 경우 검증을 통과', function () {
-            Livewire::test(CreateModal::class)
-                ->set('organization_id', $this->organization->id)
-                ->set('name', 'Test Team')
-                ->set('slug', 'test-team-123')
                 ->call('save')
                 ->assertHasNoErrors();
         });
