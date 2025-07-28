@@ -30,7 +30,7 @@ class Index extends Component
     public function delete($teamId): void
     {
         $team = Team::findOrFail($teamId);
-        
+
         // 팀에 속한 사용자가 있는지 확인
         if ($team->users()->count() > 0) {
             $this->dispatch('show-error-toast', ['message' => '팀에 속한 사용자가 있어 삭제할 수 없습니다.']);
@@ -38,7 +38,7 @@ class Index extends Component
         }
 
         $team->delete();
-        
+
         $this->dispatch('team-deleted');
         $this->resetPage();
     }

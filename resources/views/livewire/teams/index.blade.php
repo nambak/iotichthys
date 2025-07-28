@@ -26,7 +26,7 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    소속 조직
+                    조직
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -34,7 +34,7 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    팀원 수
+                    구성원 수
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -77,7 +77,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
                     {{ __('팀이 없습니다. 새 팀을 생성해보세요!') }}
                 </td>
             </tr>
