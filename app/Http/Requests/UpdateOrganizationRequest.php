@@ -29,12 +29,7 @@ class UpdateOrganizationRequest extends FormRequest
             'detail_address'           => ['nullable', 'max:255'],
             'postcode'                 => ['nullable', 'numeric', 'digits:5'],
             'phone_number'             => ['required', 'numeric', 'starts_with:0', 'digits_between:9,10'],
-            'business_register_number' => [
-                'required', 
-                'numeric', 
-                'digits:10',
-                Rule::unique('organizations', 'business_register_number')->ignore($this->route('organization') ?? request('organization_id'))
-            ],
+            'business_register_number' => ['required', 'numeric', 'digits:10', Rule::unique('organizations', 'business_register_number')->ignore(request('organization_id'))],
         ];
     }
 
