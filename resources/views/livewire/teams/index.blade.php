@@ -1,5 +1,4 @@
 <section class="w-full" x-data="teamIndex()">
-
     <div class="relative mb-6 w-full">
         <div class="flex justify-between items-center">
             <div>
@@ -10,7 +9,7 @@
             <!-- TODO: 팀 생성 권한 체크 -->
             <flux:modal.trigger name="create-team">
                 <flux:button dusk="create-team-button" variant="primary" icon="plus">
-                    {{ __('새 팀 추가') }}
+                    {{ __('새 팀 생성') }}
                 </flux:button>
             </flux:modal.trigger>
         </div>
@@ -27,7 +26,7 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    슬러그
+                    조직
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -35,7 +34,7 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    소속 조직
+                    구성원 수
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -50,28 +49,28 @@
             <tbody class="divide-y divide-zinc-800/10 dark:divide-white/20">
             @forelse ($teams as $team)
             <tr>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->name }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $team->slug }}
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                    {{ $team->organization->name }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ Str::limit($team->description, 50) }}
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
+                    {{ $team->description ?? '-' }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $team->organization->name ?? 'N/A' }}
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                    {{ $team->users_count }}명
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->created_at->format('Y-m-d H:i:s') }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square
-                            class="size-4 mr-2 hover:text-blue-600 transition-colors cursor-pointer"
+                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
                             wire:click="editTeam({{ $team->id }})"
                     />
                     <flux:icon.trash
-                            class="size-4 hover:text-red-600 transition-colors cursor-pointer"
+                            class="size-4 hover:text-red-600 transition-colors"
                             @click="deleteTeam({{ $team->id }})"
                     />
                 </td>
@@ -92,14 +91,16 @@
         {{ $teams->links('custom-flux-pagination') }}
     </div>
 
-    <!-- TODO: 팀 생성 모달 -->
-    
+
+    <!-- 팀 생성 모달 -->
+    <livewire:teams.create-modal/>
+
     <!-- 팀 수정 모달 -->
     <livewire:teams.edit-modal/>
 </section>
 
 <script>
-    function teamIndex() {
+    function teamsIndex() {
         return {
             deleteTeam(teamId) {
                 confirmDelete('정말로 이 팀을 삭제하시겠습니까?', () => {

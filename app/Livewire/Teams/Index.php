@@ -13,7 +13,10 @@ class Index extends Component
 
     public function render()
     {
-        $teams = Team::with('organization')->paginate(10);
+        $teams = Team::with('organization')
+            ->withCount('users')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('livewire.teams.index', compact('teams'));
     }
@@ -21,7 +24,8 @@ class Index extends Component
     /**
      * 팀 삭제
      *
-     * @param  int  $teamId
+     * @param int $teamId
+     * @return void
      */
     public function delete($teamId): void
     {
@@ -29,8 +33,7 @@ class Index extends Component
 
         // 팀에 속한 사용자가 있는지 확인
         if ($team->users()->count() > 0) {
-            $this->dispatch('show-error-toast', ['message' => __('messages.team_delete_has_users')]);
-
+            $this->dispatch('show-error-toast', ['message' => '팀에 속한 사용자가 있어 삭제할 수 없습니다.']);
             return;
         }
 
@@ -42,6 +45,9 @@ class Index extends Component
 
     /**
      * 팀 편집 모달 열기
+     *
+     * @param Team $team
+     * @return void
      */
     public function editTeam(Team $team): void
     {
