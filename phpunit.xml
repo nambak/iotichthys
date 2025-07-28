@@ -39,4 +39,4 @@
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="VITE_TEST" value="true"/>
     </php>
-</phpunit.xml>
+</phpunit>
