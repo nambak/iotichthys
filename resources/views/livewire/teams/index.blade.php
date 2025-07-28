@@ -7,14 +7,15 @@
                 <flux:subheading size="lg" class="mb-6">{{ __('팀을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
-            <!-- TODO: 팀 생성 권한 체크 -->
-            <flux:button dusk="create-team-button" variant="primary" icon="plus">
-                {{ __('새 팀 추가') }}
-            </flux:button>
+            <flux:modal.trigger name="create-team">
+                <flux:button dusk="create-team-button" variant="primary" icon="plus">
+                    {{ __('새 팀 생성') }}
+                </flux:button>
+            </flux:modal.trigger>
         </div>
         <flux:separator variant="subtle"/>
     </div>
-    <!-- 팀 목록 테이블 -->
+        <!-- 팀 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
         <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
             <thead>
@@ -76,7 +77,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
                     {{ __('팀이 없습니다. 새 팀을 생성해보세요!') }}
                 </td>
             </tr>
@@ -90,6 +91,9 @@
         {{ $teams->links('custom-flux-pagination') }}
     </div>
 
+
+    <!-- 팀 생성 모달 -->
+    <livewire:teams.create-modal/>
 </section>
 
 <script>

@@ -15,6 +15,7 @@ class Index extends Component
     {
         $teams = Team::with('organization')
             ->withCount('users')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('livewire.teams.index', compact('teams'));
