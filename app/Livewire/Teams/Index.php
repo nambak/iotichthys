@@ -44,10 +44,32 @@ class Index extends Component
     }
 
     /**
+     * 팀 편집 모달 열기
+     *
+     * @param Team $team
+     * @return void
+     */
+    public function editTeam(Team $team): void
+    {
+        // TODO: 권한 체크
+
+        $this->dispatch('open-edit-team', teamId: $team->id);
+    }
+
+    /**
      * 팀 생성 성공 시 처리
      */
     #[On('team-created')]
     public function refreshAfterCreate()
+    {
+        $this->resetPage();
+    }
+
+    /**
+     * 팀 수정 성공 시 처리
+     */
+    #[On('team-updated')]
+    public function refreshAfterUpdate()
     {
         $this->resetPage();
     }

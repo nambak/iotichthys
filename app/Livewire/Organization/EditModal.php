@@ -72,25 +72,13 @@ class EditModal extends Component
 
         request()->merge(['organization_id' => $this->organization->id]);
 
-        try {
-            $validatedData = $this->validate($request->rules(), $request->messages());
-            \Log::info('EditModal: Validation passed', $validatedData);
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
-            $this->organization->update($validatedData);
-            \Log::info('EditModal: Organization updated successfully');
+        $this->organization->update($validatedData);
 
-            $this->modal('edit-organization')->close();
-            \Log::info('EditModal: Modal closed');
+        $this->modal('edit-organization')->close();
 
-            // 이벤트 발생 전 로그
-            \Log::info('EditModal: About to dispatch organization-updated event');
-            $this->dispatch('organization-updated');
-            \Log::info('EditModal: organization-updated event dispatched');
-
-        } catch (\Exception $e) {
-            \Log::error('EditModal: Error in save method', ['error' => $e->getMessage()]);
-            session()->flash('error', 'An error occurred while updating the organization.');
-        }
+        $this->dispatch('organization-updated');
     }
 
     /**

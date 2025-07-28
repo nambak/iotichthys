@@ -15,19 +15,14 @@
         </div>
         <flux:separator variant="subtle"/>
     </div>
-    
-    <!-- 팀 목록 테이블 -->
+        <!-- 팀 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
         <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
             <thead>
             <tr>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    팀명
-                </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    팀 식별자
+                    팀 이름
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -39,11 +34,11 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    멤버 수
+                    팀원 수
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    생성일
+                    등록일
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
@@ -58,13 +53,10 @@
                     {{ $team->name }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">{{ $team->slug }}</code>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->organization->name }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
-                    {{ $team->description ? \Illuminate\Support\Str::limit($team->description, 50) : '-' }}
+                    {{ $team->description ?? '-' }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->users_count }}명
@@ -73,6 +65,10 @@
                     {{ $team->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
+                    <flux:icon.pencil-square
+                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
+                            wire:click="editTeam({{ $team->id }})"
+                    />
                     <flux:icon.trash
                             class="size-4 hover:text-red-600 transition-colors"
                             @click="deleteTeam({{ $team->id }})"
@@ -94,6 +90,7 @@
     <div class="mt-4 text-xs px-1 text-zinc-500 dark:text-zinc-300">
         {{ $teams->links('custom-flux-pagination') }}
     </div>
+
 
     <!-- 팀 생성 모달 -->
     <livewire:teams.create-modal/>
@@ -119,6 +116,10 @@
 
                 this.$wire.on('team-created', () => {
                     showSuccessToast('팀이 생성되었습니다.')
+                });
+
+                this.$wire.on('team-updated', () => {
+                    showSuccessToast('팀이 수정되었습니다.');
                 });
             }
         }

@@ -25,7 +25,7 @@ class OrganizationFactory extends Factory
         return [
             'name'                     => fake()->company(),
             'owner'                    => fake()->name(),
-            'business_register_number' => fake()->numerify('###########'),
+            'business_register_number' => fake()->numerify('##########'),
             'address'                  => fake()->address(),
             'phone_number'             => fake()->phoneNumber(),
         ];
