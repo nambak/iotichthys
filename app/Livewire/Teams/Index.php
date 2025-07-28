@@ -74,4 +74,3 @@ class Index extends Component
         $this->resetPage();
     }
 }
-}
