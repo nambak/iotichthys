@@ -1,4 +1,4 @@
-<section class="w-full" x-data="teamIndex()">
+<section class="w-full" x-data="teamsIndex()">
 
     <div class="relative mb-6 w-full">
         <div class="flex justify-between items-center">
@@ -7,16 +7,15 @@
                 <flux:subheading size="lg" class="mb-6">{{ __('팀을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
-            <!-- TODO: 팀 생성 버튼 추가 필요시 -->
-            {{-- <flux:modal.trigger name="create-team">
+            <flux:modal.trigger name="create-team">
                 <flux:button dusk="create-team-button" variant="primary" icon="plus">
-                    {{ __('새 팀 추가') }}
+                    {{ __('새 팀 생성') }}
                 </flux:button>
-            </flux:modal.trigger> --}}
+            </flux:modal.trigger>
         </div>
         <flux:separator variant="subtle"/>
     </div>
-    <!-- 팀 목록 테이블 -->
+        <!-- 팀 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
         <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
             <thead>
@@ -50,22 +49,26 @@
             <tbody class="divide-y divide-zinc-800/10 dark:divide-white/20">
             @forelse ($teams as $team)
             <tr>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->name }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $team->organization->name ?? '조직 없음' }}
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                    {{ $team->organization->name }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
                     {{ $team->description ?? '-' }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $team->users_count ?? 0 }}명
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                    {{ $team->users_count }}명
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $team->created_at->format('Y-m-d H:i:s') }}
                 </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
+                    <flux:icon.pencil-square
+                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
+                            wire:click="editTeam({{ $team->id }})"
+                    />
                     <flux:icon.trash
                             class="size-4 hover:text-red-600 transition-colors"
                             @click="deleteTeam({{ $team->id }})"
@@ -88,10 +91,13 @@
         {{ $teams->links('custom-flux-pagination') }}
     </div>
 
+
+    <!-- 팀 생성 모달 -->
+    <livewire:teams.create-modal/>
 </section>
 
 <script>
-    function teamIndex() {
+    function teamsIndex() {
         return {
             deleteTeam(teamId) {
                 confirmDelete('정말로 이 팀을 삭제하시겠습니까?', () => {
@@ -106,6 +112,14 @@
 
                 this.$wire.on('team-deleted', () => {
                     showSuccessToast('팀이 삭제되었습니다.');
+                });
+
+                this.$wire.on('team-created', () => {
+                    showSuccessToast('팀이 생성되었습니다.')
+                });
+
+                this.$wire.on('team-updated', () => {
+                    showSuccessToast('팀이 수정되었습니다.');
                 });
             }
         }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\OrganizationCreating;
+use App\Events\TeamCreating;
 use App\Listeners\GenerateSlug;
 use App\Models\Organization;
 use Illuminate\Support\Str;
@@ -49,14 +50,12 @@ it('이미 slug가 존재할 경우 새로운 slug 생성', function () {
 });
 
 it('최대 재시도 횟수 초과 시 예외 발생', function () {
-    $attempts = [];
-    $originalListener = $this->listener;
 
     // 리스너를 상속해서 재시도 과정 캡처
     $observableListener = new class($this->mockLogger) extends GenerateSlug {
         public array $slugAttempts = [];
 
-        public function handle(OrganizationCreating $event): void
+        public function handle(OrganizationCreating|TeamCreating $event): void
         {
             $organization = $event->organization;
             if (empty($organization->slug)) {

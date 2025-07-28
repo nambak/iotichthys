@@ -12,6 +12,7 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'owner',
         'address',
         'postcode',
@@ -23,7 +24,6 @@ class Organization extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
     ];
 
     /**
