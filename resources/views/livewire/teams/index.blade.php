@@ -1,5 +1,4 @@
 <section class="w-full" x-data="teamsIndex()">
-
     <div class="relative mb-6 w-full">
         <div class="flex justify-between items-center">
             <div>
@@ -7,6 +6,7 @@
                 <flux:subheading size="lg" class="mb-6">{{ __('팀을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
+            <!-- TODO: 팀 생성 권한 체크 -->
             <flux:modal.trigger name="create-team">
                 <flux:button dusk="create-team-button" variant="primary" icon="plus">
                     {{ __('새 팀 생성') }}
@@ -15,7 +15,7 @@
         </div>
         <flux:separator variant="subtle"/>
     </div>
-        <!-- 팀 목록 테이블 -->
+    <!-- 팀 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
         <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
             <thead>
@@ -66,7 +66,7 @@
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square
-                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
+                            class="size-4 mr-1 hover:text-blue-600 transition-colors"
                             wire:click="editTeam({{ $team->id }})"
                     />
                     <flux:icon.trash
@@ -94,6 +94,9 @@
 
     <!-- 팀 생성 모달 -->
     <livewire:teams.create-modal/>
+
+    <!-- 팀 수정 모달 -->
+    <livewire:teams.edit-modal/>
 </section>
 
 <script>

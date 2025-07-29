@@ -58,7 +58,6 @@ class GenerateSlug
             try {
                 $slug = $this->generateSlugCandidate($baseSlug, $attempt);
 
-                // DB에서 중복 확인 (최종 검증용)
                 if (!$this->slugExists($slug, $model)) {
                     return $slug;
                 }

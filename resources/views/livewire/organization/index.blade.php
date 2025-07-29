@@ -74,7 +74,7 @@
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square
-                            class="size-4 mr-2 hover:text-blue-600 transition-colors"
+                            class="size-4 mr-1 hover:text-blue-600 transition-colors"
                             wire:click="editOrganization({{ $organization->id }})"
                     />
                     <flux:icon.trash
