@@ -22,7 +22,7 @@
                     <flux:navlist.item href="{{ route('organization.index') }}">조직 관리</flux:navlist.item>
                     <flux:navlist.item href="{{ route('teams.index') }}">팀 관리</flux:navlist.item>
                     <flux:navlist.item href="{{ route('users.index') }}">사용자 관리</flux:navlist.item>
-                    <flux:navlist.item href="{{ route('roles.index') }}">권한 관리</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('permissions.index') }}">권한 관리</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
