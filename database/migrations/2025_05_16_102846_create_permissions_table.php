@@ -14,11 +14,15 @@ return new class extends Migration {
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->string('resource'); // device, organization, team, user, dashboard 등
+            $table->string('action');   // create, read, update, delete, manage, monitor 등
             $table->text('description')->nullable();
-            $table->string('group')->nullable(); // 권한 그룹화 (device, data, alerts 등)
             $table->timestamps();
+
+            // 복합 인덱스
+            $table->index(['resource', 'action']);
         });
     }
 
