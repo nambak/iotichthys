@@ -3,19 +3,19 @@
 namespace App\Livewire\Teams;
 
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Organization;
 use App\Models\Team;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EditModal extends Component
 {
-    public ?Team $team = null;
-
+    public $team;
     public string $name = '';
-
     public string $slug = '';
-
     public string $description = '';
+    public int $organization_id = 0;
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|
@@ -25,7 +25,9 @@ class EditModal extends Component
      */
     public function render()
     {
-        return view('livewire.teams.edit-modal');
+        $organizations = Organization::orderBy('name')->get();
+
+        return view('livewire.teams.edit-modal', compact('organizations'));
     }
 
     /**
@@ -45,6 +47,7 @@ class EditModal extends Component
         $this->name = $team->name;
         $this->slug = $team->slug;
         $this->description = $team->description ?? '';
+        $this->organization_id = $team->organization_id;
 
         $this->resetValidation();
         $this->modal('edit-team')->show();
@@ -57,7 +60,7 @@ class EditModal extends Component
      */
     public function save()
     {
-        if (! $this->team) {
+        if (!$this->team) {
             return;
         }
 
@@ -69,21 +72,14 @@ class EditModal extends Component
 
         try {
             $validatedData = $this->validate($request->rules(), $request->messages());
-            \Log::info('EditModal: Validation passed', $validatedData);
 
             $this->team->update($validatedData);
-            \Log::info('EditModal: Team updated successfully');
 
             $this->modal('edit-team')->close();
-            \Log::info('EditModal: Modal closed');
 
-            // 이벤트 발생 전 로그
-            \Log::info('EditModal: About to dispatch team-updated event');
             $this->dispatch('team-updated');
-            \Log::info('EditModal: team-updated event dispatched');
 
         } catch (\Exception $e) {
-            \Log::error('EditModal: Error in save method', ['error' => $e->getMessage()]);
             session()->flash('error', 'An error occurred while updating the team.');
         }
     }

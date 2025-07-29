@@ -13,11 +13,19 @@
                     />
                 </flux:field>
                 <flux:field>
-                    <flux:input
-                            label="슬러그"
-                            placeholder="팀 슬러그를 입력해 주세요 (영문, 숫자, -, _ 만 사용 가능)"
-                            wire:model="slug"
-                    />
+                    <flux:select
+                        label="소속 조직"
+                        placeholder="조직을 선택해 주세요"
+                        wire:model="organization_id"
+                    >
+                        @forelse($organizations as $organization)
+                            <flux:select.option value="{{ $organization->id }}">
+                                {{ $organization->name }}
+                            </flux:select.option>
+                        @empty
+                            <flux:select.option>등록된 조직이 없습니다. 조직 등록을 먼저 해주세요.</flux:select.option>
+                        @endforelse
+                    </flux:select>
                 </flux:field>
                 <flux:field>
                     <flux:textarea
