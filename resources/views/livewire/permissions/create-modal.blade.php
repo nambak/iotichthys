@@ -10,46 +10,33 @@
                         label="권한 이름"
                         placeholder="권한 이름을 입력해 주세요"
                         wire:model.live="name"
-                        required
                     />
                 </flux:field>
-                
-                <flux:field>
-                    <flux:input
-                        label="슬러그"
-                        placeholder="권한 슬러그 (자동 생성됨)"
-                        wire:model="slug"
-                        readonly
-                    />
-                </flux:field>
-                
+
                 <flux:field>
                     <flux:input
                         label="리소스"
                         placeholder="리소스명 (예: device, organization, team)"
                         wire:model="resource"
-                        required
                     />
                 </flux:field>
-                
+
                 <flux:field>
                     <flux:input
                         label="액션"
                         placeholder="액션명 (예: create, read, update, delete)"
                         wire:model="action"
-                        required
                     />
                 </flux:field>
-                
+
                 <flux:field>
                     <flux:textarea
                         label="설명 (선택사항)"
                         placeholder="권한에 대한 설명을 입력해 주세요"
                         wire:model="description"
-                        rows="3"
                     />
                 </flux:field>
-                
+
                 <div class="flex gap-2">
                     <flux:spacer/>
                     <flux:button type="button" variant="ghost" wire:click="cancel">{{ __('취소') }}</flux:button>

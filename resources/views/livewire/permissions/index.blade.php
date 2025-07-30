@@ -26,10 +26,6 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    슬러그
-                </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
                     리소스
                 </th>
                 <th scope="col"
@@ -88,7 +84,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
                     {{ __('권한이 없습니다. 새 권한을 생성해보세요!') }}
                 </td>
             </tr>

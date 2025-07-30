@@ -16,15 +16,6 @@
                 
                 <flux:field>
                     <flux:input
-                        label="슬러그"
-                        placeholder="권한 슬러그"
-                        wire:model="slug"
-                        required
-                    />
-                </flux:field>
-                
-                <flux:field>
-                    <flux:input
                         label="리소스"
                         placeholder="리소스명 (예: device, organization, team)"
                         wire:model="resource"
