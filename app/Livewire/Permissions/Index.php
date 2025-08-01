@@ -48,7 +48,7 @@ class Index extends Component
      * @param Permission $permission
      * @return void
      */
-    public function editPermission(Permission $permission): void
+    public function edit(Permission $permission): void
     {
         // TODO: 권한 체크
 
@@ -56,19 +56,11 @@ class Index extends Component
     }
 
     /**
-     * 권한 생성 성공 시 처리
+     * 권한 생성, 수정 성공 시 처리
      */
     #[On('permission-created')]
-    public function refreshAfterCreate()
-    {
-        $this->resetPage();
-    }
-
-    /**
-     * 권한 수정 성공 시 처리
-     */
     #[On('permission-updated')]
-    public function refreshAfterUpdate()
+    public function refreshAfterCreate()
     {
         $this->resetPage();
     }

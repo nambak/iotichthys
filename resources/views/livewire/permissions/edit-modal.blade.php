@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="edit-permission" class="md:w-96">
+    <flux:modal name="edit-permission" class="md:w-96" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('권한 수정') }}</flux:heading>
         </div>
@@ -43,7 +43,6 @@
                 
                 <div class="flex gap-2">
                     <flux:spacer/>
-                    <flux:button type="button" variant="ghost" wire:click="cancel">{{ __('취소') }}</flux:button>
                     <flux:button type="submit" variant="primary">{{ __('수정') }}</flux:button>
                 </div>
             </div>

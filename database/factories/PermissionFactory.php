@@ -21,13 +21,11 @@ class PermissionFactory extends Factory
     {
         $resource = $this->faker->word();
         $action = $this->faker->word();
-        $unique = $this->faker->unique()->randomNumber(5);
-        
+
         return [
-            'name' => ucfirst($resource) . ' ' . ucfirst($action),
-            'slug' => $resource . '_' . $action . '_' . $unique,
-            'resource' => $resource,
-            'action' => $action,
+            'name'        => ucfirst($resource) . ' ' . ucfirst($action),
+            'resource'    => $resource,
+            'action'      => $action,
             'description' => $this->faker->sentence(),
         ];
     }
@@ -37,11 +35,10 @@ class PermissionFactory extends Factory
      */
     public function withResourceAction(string $resource, string $action): static
     {
-        return $this->state(fn (array $attributes) => [
-            'name' => ucfirst($resource) . ' ' . ucfirst($action),
-            'slug' => $resource . '_' . $action,
+        return $this->state(fn(array $attributes) => [
+            'name'     => ucfirst($resource) . ' ' . ucfirst($action),
             'resource' => $resource,
-            'action' => $action,
+            'action'   => $action,
         ]);
     }
 }

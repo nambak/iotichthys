@@ -53,9 +53,6 @@
                     {{ $permission->name }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <code class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{{ $permission->slug }}</code>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
                         {{ $permission->resource }}
                     </span>
@@ -74,7 +71,7 @@
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     <flux:icon.pencil-square
                             class="size-4 mr-1 hover:text-blue-600 transition-colors"
-                            wire:click="editPermission({{ $permission->id }})"
+                            wire:click="edit({{ $permission->id }})"
                     />
                     <flux:icon.trash
                             class="size-4 hover:text-red-600 transition-colors"

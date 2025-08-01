@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="create-permission" class="md:w-96">
+    <flux:modal name="create-permission" class="md:w-96" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 권한 생성') }}</flux:heading>
         </div>
@@ -9,7 +9,7 @@
                     <flux:input
                         label="권한 이름"
                         placeholder="권한 이름을 입력해 주세요"
-                        wire:model.live="name"
+                        wire:model="name"
                     />
                 </flux:field>
 
@@ -39,7 +39,6 @@
 
                 <div class="flex gap-2">
                     <flux:spacer/>
-                    <flux:button type="button" variant="ghost" wire:click="cancel">{{ __('취소') }}</flux:button>
                     <flux:button type="submit" variant="primary">{{ __('저장') }}</flux:button>
                 </div>
             </div>

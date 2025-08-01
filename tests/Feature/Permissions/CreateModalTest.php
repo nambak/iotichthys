@@ -120,27 +120,6 @@ it('resets form fields after successful creation', function () {
         ->assertSet('description', '');
 });
 
-it('can cancel and reset form', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $component = Livewire::test(CreateModal::class)
-        ->set('name', 'Device Create')
-        ->set('resource', 'device')
-        ->set('action', 'create')
-        ->set('description', 'Test description')
-        ->call('cancel');
-
-    // All fields should be reset to empty
-    $component
-        ->assertSet('name', '')
-        ->assertSet('resource', '')
-        ->assertSet('action', '')
-        ->assertSet('description', '')
-        ->assertDispatched('modal-close', name: 'create-permission');
-
-    expect(Permission::count())->toBe(0);
-});
 
 it('권한 이름이 비어있으면 에러 발생', function () {
     $user = User::factory()->create();

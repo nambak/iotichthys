@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\PermissionCreating;
+use App\Events\PermissionUpdating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +11,25 @@ class Permission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'resource', 'action', 'description'];
+    protected $fillable = ['name', 'resource', 'action', 'description'];
+
+    /**
+     * Boot 메서드 - 모델 이벤트 등록
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($permission) {
+            event(new PermissionCreating($permission));
+        });
+
+        static::updating(function ($permission) {
+            event(new PermissionUpdating($permission));
+        });
+    }
 
     public function roles()
     {

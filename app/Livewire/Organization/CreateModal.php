@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Organization;
 
-use App\Http\Requests\OrganizationRequest;
+use App\Http\Requests\Organization\OrganizationRequest;
 use App\Models\Organization;
 use Livewire\Component;
 
@@ -34,7 +34,7 @@ class CreateModal extends Component
      */
     public function save()
     {
-        // Form Request를 사용한 validation
+        // Form Request 클래스에서 validation rules와 messages 가져오기
         $request = new OrganizationRequest();
         $validatedData = $this->validate($request->rules(), $request->messages());
 
@@ -43,19 +43,13 @@ class CreateModal extends Component
         $this->modal('create-organization')->close();
 
         $this->dispatch('organization-created');
+
+        $this->resetForm();
     }
 
     public function resetForm()
     {
-        $this->reset([
-            'name',
-            'owner',
-            'postcode',
-            'address',
-            'detail_address',
-            'phone_number',
-            'business_register_number'
-        ]);
+        $this->reset();
 
         $this->resetValidation();
     }

@@ -128,7 +128,7 @@ it('can trigger edit permission modal', function () {
     $permission = Permission::factory()->create();
 
     Livewire::test(Index::class)
-        ->call('editPermission', $permission)
+        ->call('edit', $permission)
         ->assertDispatched('open-edit-permission', permissionId: $permission->id);
 });
 

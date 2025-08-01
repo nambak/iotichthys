@@ -81,8 +81,8 @@
                 new daum.Postcode({
                     oncomplete: function (data) {
                         // 🔥 @this.set()으로 Livewire 프로퍼티에 직접 값 설정
-                        @this.set('postcode', data.zonecode || '');
-                        @this.set('address', data.roadAddress || '');
+                        @this.set('postcode', data.zonecode || '')
+                        @this.set('address', data.roadAddress || '')
 
                         // 상세주소 입력 필드에 포커스
                         const detailAddressInput = document.getElementById('detail-address-input');

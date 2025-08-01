@@ -2,28 +2,17 @@
 
 namespace App\Livewire\Permissions;
 
+use App\Http\Requests\Permission\PermissionRequest;
 use App\Models\Permission;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;  
 use Livewire\Component;
 
 class EditModal extends Component
 {
     public ?Permission $permission = null;
-
-    #[Validate('required|string|max:255')]
     public string $name = '';
-
-    #[Validate('required|string|max:255')]
-    public string $slug = '';
-
-    #[Validate('required|string|max:255')]
-    public string $resource = '';
-
-    #[Validate('required|string|max:255')]
     public string $action = '';
-
-    #[Validate('nullable|string')]
+    public string $resource = '';
     public string $description = '';
 
     public function render()
@@ -33,19 +22,21 @@ class EditModal extends Component
 
     /**
      * 권한 편집 모달 열기
+     *
+     * @param int $permissionId
+     * @return void
      */
     #[On('open-edit-permission')]
     public function openEditModal($permissionId): void
     {
         $this->permission = Permission::findOrFail($permissionId);
-        
+
         $this->name = $this->permission->name;
-        $this->slug = $this->permission->slug;
         $this->resource = $this->permission->resource;
         $this->action = $this->permission->action;
         $this->description = $this->permission->description ?? '';
 
-        $this->dispatch('modal-open', name: 'edit-permission');
+        $this->modal('edit-permission')->show();
     }
 
     /**
@@ -53,41 +44,27 @@ class EditModal extends Component
      */
     public function update(): void
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:permissions,slug,' . $this->permission->id,
-            'resource' => 'required|string|max:255',
-            'action' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+        $request = new PermissionRequest();
 
-        $this->permission->update([
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'resource' => $this->resource,
-            'action' => $this->action,
-            'description' => $this->description,
-        ]);
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
-        $this->reset();
+        $this->permission->update($validatedData);
+
+        $this->modal('edit-permission')->close();
+
         $this->dispatch('permission-updated');
-        $this->dispatch('modal-close', name: 'edit-permission');
+
+        $this->resetForm();
     }
 
     /**
-     * 모달 취소
+     * 폼 리셋
+     *
+     * @return void
      */
-    public function cancel(): void
+    public function resetForm()
     {
         $this->reset();
-        $this->dispatch('modal-close', name: 'edit-permission');
-    }
-
-    /**
-     * 이름에서 슬러그 자동 생성
-     */
-    public function updatedName(): void
-    {
-        $this->slug = strtolower(str_replace(' ', '_', trim($this->name)));
+        $this->resetValidation();
     }
 }

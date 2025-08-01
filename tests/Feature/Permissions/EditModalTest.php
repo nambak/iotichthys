@@ -33,7 +33,6 @@ it('loads permission data when modal is opened', function () {
 
     $permission = Permission::factory()->create([
         'name' => 'Device Create',
-        'slug' => 'device_create',
         'resource' => 'device',
         'action' => 'create',
         'description' => 'Permission to create devices'
@@ -43,11 +42,9 @@ it('loads permission data when modal is opened', function () {
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->assertSet('permission.id', $permission->id)
         ->assertSet('name', 'Device Create')
-        ->assertSet('slug', 'device_create')
         ->assertSet('resource', 'device')
         ->assertSet('action', 'create')
-        ->assertSet('description', 'Permission to create devices')
-        ->assertDispatched('modal-open', name: 'edit-permission');
+        ->assertSet('description', 'Permission to create devices');
 });
 
 it('loads permission data with null description', function () {
@@ -79,7 +76,6 @@ it('can update permission with valid data', function () {
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', 'Device Manage')
-        ->set('slug', 'device_manage')
         ->set('resource', 'device')
         ->set('action', 'manage')
         ->set('description', 'Updated description')
@@ -90,7 +86,6 @@ it('can update permission with valid data', function () {
 
     $permission->refresh();
     expect($permission->name)->toBe('Device Manage');
-    expect($permission->slug)->toBe('device_manage');
     expect($permission->resource)->toBe('device');
     expect($permission->action)->toBe('manage');
     expect($permission->description)->toBe('Updated description');
@@ -105,13 +100,11 @@ it('validates required fields on update', function () {
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', '')
-        ->set('slug', '')
         ->set('resource', '')
         ->set('action', '')
         ->call('update')
         ->assertHasErrors([
             'name' => 'required',
-            'slug' => 'required',
             'resource' => 'required',
             'action' => 'required'
         ]);
@@ -127,44 +120,14 @@ it('validates maximum field lengths on update', function () {
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', $longString)
-        ->set('slug', $longString)
         ->set('resource', $longString)
         ->set('action', $longString)
         ->call('update')
         ->assertHasErrors([
             'name' => 'max',
-            'slug' => 'max',
             'resource' => 'max',
             'action' => 'max'
         ]);
-});
-
-it('validates slug uniqueness excluding current permission', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $permission1 = Permission::factory()->create(['slug' => 'device_create']);
-    $permission2 = Permission::factory()->create(['slug' => 'device_update']);
-
-    // Should allow keeping the same slug
-    Livewire::test(EditModal::class)
-        ->dispatch('open-edit-permission', permissionId: $permission1->id)
-        ->set('name', 'Device Create Updated')
-        ->set('slug', 'device_create')
-        ->set('resource', 'device')
-        ->set('action', 'create')
-        ->call('update')
-        ->assertHasNoErrors();
-
-    // Should not allow using another permission's slug
-    Livewire::test(EditModal::class)
-        ->dispatch('open-edit-permission', permissionId: $permission1->id)
-        ->set('name', 'Device Create')
-        ->set('slug', 'device_update')
-        ->set('resource', 'device')
-        ->set('action', 'create')
-        ->call('update')
-        ->assertHasErrors(['slug' => 'unique']);
 });
 
 it('auto-generates slug from name on update', function () {
@@ -173,10 +136,18 @@ it('auto-generates slug from name on update', function () {
 
     $permission = Permission::factory()->create();
 
+    dump($permission);
+
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', 'Device Manage Permission')
-        ->assertSet('slug', 'device_manage_permission');
+        ->call('update');
+
+    $permission->refresh();
+
+    dump($permission);
+
+    expect($permission->slug)->toBe('device-manage-permission');
 });
 
 it('resets form fields after successful update', function () {
@@ -188,7 +159,6 @@ it('resets form fields after successful update', function () {
     $component = Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', 'Updated Name')
-        ->set('slug', 'updated_slug')
         ->set('resource', 'updated')
         ->set('action', 'update')
         ->set('description', 'Updated description')
@@ -197,45 +167,10 @@ it('resets form fields after successful update', function () {
     // All fields should be reset to empty
     $component
         ->assertSet('name', '')
-        ->assertSet('slug', '')
         ->assertSet('resource', '')
         ->assertSet('action', '')
         ->assertSet('description', '')
         ->assertSet('permission', null);
-});
-
-it('can cancel and reset form', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $permission = Permission::factory()->create([
-        'name' => 'Original Name',
-        'slug' => 'original_slug'
-    ]);
-
-    $component = Livewire::test(EditModal::class)
-        ->dispatch('open-edit-permission', permissionId: $permission->id)
-        ->set('name', 'Changed Name')
-        ->set('slug', 'changed_slug')
-        ->set('resource', 'changed')
-        ->set('action', 'change')
-        ->set('description', 'Changed description')
-        ->call('cancel');
-
-    // All fields should be reset to empty
-    $component
-        ->assertSet('name', '')
-        ->assertSet('slug', '')
-        ->assertSet('resource', '')
-        ->assertSet('action', '')
-        ->assertSet('description', '')
-        ->assertSet('permission', null)
-        ->assertDispatched('modal-close', name: 'edit-permission');
-
-    // Original permission should remain unchanged
-    $permission->refresh();
-    expect($permission->name)->toBe('Original Name');
-    expect($permission->slug)->toBe('original_slug');
 });
 
 it('throws exception when trying to load non-existent permission', function () {
@@ -258,7 +193,6 @@ it('handles updating permission with empty description', function () {
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', 'Updated Name')
-        ->set('slug', 'updated_slug')
         ->set('resource', 'device')
         ->set('action', 'create')
         ->set('description', '')
@@ -266,6 +200,7 @@ it('handles updating permission with empty description', function () {
         ->assertHasNoErrors();
 
     $permission->refresh();
+
     expect($permission->description)->toBe('');
 });
 
@@ -278,5 +213,8 @@ it('trims whitespace from name before generating slug on update', function () {
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', '  Device Update  ')
-        ->assertSet('slug', 'device_update');
+        ->call('update');
+
+    $permission->refresh();
+    expect($permission->slug)->toBe('device-update');
 });

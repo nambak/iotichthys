@@ -59,7 +59,7 @@ describe('organization/edit-modal 컴포넌트', function () {
             ->set('detail_address', $updateData['detail_address'])
             ->set('phone_number', $updateData['phone_number'])
             ->set('business_register_number', $updateData['business_register_number'])
-            ->call('save')
+            ->call('update')
             ->assertHasNoErrors()
             ->assertDispatched('organization-updated');
 
@@ -86,7 +86,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasErrors(['name' => 'required'])
                 ->assertSee('사업자명을 입력해 주세요');
         });
@@ -101,7 +101,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasErrors(['name' => 'min'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
         });
@@ -116,7 +116,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasErrors(['name' => 'max'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
         });
@@ -139,7 +139,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasErrors(['business_register_number' => 'unique'])
                 ->assertSee('이미 등록된 사업자번호입니다');
         });
@@ -156,7 +156,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasNoErrors();
         });
     });
@@ -172,7 +172,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('postcode', '1234')
                 ->set('detail_address', fake()->address)
                 ->set('phone_number', '02' . fake()->numerify('########'))
-                ->call('save')
+                ->call('update')
                 ->assertHasErrors(['postcode' => 'digits'])
                 ->assertSee('5자리 숫자로된 우편번호를 입력해 주세요');
         });

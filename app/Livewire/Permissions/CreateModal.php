@@ -2,26 +2,15 @@
 
 namespace App\Livewire\Permissions;
 
+use App\Http\Requests\Permission\PermissionRequest;
 use App\Models\Permission;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class CreateModal extends Component
 {
-    #[Validate('required|string|max:255')]
     public string $name = '';
-
-    #[Validate('required|string|max:255|unique:permissions,slug')]
-    public string $slug = '';
-
-    #[Validate('required|string|max:255')]
     public string $resource = '';
-
-    #[Validate('required|string|max:255')]
     public string $action = '';
-
-    #[Validate('nullable|string')]
     public string $description = '';
 
     public function render()
@@ -34,35 +23,23 @@ class CreateModal extends Component
      */
     public function create(): void
     {
-        $this->validate();
+        // Form Request 클래스에서 validation rules와 messages 가져오기
+        $request = new PermissionRequest();
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
-        Permission::create([
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'resource' => $this->resource,
-            'action' => $this->action,
-            'description' => $this->description,
-        ]);
+        Permission::create($validatedData);
 
-        $this->reset();
+        $this->modal('create-permission')->close();
+
         $this->dispatch('permission-created');
-        $this->dispatch('modal-close', name: 'create-permission');
+
+        $this->resetForm();
     }
 
-    /**
-     * 모달 취소
-     */
-    public function cancel(): void
+    public function resetForm()
     {
         $this->reset();
-        $this->dispatch('modal-close', name: 'create-permission');
-    }
 
-    /**
-     * 이름에서 슬러그 자동 생성
-     */
-    public function updatedName(): void
-    {
-        $this->slug = strtolower(str_replace(' ', '_', trim($this->name)));
+        $this->resetValidation();
     }
 }
