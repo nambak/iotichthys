@@ -136,16 +136,12 @@ it('auto-generates slug from name on update', function () {
 
     $permission = Permission::factory()->create();
 
-    dump($permission);
-
     Livewire::test(EditModal::class)
         ->dispatch('open-edit-permission', permissionId: $permission->id)
         ->set('name', 'Device Manage Permission')
         ->call('update');
 
     $permission->refresh();
-
-    dump($permission);
 
     expect($permission->slug)->toBe('device-manage-permission');
 });
