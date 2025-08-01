@@ -2,19 +2,19 @@
 
 namespace App\Events;
 
-use App\Models\Team;
+use App\Models\Permission;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TeamCreating
+class PermissionCreating
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Team $model)
+    public function __construct(public Permission $model)
     {
         //
     }

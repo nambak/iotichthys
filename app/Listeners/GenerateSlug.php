@@ -3,8 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\OrganizationCreating;
+use App\Events\OrganizationUpdating;
+use App\Events\PermissionCreating;
+use App\Events\PermissionUpdating;
 use App\Events\TeamCreating;
 use App\Models\Organization;
+use App\Models\Permission;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -23,22 +27,14 @@ class GenerateSlug
     ) {}
 
     /**
-     * Handle OrganizationCreating event.
+     * Handle OrganizationCreating, TeamCreating, or PermissionCreating event.
      *
-     * @param OrganizationCreating $event
+     * @param OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event
      * @return void
      */
-    public function handle(OrganizationCreating|TeamCreating $event): void
+    public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event): void
     {
-        $model = match(true) {
-            $event instanceof OrganizationCreating => $event->organization,
-            $event instanceof TeamCreating => $event->team,
-        };
-
-        // slug가 비어있으면 name으로부터 자동 생성
-        if (empty($model->slug)) {
-            $model->slug = $this->generateUniqueSlugWithRetry($model->name, $model);
-        }
+        $event->model->slug = $this->generateUniqueSlugWithRetry($event->model->name, $event->model);
     }
 
     /**
@@ -98,6 +94,7 @@ class GenerateSlug
             $baseSlug = match(get_class($model)) {
                 Organization::class => 'organization',
                 Team::class => 'team',
+                Permission::class => 'permission',
                 default => 'item'
             };
         }
@@ -180,6 +177,7 @@ class GenerateSlug
         return match(get_class($model)) {
             Organization::class => Organization::where('slug', $slug)->exists(),
             Team::class => Team::where('slug', $slug)->exists(),
+            Permission::class => Permission::where('slug', $slug)->exists(),
             default => false
         };
     }

@@ -1,6 +1,9 @@
 <?php
 
 use App\Events\OrganizationCreating;
+use App\Events\OrganizationUpdating;
+use App\Events\PermissionCreating;
+use App\Events\PermissionUpdating;
 use App\Events\TeamCreating;
 use App\Listeners\GenerateSlug;
 use App\Models\Organization;
@@ -55,9 +58,9 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
     $observableListener = new class($this->mockLogger) extends GenerateSlug {
         public array $slugAttempts = [];
 
-        public function handle(OrganizationCreating|TeamCreating $event): void
+        public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event): void
         {
-            $organization = $event->organization;
+            $organization = $event->model;
             if (empty($organization->slug)) {
                 try {
                     $organization->slug = $this->captureSlugGeneration($organization->name);

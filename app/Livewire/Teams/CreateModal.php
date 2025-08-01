@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Teams;
 
-use App\Http\Requests\TeamRequest;
+use App\Http\Requests\Team\TeamRequest;
 use App\Models\Organization;
 use App\Models\Team;
 use Livewire\Component;
@@ -28,7 +28,7 @@ class CreateModal extends Component
      */
     public function save()
     {
-        // Form Request를 사용한 validation
+        // Form Request 클래스에서 validation rules와 messages 가져오기
         $request = new TeamRequest();
         $validatedData = $this->validate($request->rules(), $request->messages());
 
@@ -37,16 +37,13 @@ class CreateModal extends Component
         $this->modal('create-team')->close();
 
         $this->dispatch('team-created');
+
+        $this->resetForm();
     }
 
     public function resetForm()
     {
-        $this->reset([
-            'organization_id',
-            'name',
-            'slug',
-            'description'
-        ]);
+        $this->reset();
 
         $this->resetValidation();
     }

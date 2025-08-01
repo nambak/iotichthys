@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\OrganizationCreating;
+use App\Events\OrganizationUpdating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,9 +36,12 @@ class Organization extends Model
     {
         parent::boot();
 
-        // Organization 생성 이벤트
         static::creating(function ($organization) {
             event(new OrganizationCreating($organization));
+        });
+
+        static::updating(function ($organization) {
+            event(new OrganizationUpdating($organization));
         });
     }
 

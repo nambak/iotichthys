@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('teams', \App\Livewire\Teams\Index::class)->name('teams.index');
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::get('roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
+    Route::get('permissions', \App\Livewire\Permissions\Index::class)->name('permissions.index');
 });
 
 require __DIR__ . '/auth.php';

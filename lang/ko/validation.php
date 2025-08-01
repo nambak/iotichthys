@@ -58,4 +58,15 @@ return [
             'max' => '팀 설명은 최대 500글자까지 입력할 수 있습니다',
         ],
     ],
+    'permission' => [
+        'name' => [
+            'required' => '권한 이름을 입력해 주세요',
+        ],
+        'resource' => [
+            'required' => '리소스명을 입력해 주세요'
+        ],
+        'action' => [
+            'required' => '액션명을 입력해 주세요'
+        ]
+    ],
 ];

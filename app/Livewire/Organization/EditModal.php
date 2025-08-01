@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Organization;
 
-use App\Http\Requests\UpdateOrganizationRequest;
+use App\Http\Requests\Organization\UpdateOrganizationRequest;
 use App\Models\Organization;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -36,7 +36,7 @@ class EditModal extends Component
      * @return void
      */
     #[On('open-edit-organization')]
-    public function openEdit($organizationId)
+    public function openEdit($organizationId): void
     {
         $organization = Organization::findOrFail($organizationId);
 
@@ -60,7 +60,7 @@ class EditModal extends Component
      *
      * @return void
      */
-    public function save()
+    public function update()
     {
         if (!$this->organization) {
             return;
@@ -79,6 +79,8 @@ class EditModal extends Component
         $this->modal('edit-organization')->close();
 
         $this->dispatch('organization-updated');
+
+        $this->resetForm();
     }
 
     /**
@@ -88,14 +90,6 @@ class EditModal extends Component
      */
     public function resetForm()
     {
-        $this->organization = null;
-        $this->name = '';
-        $this->owner = '';
-        $this->address = '';
-        $this->phone_number = '';
-        $this->business_register_number = '';
-        $this->postcode = '';
-        $this->detail_address = '';
         $this->resetValidation();
     }
 }

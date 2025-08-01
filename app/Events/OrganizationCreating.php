@@ -14,7 +14,8 @@ class OrganizationCreating
     /**
      * Create a new event instance.
      */
-    public function __construct(
-        public Organization $organization
-    ) {}
+    public function __construct(public Organization $model)
+    {
+        //
+    }
 }

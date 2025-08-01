@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Teams;
 
-use App\Http\Requests\UpdateTeamRequest;
+use App\Http\Requests\Team\TeamRequest;
+use App\Http\Requests\Team\UpdateTeamRequest;
 use App\Models\Organization;
 use App\Models\Team;
 use Livewire\Attributes\On;
@@ -58,7 +59,7 @@ class EditModal extends Component
      *
      * @return void
      */
-    public function save()
+    public function update()
     {
         if (!$this->team) {
             return;
@@ -66,22 +67,17 @@ class EditModal extends Component
 
         //  TODO: 권한 체크
 
-        $request = new UpdateTeamRequest;
+        $request = new TeamRequest();
 
-        request()->merge(['team_id' => $this->team->id]);
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
-        try {
-            $validatedData = $this->validate($request->rules(), $request->messages());
+        $this->team->update($validatedData);
 
-            $this->team->update($validatedData);
+        $this->modal('edit-team')->close();
 
-            $this->modal('edit-team')->close();
+        $this->dispatch('team-updated');
 
-            $this->dispatch('team-updated');
-
-        } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while updating the team.');
-        }
+        $this->resetForm();
     }
 
     /**
@@ -91,10 +87,6 @@ class EditModal extends Component
      */
     public function resetForm()
     {
-        $this->team = null;
-        $this->name = '';
-        $this->slug = '';
-        $this->description = '';
         $this->resetValidation();
     }
 }
