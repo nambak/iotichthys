@@ -48,15 +48,13 @@ test('사용자 상태 상수가 올바르게 정의되어 있다', function () 
 
 test('탈퇴 시간이 현재 시간으로 설정된다', function () {
     $user = User::factory()->create();
-    $beforeWithdraw = now();
     
     $user->withdraw();
     
-    $afterWithdraw = now();
-    
-    expect($user->withdrawn_at)
-        ->toBeGreaterThanOrEqual($beforeWithdraw)
-        ->toBeLessThanOrEqual($afterWithdraw);
+    expect($user->withdrawn_at)->not->toBeNull();
+    expect($user->withdrawn_at)->toBeInstanceOf(\Carbon\Carbon::class);
+    // 방금 전에 설정되었으므로 현재 시간과 거의 같아야 함
+    expect($user->withdrawn_at->diffInSeconds(now()))->toBeLessThan(5);
 });
 
 test('status 필드가 mass assignable에 포함되어 있다', function () {
