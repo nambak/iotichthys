@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -46,6 +47,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'withdrawn_at'      => 'datetime',
         ];
     }
 
@@ -121,6 +123,69 @@ class User extends Authenticatable
         }
 
         return $query->exists();
+    }
+
+    /**
+     * 사용자 상태 상수
+     */
+    const STATUS_ACTIVE = 'active';
+    const STATUS_WITHDRAWN = 'withdrawn';
+
+    /**
+     * 활성 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * 탈퇴한 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function isWithdrawn(): bool
+    {
+        return $this->status === self::STATUS_WITHDRAWN;
+    }
+
+    /**
+     * 사용자 탈퇴 처리
+     *
+     * @return bool
+     */
+    public function withdraw(): bool
+    {
+        $this->status = self::STATUS_WITHDRAWN;
+        $this->withdrawn_at = now();
+        
+        return $this->save();
+    }
+
+    /**
+     * 사용자 상태 표시용 텍스트
+     *
+     * @return string
+     */
+    public function getStatusText(): string
+    {
+        return match($this->status) {
+            self::STATUS_ACTIVE => '활성',
+            self::STATUS_WITHDRAWN => '탈퇴',
+            default => $this->status ?? '알 수 없음',
+        };
+    }
+
+    /**
+     * 수정 가능한 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function canBeEdited(): bool
+    {
+        return $this->isActive();
     }
 
     /**
