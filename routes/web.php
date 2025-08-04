@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users', \App\Livewire\Users\Index::class)->name('users.index');
     Route::get('roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
     Route::get('permissions', \App\Livewire\Permissions\Index::class)->name('permissions.index');
+    Route::get('permissions/{permission}', \App\Livewire\Permissions\Show::class)->name('permissions.show');
 });
 
 require __DIR__ . '/auth.php';

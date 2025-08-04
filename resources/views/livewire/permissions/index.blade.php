@@ -54,7 +54,10 @@
             @forelse ($permissions as $permission)
             <tr>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $permission->name }}
+                    <a href="{{ route('permissions.show', $permission) }}" 
+                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 hover:underline">
+                        {{ $permission->name }}
+                    </a>
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">

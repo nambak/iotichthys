@@ -37,30 +37,6 @@
                     />
                 </flux:field>
 
-                <flux:field>
-                    <flux:label>사용자 할당 (선택사항)</flux:label>
-                    <div class="mt-2 max-h-32 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-md p-2">
-                        @forelse($users as $user)
-                            <label class="flex items-center space-x-2 py-1">
-                                <input 
-                                    type="checkbox" 
-                                    wire:model="selectedUsers" 
-                                    value="{{ $user->id }}"
-                                    class="rounded border-gray-300 dark:border-gray-600 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                />
-                                <span class="text-sm text-gray-700 dark:text-gray-300">
-                                    {{ $user->name }} ({{ $user->email }})
-                                </span>
-                            </label>
-                        @empty
-                            <p class="text-sm text-gray-500 dark:text-gray-400">사용 가능한 사용자가 없습니다.</p>
-                        @endforelse
-                    </div>
-                    <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                        선택된 사용자들에게 이 권한이 자동으로 할당됩니다.
-                    </div>
-                </flux:field>
-
                 <div class="flex gap-2">
                     <flux:spacer/>
                     <flux:button type="submit" variant="primary">{{ __('저장') }}</flux:button>
