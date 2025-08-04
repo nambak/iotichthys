@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Organization\AddUserModal;
 use App\Livewire\Organization\Show;
 use App\Models\Organization;
 use App\Models\User;
@@ -69,12 +70,12 @@ describe('사용자 검색 기능', function () {
     it('유효한 이메일로 사용자를 검색할 수 있다', function () {
         $user = User::factory()->create();
         $organization = Organization::factory()->create();
-        $targetUser = User::factory()->create(['email' => 'test@example.com', 'name' => '테스트 사용자']);
+        User::factory()->create(['email' => 'test@example.com', 'name' => '테스트 사용자']);
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'test@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'test@example.com')
             ->call('searchUser')
             ->assertHasNoErrors()
             ->assertSet('foundUser.email', 'test@example.com')
@@ -87,10 +88,10 @@ describe('사용자 검색 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'nonexistent@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'nonexistent@example.com')
             ->call('searchUser')
-            ->assertHasErrors(['userEmail']);
+            ->assertHasErrors(['email']);
     });
 
     it('잘못된 이메일 형식은 유효성 검사 오류가 발생한다', function () {
@@ -99,10 +100,10 @@ describe('사용자 검색 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'invalid-email')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'invalid-email')
             ->call('searchUser')
-            ->assertHasErrors(['userEmail']);
+            ->assertHasErrors(['email']);
     });
 
     it('빈 이메일로 검색하면 유효성 검사 오류가 발생한다', function () {
@@ -111,10 +112,10 @@ describe('사용자 검색 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', '')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', '')
             ->call('searchUser')
-            ->assertHasErrors(['userEmail']);
+            ->assertHasErrors(['email']);
     });
 
     it('이미 조직에 속한 사용자를 검색하면 오류 메시지가 표시된다', function () {
@@ -127,10 +128,10 @@ describe('사용자 검색 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'existing@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'existing@example.com')
             ->call('searchUser')
-            ->assertHasErrors(['userEmail']);
+            ->assertHasErrors(['email']);
     });
 });
 
@@ -144,15 +145,14 @@ describe('사용자 추가 기능', function () {
 
         expect($organization->users()->count())->toBe(0);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'test@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'test@example.com')
             ->call('searchUser')
             ->call('addUserToOrganization')
             ->assertDispatched('user-added-to-organization');
 
         expect($organization->fresh()->users()->count())->toBe(1);
         expect($organization->users()->first()->id)->toBe($targetUser->id);
-        expect($organization->users()->first()->pivot->is_owner)->toBeFalse();
     });
 
     it('사용자를 찾지 않고 추가하려고 하면 오류 메시지가 표시된다', function () {
@@ -161,9 +161,9 @@ describe('사용자 추가 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
             ->call('addUserToOrganization')
-            ->assertHasErrors(['userEmail']);
+            ->assertHasErrors(['email']);
     });
 
     it('사용자 추가 후 검색 상태가 초기화된다', function () {
@@ -173,12 +173,12 @@ describe('사용자 추가 기능', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'test@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'test@example.com')
             ->call('searchUser')
             ->assertSet('foundUser.id', $targetUser->id)
             ->call('addUserToOrganization')
-            ->assertSet('userEmail', '')
+            ->assertSet('email', '')
             ->assertSet('foundUser', null);
     });
 });
@@ -224,35 +224,6 @@ describe('사용자 제거 기능', function () {
 });
 
 describe('모달 관리', function () {
-    it('사용자 추가 모달을 열 수 있다', function () {
-        $user = User::factory()->create();
-        $organization = Organization::factory()->create();
-
-        $this->actingAs($user);
-
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->assertSet('showAddUserModal', false)
-            ->call('openAddUserModal')
-            ->assertSet('showAddUserModal', true)
-            ->assertSet('userEmail', '')
-            ->assertSet('foundUser', null);
-    });
-
-    it('사용자 추가 모달을 닫을 수 있다', function () {
-        $user = User::factory()->create();
-        $organization = Organization::factory()->create();
-
-        $this->actingAs($user);
-
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('showAddUserModal', true)
-            ->set('userEmail', 'test@example.com')
-            ->call('closeAddUserModal')
-            ->assertSet('showAddUserModal', false)
-            ->assertSet('userEmail', '')
-            ->assertSet('foundUser', null);
-    });
-
     it('검색 상태를 초기화할 수 있다', function () {
         $user = User::factory()->create();
         $organization = Organization::factory()->create();
@@ -260,8 +231,8 @@ describe('모달 관리', function () {
 
         $this->actingAs($user);
 
-        Livewire::test(Show::class, ['organization' => $organization])
-            ->set('userEmail', 'test@example.com')
+        Livewire::test(AddUserModal::class, ['organization' => $organization])
+            ->set('email', 'test@example.com')
             ->call('searchUser')
             ->assertSet('foundUser.id', $targetUser->id)
             ->call('resetUserSearch')

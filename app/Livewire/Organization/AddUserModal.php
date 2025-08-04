@@ -65,7 +65,7 @@ class AddUserModal extends Component
     public function addUserToOrganization(): void
     {
         if (!$this->foundUser) {
-            $this->addError('userEmail', '먼저 사용자를 검색해주세요.');
+            $this->addError('email', '먼저 사용자를 검색해주세요.');
             return;
         }
 
