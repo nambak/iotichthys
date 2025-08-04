@@ -27,6 +27,9 @@ class CreateModal extends Component
         $request = new PermissionRequest();
         $validatedData = $this->validate($request->rules(), $request->messages());
 
+        // slug 자동 생성
+        $validatedData['slug'] = strtolower(str_replace(' ', '_', $this->resource . '_' . $this->action));
+
         Permission::create($validatedData);
 
         $this->modal('create-permission')->close();
@@ -38,7 +41,7 @@ class CreateModal extends Component
 
     public function resetForm()
     {
-        $this->reset();
+        $this->reset(['name', 'resource', 'action', 'description']);
 
         $this->resetValidation();
     }
