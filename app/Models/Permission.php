@@ -11,7 +11,7 @@ class Permission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'resource', 'action', 'description'];
+    protected $fillable = ['name', 'slug', 'resource', 'action', 'description'];
 
     /**
      * Boot 메서드 - 모델 이벤트 등록
@@ -35,5 +35,15 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'role_permissions')
             ->withTimestamps();
+    }
+
+    /**
+     * Get all users who have this permission through their roles
+     */
+    public function users()
+    {
+        return User::whereHas('roles.permissions', function ($query) {
+            $query->where('permissions.id', $this->id);
+        });
     }
 }

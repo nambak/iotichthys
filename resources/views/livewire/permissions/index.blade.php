@@ -38,6 +38,10 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                    사용자 수
+                </th>
+                <th scope="col"
+                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
                     등록일
                 </th>
                 <th scope="col"
@@ -66,6 +70,11 @@
                     {{ $permission->description ?? '-' }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-full">
+                        {{ $permission->roles->flatMap->users->unique('id')->count() }} 명
+                    </span>
+                </td>
+                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $permission->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
@@ -81,7 +90,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
                     {{ __('권한이 없습니다. 새 권한을 생성해보세요!') }}
                 </td>
             </tr>
