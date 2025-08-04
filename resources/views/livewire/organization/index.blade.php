@@ -55,7 +55,10 @@
             @forelse ($organizations as $organization)
             <tr>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->name }}
+                    <a href="{{ route('organization.show', $organization) }}" 
+                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">
+                        {{ $organization->name }}
+                    </a>
                 </td>
                 <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     {{ $organization->owner }}
