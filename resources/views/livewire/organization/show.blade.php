@@ -6,9 +6,11 @@
                 <flux:subheading size="lg" class="mb-6">조직 상세 정보</flux:subheading>
             </div>
             <div class="flex gap-2">
-                <flux:button wire:click="openAddUserModal" variant="primary" icon="plus">
-                    사용자 추가
-                </flux:button>
+                <flux:modal.trigger name="add-user-modal">
+                    <flux:button variant="primary" icon="plus">
+                        {{ __('사용자 추가') }}
+                    </flux:button>
+                </flux:modal.trigger>
                 <flux:button href="{{ route('organization.index') }}" variant="outline">
                     목록으로
                 </flux:button>
@@ -143,53 +145,8 @@
     </div>
 
     <!-- 사용자 추가 모달 -->
-    <flux:modal name="add-user-modal" x-show="$wire.showAddUserModal" @close="$wire.closeAddUserModal()">
-        <div class="p-6">
-            <flux:heading size="lg" class="mb-4">조직에 사용자 추가</flux:heading>
-            
-            <div class="space-y-4">
-                <flux:field>
-                    <flux:label for="userEmail">이메일 주소</flux:label>
-                    <flux:input 
-                        id="userEmail"
-                        wire:model="userEmail" 
-                        type="email" 
-                        placeholder="사용자의 이메일 주소를 입력하세요"
-                    />
-                    <flux:error name="userEmail" />
-                </flux:field>
+    <livewire:organization.add-user-modal :organization="$organization"/>
 
-                <div class="flex gap-2">
-                    <flux:button wire:click="searchUser" variant="outline">
-                        검색
-                    </flux:button>
-                </div>
-
-                @if($foundUser)
-                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                        <flux:heading size="sm" class="text-green-800 dark:text-green-200 mb-2">
-                            사용자를 찾았습니다
-                        </flux:heading>
-                        <div class="text-sm text-green-700 dark:text-green-300">
-                            <div><strong>이름:</strong> {{ $foundUser->name }}</div>
-                            <div><strong>이메일:</strong> {{ $foundUser->email }}</div>
-                        </div>
-                    </div>
-                @endif
-            </div>
-
-            <div class="flex justify-end gap-2 mt-6">
-                <flux:button wire:click="closeAddUserModal" variant="outline">
-                    취소
-                </flux:button>
-                @if($foundUser)
-                    <flux:button wire:click="addUserToOrganization" variant="primary">
-                        조직에 추가
-                    </flux:button>
-                @endif
-            </div>
-        </div>
-    </flux:modal>
 </section>
 
 <script>
@@ -203,11 +160,11 @@
 
             init() {
                 this.$wire.on('user-added-to-organization', (event) => {
-                    showSuccessToast(event.message);
+                    showSuccessToast(event[0].message);
                 });
 
                 this.$wire.on('user-removed-from-organization', (event) => {
-                    showSuccessToast(event.message);
+                    showSuccessToast(event[0].message);
                 });
 
                 this.$wire.on('show-error-toast', (event) => {
