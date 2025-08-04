@@ -26,7 +26,7 @@ class EditModal extends Component
     #[On('open-edit-user')]
     public function openEditModal($userId): void
     {
-        $this->user = User::findOrFail($userId);
+        $this->user = User::withTrashed()->findOrFail($userId);
 
         // 탈퇴한 사용자는 편집할 수 없음
         if (!$this->user->canBeEdited()) {

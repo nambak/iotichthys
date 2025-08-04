@@ -13,7 +13,8 @@ class Index extends Component
 
     public function render()
     {
-        $users = User::orderBy('created_at', 'desc')
+        $users = User::withTrashed()
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('livewire.users.index', compact('users'));
@@ -27,7 +28,7 @@ class Index extends Component
      */
     public function withdraw($userId): void
     {
-        $user = User::findOrFail($userId);
+        $user = User::withTrashed()->findOrFail($userId);
 
         // 자기 자신은 탈퇴할 수 없음
         if ($user->id === auth()->id()) {

@@ -59,7 +59,7 @@ test('사용자 탈퇴 기능이 정상적으로 동작한다', function () {
 
     $targetUser->refresh();
     expect($targetUser->isWithdrawn())->toBeTrue();
-    expect($targetUser->withdrawn_at)->not->toBeNull();
+    expect($targetUser->deleted_at)->not->toBeNull();
 });
 
 test('자기 자신은 탈퇴할 수 없다', function () {

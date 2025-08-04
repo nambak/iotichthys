@@ -60,7 +60,7 @@
                     {{ $user->created_at->format('Y-m-d H:i:s') }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $user->withdrawn_at ? $user->withdrawn_at->format('Y-m-d H:i:s') : '-' }}
+                    {{ $user->deleted_at ? $user->deleted_at->format('Y-m-d H:i:s') : '-' }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
                     @if ($user->canBeEdited() && $user->id !== auth()->id())
