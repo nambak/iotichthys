@@ -110,3 +110,30 @@ describe('조직 생성', function () {
             ->assertDispatched('organization-deleted');
     });
 });
+
+describe('조직 이름 클릭 기능', function () {
+    it('조직 이름이 조직 상세 페이지로 연결되는 링크로 표시된다', function () {
+        $user = User::factory()->create();
+        $organization = Organization::factory()->create(['name' => '테스트 조직']);
+
+        $this->actingAs($user);
+
+        Livewire::test(Index::class)
+            ->assertSee('테스트 조직')
+            ->assertSeeHtml('href="' . route('organization.show', $organization) . '"');
+    });
+
+    it('여러 조직의 이름이 각각 올바른 상세 페이지로 연결된다', function () {
+        $user = User::factory()->create();
+        $organization1 = Organization::factory()->create(['name' => '조직 1']);
+        $organization2 = Organization::factory()->create(['name' => '조직 2']);
+
+        $this->actingAs($user);
+
+        Livewire::test(Index::class)
+            ->assertSee('조직 1')
+            ->assertSee('조직 2')
+            ->assertSeeHtml('href="' . route('organization.show', $organization1) . '"')
+            ->assertSeeHtml('href="' . route('organization.show', $organization2) . '"');
+    });
+});

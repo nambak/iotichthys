@@ -1,1 +1,1 @@
-<img src="iotichthys_logo.png" alt="Iotichthys logo">
+<img src="/iotichthys_logo.png" alt="Iotichthys logo">

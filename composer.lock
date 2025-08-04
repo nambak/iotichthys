@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "742b72dc1188d0ebd0083f868cced0b4",
+    "content-hash": "aed86752693619b4893ad2ac49a56f38",
     "packages": [
         {
             "name": "brick/math",
@@ -264,6 +264,43 @@
                 }
             ],
             "time": "2025-01-03T16:18:33+00:00"
+        },
+        {
+            "name": "dallyger/laravel-ansi-logger",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://codeberg.org/dallyger/laravel-ansi-logger",
+                "reference": "ff820e3afa1905460d0a70de54bdd8dbb0b82dac"
+            },
+            "require": {
+                "illuminate/log": "^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dallyger\\AnsiLogger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Neubauer",
+                    "email": "v.neubauer@darlor.de"
+                }
+            ],
+            "description": "Visual overview at a glance for Laravel logs in interactive shells.",
+            "keywords": [
+                "laravel",
+                "logs",
+                "php",
+                "tail"
+            ],
+            "time": "2025-02-16T19:20:19+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
