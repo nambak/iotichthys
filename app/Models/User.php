@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -121,6 +122,56 @@ class User extends Authenticatable
         }
 
         return $query->exists();
+    }
+
+    /**
+     * 활성 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return !$this->trashed();
+    }
+
+    /**
+     * 탈퇴한 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function isWithdrawn(): bool
+    {
+        return $this->trashed();
+    }
+
+    /**
+     * 사용자 탈퇴 처리
+     *
+     * @return bool
+     */
+    public function withdraw(): bool
+    {
+        return $this->delete();
+    }
+
+    /**
+     * 사용자 상태 표시용 텍스트
+     *
+     * @return string
+     */
+    public function getStatusText(): string
+    {
+        return $this->trashed() ? '탈퇴' : '활성';
+    }
+
+    /**
+     * 수정 가능한 사용자인지 확인
+     *
+     * @return bool
+     */
+    public function canBeEdited(): bool
+    {
+        return $this->isActive();
     }
 
     /**
