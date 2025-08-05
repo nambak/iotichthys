@@ -11,9 +11,6 @@
                         {{ __('사용자 추가') }}
                     </flux:button>
                 </flux:modal.trigger>
-                <flux:button href="{{ route('organization.index') }}" variant="outline">
-                    목록으로
-                </flux:button>
             </div>
         </div>
         <flux:separator variant="subtle"/>
