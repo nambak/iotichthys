@@ -24,6 +24,10 @@
                     <flux:navlist.item href="{{ route('users.index') }}">사용자 관리</flux:navlist.item>
                     <flux:navlist.item href="{{ route('permissions.index') }}">권한 관리</flux:navlist.item>
                 </flux:navlist.group>
+                
+                <flux:navlist.group :heading="__('컨텐츠 관리')" class="grid">
+                    <flux:navlist.item href="{{ route('category.index') }}">카테고리 관리</flux:navlist.item>
+                </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />

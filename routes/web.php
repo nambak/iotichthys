@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('roles', [\App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
     Route::get('permissions', \App\Livewire\Permissions\Index::class)->name('permissions.index');
     Route::get('permissions/{permission}', \App\Livewire\Permissions\Show::class)->name('permissions.show');
+    Route::get('categories', \App\Livewire\Category\Index::class)->name('category.index');
+    Route::get('categories/{category}', \App\Livewire\Category\Show::class)->name('category.show');
 });
 
 require __DIR__ . '/auth.php';
