@@ -87,7 +87,6 @@ it('can add user to permission', function () {
     expect($permission->name)->toBe('Device Create');
     expect($permission->users)->toHaveCount(1);
     expect($permission->users->first()->id)->toBe($targetUser->id);
-    expect($permission->users)->toHaveCount(1);
 });
 
 it('resets form after successful user addition', function () {
