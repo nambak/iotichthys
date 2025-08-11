@@ -16,7 +16,6 @@ class AddUserModal extends Component
     public ?User $foundUser = null;
     public ?Permission $permission = null;
     public string $email = '';
-    public bool $showAddUserModal = false;
 
     public function mount(Permission $permission)
     {
