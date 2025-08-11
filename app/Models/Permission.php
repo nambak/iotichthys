@@ -57,9 +57,9 @@ class Permission extends Model
     /**
      * permission을 가진 user와 role을 조회
      *
-     * @return User
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function usersWithRoles(): User
+    public function usersWithRoles(): \Illuminate\Database\Eloquent\Builder
     {
         return User::whereHas('roles.permissions', function ($query) {
             $query->where('permissions.id', $this->id);
