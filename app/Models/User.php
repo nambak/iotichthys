@@ -175,6 +175,17 @@ class User extends Authenticatable
     }
 
     /**
+     * 사용자에게 직접 할당된 권한
+     *
+     * @return BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_user')
+            ->withTimestamps();
+    }
+
+    /**
      * 특정 권한을 가지고 있는지 확인
      *
      * @param string|array $permissions
@@ -188,6 +199,15 @@ class User extends Authenticatable
 
         // 시스템 관리자는 모든 권한을 가짐
         if ($this->hasRole('system-admin')) {
+            return true;
+        }
+
+        // 직접 할당된 권한 확인
+        $hasDirectPermission = $this->permissions()
+            ->whereIn('slug', $permissions)
+            ->exists();
+
+        if ($hasDirectPermission) {
             return true;
         }
 

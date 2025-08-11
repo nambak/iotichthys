@@ -48,6 +48,26 @@ it('can create permission with valid data', function () {
     expect($permission->resource)->toBe('device');
     expect($permission->action)->toBe('create');
     expect($permission->description)->toBe('Permission to create devices');
+    expect($permission->slug)->toBe('device-create');
+});
+
+it('resets form fields after successful creation', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $component = Livewire::test(CreateModal::class)
+        ->set('name', 'Device Create')
+        ->set('resource', 'device')
+        ->set('action', 'create')
+        ->set('description', 'Test description')
+        ->call('create');
+
+    // All fields should be reset to empty
+    $component
+        ->assertSet('name', '')
+        ->assertSet('resource', '')
+        ->assertSet('action', '')
+        ->assertSet('description', '');
 });
 
 it('validates required fields', function () {
@@ -99,25 +119,6 @@ it('handles empty description field', function () {
 
     expect(Permission::count())->toBe(1);
     expect(Permission::first()->description)->toBe('');
-});
-
-it('resets form fields after successful creation', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $component = Livewire::test(CreateModal::class)
-        ->set('name', 'Device Create')
-        ->set('resource', 'device')
-        ->set('action', 'create')
-        ->set('description', 'Test description')
-        ->call('create');
-
-    // All fields should be reset to empty
-    $component
-        ->assertSet('name', '')
-        ->assertSet('resource', '')
-        ->assertSet('action', '')
-        ->assertSet('description', '');
 });
 
 

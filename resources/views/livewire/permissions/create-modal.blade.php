@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="create-permission" class="md:w-96" @close="resetForm">
+    <flux:modal name="create-permission" class="md:w-[500px]" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 권한 생성') }}</flux:heading>
         </div>

@@ -13,7 +13,8 @@ class Index extends Component
 
     public function render()
     {
-        $permissions = Permission::orderBy('resource', 'asc')
+        $permissions = Permission::with(['roles.users'])
+            ->orderBy('resource', 'asc')
             ->orderBy('action', 'asc')
             ->paginate(10);
 

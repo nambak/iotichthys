@@ -95,7 +95,7 @@ describe('조직 생성', function () {
         Livewire::test(Index::class)
             ->call('delete', $organization->id)
             ->assertDispatched('show-error-toast', [
-                'message' => __('messages.organization_delete_has_users')
+                'message' => __('messages.organization.delete_has_users')
             ]);
     });
 
