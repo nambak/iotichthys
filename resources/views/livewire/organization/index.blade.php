@@ -120,7 +120,7 @@
 
             init() {
                 this.$wire.on('show-error-toast', (event) => {
-                    showErrorToast(event.message);
+                    showErrorToast(event[0].message);
                 });
 
                 this.$wire.on('organization-deleted', () => {

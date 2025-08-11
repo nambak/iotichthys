@@ -31,7 +31,7 @@ class Index extends Component
         // 조직에 속한 사용자가 있는지 확인
         if ($organization->users()->count() > 0) {
             $this->dispatch('show-error-toast', [
-                'message' => __('messages.organization_delete_has_users')
+                'message' => __('messages.organization.delete_has_users')
             ]);
             return;
         }

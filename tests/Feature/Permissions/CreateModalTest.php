@@ -2,7 +2,6 @@
 
 use App\Livewire\Permissions\CreateModal;
 use App\Models\Permission;
-use App\Models\Role;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -49,7 +48,7 @@ it('can create permission with valid data', function () {
     expect($permission->resource)->toBe('device');
     expect($permission->action)->toBe('create');
     expect($permission->description)->toBe('Permission to create devices');
-    expect($permission->slug)->toBe('device_create');
+    expect($permission->slug)->toBe('device-create');
 });
 
 it('resets form fields after successful creation', function () {
