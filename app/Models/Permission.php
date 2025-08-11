@@ -55,7 +55,7 @@ class Permission extends Model
     }
 
     /**
-     * permission을 가진 user와 role을 조화
+     * permission을 가진 user와 role을 조회
      *
      * @return User
      */
