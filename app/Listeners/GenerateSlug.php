@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CategoryCreating;
+use App\Events\CategoryUpdating;
 use App\Events\OrganizationCreating;
 use App\Events\OrganizationUpdating;
 use App\Events\PermissionCreating;
@@ -29,13 +30,20 @@ class GenerateSlug
     ) {}
 
     /**
-     * Handle OrganizationCreating, TeamCreating, PermissionCreating, or CategoryCreating event.
+     * Handle OrganizationCreating, TeamCreating, PermissionCreating, CategoryCreating, or CategoryUpdating event.
      *
-     * @param OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating $event
+     * @param OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating|CategoryUpdating $event
      * @return void
      */
-    public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating $event): void
+    public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating|CategoryUpdating $event): void
     {
+        // For CategoryUpdating events, only regenerate slug if the name has changed
+        if ($event instanceof CategoryUpdating) {
+            if (!$event->model->isDirty('name')) {
+                return; // Name hasn't changed, don't regenerate slug
+            }
+        }
+        
         $event->model->slug = $this->generateUniqueSlugWithRetry($event->model->name, $event->model);
     }
 

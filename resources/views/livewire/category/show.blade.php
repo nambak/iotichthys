@@ -27,10 +27,13 @@
     <livewire:category.detail-card :category="$category" />
 
     <!-- 하위 카테고리 목록 -->
-    <livewire:category.subcategory-list :category="$category" />
+    <livewire:category.sub-category-list :category="$category" />
 
     <!-- 카테고리 생성 모달 -->
     <livewire:category.create-modal/>
+    
+    <!-- 카테고리 수정 모달 -->
+    <livewire:category.edit-modal/>
 </section>
 
 <script>

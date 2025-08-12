@@ -94,6 +94,9 @@
 
     <!-- 카테고리 생성 모달 -->
     <livewire:category.create-modal/>
+    
+    <!-- 카테고리 수정 모달 -->
+    <livewire:category.edit-modal/>
 </section>
 
 <script>

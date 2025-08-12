@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\CategoryCreating;
+use App\Events\CategoryUpdating;
 use App\Events\OrganizationCreating;
+use App\Events\OrganizationUpdating;
 use App\Events\PermissionCreating;
 use App\Events\PermissionUpdating;
 use App\Events\TeamCreating;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         OrganizationCreating::class => [
             GenerateSlug::class,
         ],
+        OrganizationUpdating::class => [
+            GenerateSlug::class,
+        ],
         TeamCreating::class => [
             GenerateSlug::class,
         ],
@@ -31,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
             GenerateSlug::class,
         ],
         CategoryCreating::class => [
+            GenerateSlug::class,
+        ],
+        CategoryUpdating::class => [
             GenerateSlug::class,
         ],
     ];

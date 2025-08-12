@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\CategoryCreating;
+use App\Events\CategoryUpdating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,7 @@ class Category extends Model
 
     protected $dispatchesEvents = [
         'creating' => CategoryCreating::class,
+        'updating' => CategoryUpdating::class,
     ];
 
     /**
