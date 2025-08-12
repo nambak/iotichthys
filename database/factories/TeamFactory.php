@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<Team>
+ * @extends Factory<Team>
  */
 class TeamFactory extends Factory
 {
     /**
-     * @var class-string<\App\Models\Team>
+     * @var class-string<Team>
      */
     protected $model = Team::class;
 

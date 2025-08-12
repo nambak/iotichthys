@@ -39,6 +39,7 @@ class EditModal extends Component
         $this->is_active = $this->category->is_active;
 
         $this->resetValidation();
+        $this->modal('edit-category')->show();
     }
 
     /**
@@ -58,7 +59,11 @@ class EditModal extends Component
         $this->category->update($validatedData);
 
         // 이벤트 발송
-        $this->dispatch('category-updated');
+        if ($this->parent_id) {
+            $this->dispatch('subcategory-updated');
+        } else {
+            $this->dispatch('category-updated');
+        }
 
         // 모달 닫기
         $this->dispatch('modal-close', modal: 'edit-category');

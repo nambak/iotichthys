@@ -6,12 +6,12 @@ use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<Organization>
+ * @extends Factory<Organization>
  */
 class OrganizationFactory extends Factory
 {
     /**
-     * @var class-string<\App\Models\Organization>
+     * @var class-string<Organization>
      */
     protected $model = Organization::class;
 

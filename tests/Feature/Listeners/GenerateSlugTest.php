@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\CategoryCreating;
+use App\Events\CategoryUpdating;
 use App\Events\OrganizationCreating;
 use App\Events\OrganizationUpdating;
 use App\Events\PermissionCreating;
@@ -58,13 +60,20 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
     $observableListener = new class($this->mockLogger) extends GenerateSlug {
         public array $slugAttempts = [];
 
-        public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event): void
+        public function handle(
+            OrganizationCreating|
+            OrganizationUpdating|
+            TeamCreating|
+            PermissionCreating|
+            PermissionUpdating|
+            CategoryUpdating|
+            CategoryCreating $event): void
         {
             $organization = $event->model;
             if (empty($organization->slug)) {
                 try {
                     $organization->slug = $this->captureSlugGeneration($organization->name);
-                } catch (\RuntimeException $e) {
+                } catch (RuntimeException $e) {
                     // 재시도 과정을 캡처한 후 예외 재발생
                     throw $e;
                 }
@@ -84,7 +93,7 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
                 }
             }
 
-            throw new \RuntimeException("Failed to generate unique slug after 5 attempts");
+            throw new RuntimeException("Failed to generate unique slug after 5 attempts");
         }
 
         private function generateSlugCandidate(string $baseSlug, int $attempt): string

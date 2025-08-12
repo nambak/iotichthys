@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Livewire;
 
 test('카테고리 수정 시 정보가 올바르게 업데이트됨', function () {
@@ -126,7 +127,7 @@ test('카테고리 수정 시 유효성 검사가 정상 작동함', function ()
 });
 
 test('존재하지 않는 카테고리로 수정 모달 열기 시도 시 오류 발생', function () {
-    $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+    $this->expectException(ModelNotFoundException::class);
     
     Livewire::test('category.edit-modal')
         ->dispatch('open-edit-category', categoryId: 99999);

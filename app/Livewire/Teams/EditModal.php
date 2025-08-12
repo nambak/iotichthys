@@ -6,6 +6,7 @@ use App\Http\Requests\Team\TeamRequest;
 use App\Http\Requests\Team\UpdateTeamRequest;
 use App\Models\Organization;
 use App\Models\Team;
+use Illuminate\Contracts\View\Factory;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -19,7 +20,7 @@ class EditModal extends Component
 
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|
+     * @return Factory|
      *         \Illuminate\Contracts\View\View|
      *         \Illuminate\Foundation\Application|
      *         object

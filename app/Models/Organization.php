@@ -6,6 +6,9 @@ use App\Events\OrganizationCreating;
 use App\Events\OrganizationUpdating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Organization extends Model
 {
@@ -48,7 +51,7 @@ class Organization extends Model
     /**
      * 조직->팀(1:N) 관계 정의
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function teams()
     {
@@ -58,7 +61,7 @@ class Organization extends Model
     /**
      * 사용자->조직(N:M) 관계 정의
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users()
     {
@@ -70,7 +73,7 @@ class Organization extends Model
     /**
      * 조직->역활(1:N, 다형성) 관계 정의
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function roles()
     {

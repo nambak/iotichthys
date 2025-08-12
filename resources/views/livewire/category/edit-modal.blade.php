@@ -23,16 +23,6 @@
                         rows="3"
                 />
             </flux:field>
-            <flux:field>
-                <flux:input
-                        id="edit_sort_order"
-                        label="정렬 순서"
-                        wire:model="sort_order"
-                        type="number"
-                        min="0"
-                        placeholder="정렬 순서를 입력하세요"
-                />
-            </flux:field>
             <flux:field variant="inline" class="w-1/5">
                 <flux:label for="edit_is_active">활성화</flux:label>
                 <flux:switch wire:model.live="is_active"/>

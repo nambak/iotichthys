@@ -53,7 +53,7 @@ class GenerateSlug
      * @param string $name
      * @param Model $model
      * @return string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function generateUniqueSlugWithRetry(string $name, Model $model): string
     {

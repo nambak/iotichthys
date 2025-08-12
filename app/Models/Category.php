@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\Events\CategoryCreating;
 use App\Events\CategoryUpdating;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -35,7 +38,7 @@ class Category extends Model
     /**
      * 부모 카테고리와의 관계 (다대일)
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function parent()
     {
@@ -45,7 +48,7 @@ class Category extends Model
     /**
      * 하위 카테고리와의 관계 (일대다)
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function children()
     {
@@ -55,7 +58,7 @@ class Category extends Model
     /**
      * 모든 하위 카테고리 (재귀적)
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function allChildren()
     {
@@ -65,8 +68,8 @@ class Category extends Model
     /**
      * 최상위 카테고리만 조회하는 스코프
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeTopLevel($query)
     {
@@ -76,8 +79,8 @@ class Category extends Model
     /**
      * 활성화된 카테고리만 조회하는 스코프
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeActive($query)
     {

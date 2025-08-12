@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\PermissionCreating;
 use App\Events\PermissionUpdating;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -57,9 +58,9 @@ class Permission extends Model
     /**
      * permission을 가진 user와 role을 조회
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function usersWithRoles(): \Illuminate\Database\Eloquent\Builder
+    public function usersWithRoles(): Builder
     {
         return User::whereHas('roles.permissions', function ($query) {
             $query->where('permissions.id', $this->id);

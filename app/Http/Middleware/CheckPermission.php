@@ -11,11 +11,11 @@ class CheckPermission
     /**
      * 권한 확인을 위한 미들웨어
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request
+     * @param Closure(Request): (Response) $next
      * @param  string  $permission
      * @param  string|null  $scopeType
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function handle(Request $request, Closure $next, $permission, $scopeType = null): Response
     {
