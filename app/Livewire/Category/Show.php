@@ -20,14 +20,7 @@ class Show extends Component
 
     public function render()
     {
-        // 현재 카테고리의 하위 카테고리들을 조회
-        $subcategories = $this->category->children()
-            ->withCount('children')
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->paginate(10);
-
-        return view('livewire.category.show', compact('subcategories'));
+        return view('livewire.category.show');
     }
 
     /**
@@ -36,6 +29,7 @@ class Show extends Component
      * @param int $categoryId
      * @return void
      */
+    #[On('delete-subcategory')]
     public function deleteSubcategory($categoryId): void
     {
         $subcategory = Category::findOrFail($categoryId);
@@ -59,7 +53,6 @@ class Show extends Component
         $subcategory->delete();
         
         $this->dispatch('subcategory-deleted');
-        $this->resetPage();
     }
 
     /**
