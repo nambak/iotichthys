@@ -217,7 +217,7 @@ php artisan queue:listen             # Listen for queue jobs
 
 ## Technology Stack Details
 
-- **Backend**: Laravel 12.22.1, PHP 8.2+
+- **Backend**: Laravel 12.x, PHP 8.2+
 - **Frontend**: Livewire 3.6.4, Livewire Flux 2.2.4, TailwindCSS 4.0.7
 - **Database**: SQLite (development), MySQL (production), AWS TimeStream (IoT data)
 - **Testing**: Pest PHP 3.8.2, Laravel Dusk 8.3.3
