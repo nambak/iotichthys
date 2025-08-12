@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CategoryCreating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,10 @@ class Category extends Model
         'sort_order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+    ];
+
+    protected $dispatchesEvents = [
+        'creating' => CategoryCreating::class,
     ];
 
     /**

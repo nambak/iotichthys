@@ -2,11 +2,13 @@
 
 namespace App\Listeners;
 
+use App\Events\CategoryCreating;
 use App\Events\OrganizationCreating;
 use App\Events\OrganizationUpdating;
 use App\Events\PermissionCreating;
 use App\Events\PermissionUpdating;
 use App\Events\TeamCreating;
+use App\Models\Category;
 use App\Models\Organization;
 use App\Models\Permission;
 use App\Models\Team;
@@ -27,12 +29,12 @@ class GenerateSlug
     ) {}
 
     /**
-     * Handle OrganizationCreating, TeamCreating, or PermissionCreating event.
+     * Handle OrganizationCreating, TeamCreating, PermissionCreating, or CategoryCreating event.
      *
-     * @param OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event
+     * @param OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating $event
      * @return void
      */
-    public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating $event): void
+    public function handle(OrganizationCreating|OrganizationUpdating|TeamCreating|PermissionCreating|PermissionUpdating|CategoryCreating $event): void
     {
         $event->model->slug = $this->generateUniqueSlugWithRetry($event->model->name, $event->model);
     }
@@ -95,6 +97,7 @@ class GenerateSlug
                 Organization::class => 'organization',
                 Team::class => 'team',
                 Permission::class => 'permission',
+                Category::class => 'category',
                 default => 'item'
             };
         }
@@ -178,6 +181,7 @@ class GenerateSlug
             Organization::class => Organization::where('slug', $slug)->exists(),
             Team::class => Team::where('slug', $slug)->exists(),
             Permission::class => Permission::where('slug', $slug)->exists(),
+            Category::class => Category::where('slug', $slug)->exists(),
             default => false
         };
     }
