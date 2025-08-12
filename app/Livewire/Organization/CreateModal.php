@@ -4,6 +4,7 @@ namespace App\Livewire\Organization;
 
 use App\Http\Requests\Organization\OrganizationRequest;
 use App\Models\Organization;
+use Illuminate\Contracts\View\Factory;
 use Livewire\Component;
 
 class CreateModal extends Component
@@ -17,7 +18,7 @@ class CreateModal extends Component
     public string $business_register_number = '';
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|
+     * @return Factory|
      *         \Illuminate\Contracts\View\View|
      *         \Illuminate\Foundation\Application|
      *         object

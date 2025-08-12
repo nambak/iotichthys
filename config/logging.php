@@ -1,5 +1,6 @@
 <?php
 
+use Dallyger\AnsiLogger\CustomizeChannel;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -98,7 +99,7 @@ return [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
             'handler' => StreamHandler::class,
-            'tap' => [\Dallyger\AnsiLogger\CustomizeChannel::class],
+            'tap' => [CustomizeChannel::class],
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',

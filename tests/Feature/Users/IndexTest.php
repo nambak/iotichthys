@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Users\Index;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -20,7 +21,7 @@ test('사용자 목록에 활성 및 탈퇴 사용자가 모두 표시된다', f
     $withdrawnUser->withdraw();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->assertSee('Active User')
         ->assertSee('Withdrawn User')
         ->assertSee('활성')
@@ -43,7 +44,7 @@ test('탈퇴한 사용자에게는 액션 버튼이 표시되지 않는다', fun
     $withdrawnUser->withdraw();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->assertSee('Withdrawn User')
         ->assertSee('탈퇴');
 });
@@ -53,7 +54,7 @@ test('사용자 탈퇴 기능이 정상적으로 동작한다', function () {
     $targetUser = User::factory()->create(['name' => 'Target User']);
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->call('withdraw', $targetUser->id)
         ->assertDispatched('user-withdrawn');
 
@@ -66,7 +67,7 @@ test('자기 자신은 탈퇴할 수 없다', function () {
     $admin = User::factory()->create();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->call('withdraw', $admin->id)
         ->assertDispatched('show-error-toast', ['message' => '자기 자신은 탈퇴시킬 수 없습니다.']);
 
@@ -80,7 +81,7 @@ test('이미 탈퇴한 사용자는 다시 탈퇴할 수 없다', function () {
     $withdrawnUser->withdraw();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->call('withdraw', $withdrawnUser->id)
         ->assertDispatched('show-error-toast', ['message' => '이미 탈퇴한 사용자입니다.']);
 });
@@ -91,7 +92,7 @@ test('탈퇴한 사용자는 편집할 수 없다', function () {
     $withdrawnUser->withdraw();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->call('edit', $withdrawnUser)
         ->assertDispatched('show-error-toast', ['message' => '탈퇴한 사용자는 편집할 수 없습니다.']);
 });
@@ -101,7 +102,7 @@ test('활성 사용자 편집 모달이 정상적으로 열린다', function () 
     $activeUser = User::factory()->create();
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->call('edit', $activeUser->id)
         ->assertDispatched('open-edit-user', userId: $activeUser->id);
 });
@@ -111,7 +112,7 @@ test('사용자 목록이 페이지네이션된다', function () {
     User::factory(15)->create(); // 총 16명 (관리자 포함)
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\Users\Index::class)
+        ->test(Index::class)
         ->assertViewHas('users')
         ->assertSee('Showing');
 });
