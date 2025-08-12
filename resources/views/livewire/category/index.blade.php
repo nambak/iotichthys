@@ -31,14 +31,6 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    하위 카테고리 수
-                </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    정렬 순서
-                </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
                     상태
                 </th>
                 <th scope="col"
@@ -47,7 +39,7 @@
                 </th>
                 <th scope="col"
                     class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    &nbsp;
+                        &nbsp;
                 </th>
             </tr>
             </thead>
@@ -64,14 +56,6 @@
                     <div class="max-w-xs truncate">
                         {{ $category->description ?? '-' }}
                     </div>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <flux:badge variant="{{ $category->children_count > 0 ? 'outline' : 'subtle' }}">
-                        {{ $category->children_count }}개
-                    </flux:badge>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $category->sort_order }}
                 </td>
                 <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                     <flux:badge variant="{{ $category->is_active ? 'success' : 'warning' }}">

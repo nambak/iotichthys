@@ -18,9 +18,6 @@
             </div>
 
             <div class="flex space-x-2">
-                <flux:button variant="outline" href="{{ route('category.index') }}">
-                    목록으로
-                </flux:button>
                 <flux:modal.trigger name="create-category">
                     <flux:button dusk="create-subcategory-button" variant="primary" icon="plus" wire:click="createSubcategory">
                         {{ __('하위 카테고리 추가') }}
@@ -47,13 +44,11 @@
                 </div>
             </div>
             <div>
-                <flux:label>정렬 순서</flux:label>
-                <div class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">{{ $category->sort_order }}</div>
-            </div>
-            <div class="md:col-span-3">
-                <flux:label>설명</flux:label>
-                <div class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">
-                    {{ $category->description ?: '설명이 없습니다.' }}
+                <div>
+                    <flux:label>설명</flux:label>
+                    <div class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">
+                        {{ $category->description ?: '설명이 없습니다.' }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,19 +73,10 @@
                     </th>
                     <th scope="col"
                         class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                        하위 카테고리 수
-                    </th>
-                    <th scope="col"
-                        class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                        정렬 순서
-                    </th>
-                    <th scope="col"
-                        class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
                         상태
                     </th>
                     <th scope="col"
                         class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                        &nbsp;
                     </th>
                 </tr>
                 </thead>
@@ -107,14 +93,6 @@
                         <div class="max-w-xs truncate">
                             {{ $subcategory->description ?? '-' }}
                         </div>
-                    </td>
-                    <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                        <flux:badge variant="{{ $subcategory->children_count > 0 ? 'outline' : 'subtle' }}">
-                            {{ $subcategory->children_count }}개
-                        </flux:badge>
-                    </td>
-                    <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                        {{ $subcategory->sort_order }}
                     </td>
                     <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
                         <flux:badge variant="{{ $subcategory->is_active ? 'success' : 'warning' }}">
