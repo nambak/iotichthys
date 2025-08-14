@@ -31,6 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('permissions/{permission}', \App\Livewire\Permissions\Show::class)->name('permissions.show');
     Route::get('categories', Index::class)->name('category.index');
     Route::get('categories/{category}', Show::class)->name('category.show');
+    
+    // Device management routes
+    Route::get('devices', \App\Livewire\Device\Index::class)->name('device.index');
 });
 
 require __DIR__ . '/auth.php';
