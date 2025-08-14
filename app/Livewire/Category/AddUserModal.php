@@ -84,7 +84,6 @@ class AddUserModal extends Component
     /**
      * 모달 닫기 시 폼 초기화
      */
-    #[On('modal-closed')]
     public function resetForm()
     {
         $this->email = '';
