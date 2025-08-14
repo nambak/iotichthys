@@ -1,4 +1,4 @@
-<flux:modal name="add-permission-user-modal" class="w-1/2" @close="resetForm">
+<flux:modal name="add-permission-user-modal" class="w-1/2" @close="$wire.resetForm()">
     <div class="{{ $foundUser ? 'pb-0' : 'pb-6' }}">
         <flux:heading size="lg" class="mb-4">카테고리에 사용자 추가</flux:heading>
         <div class="space-y-4">
