@@ -2,7 +2,6 @@
 
 use App\Livewire\Permissions\Show;
 use App\Models\Permission;
-use App\Models\Role;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -59,27 +58,21 @@ it('can remove user from permission', function () {
     $userToRemove = User::factory()->create();
 
     $permission = Permission::factory()->create();
-    $role = Role::factory()->create();
 
-    // Assign permission to role and user to role
-    $role->permissions()->attach($permission->id);
-    $userToRemove->roles()->attach($role->id);
+    // Assign user directly to permission via permission_user table
+    $userToRemove->permissions()->attach($permission->id);
 
     $this->actingAs($currentUser);
 
     // Verify user has the permission initially
-    expect($userToRemove->roles()->whereHas('permissions', function ($query) use ($permission) {
-        $query->where('permission_id', $permission->id);
-    })->exists())->toBeTrue();
+    expect($userToRemove->permissions()->where('permission_id', $permission->id)->exists())->toBeTrue();
 
     Livewire::test(Show::class, ['permission' => $permission])
         ->call('removeUserFromPermission', $userToRemove->id)
         ->assertDispatched('user-removed-from-permission');
 
     // Verify user no longer has the permission
-    expect($userToRemove->fresh()->roles()->whereHas('permissions', function ($query) use ($permission) {
-        $query->where('permission_id', $permission->id);
-    })->exists())->toBeFalse();
+    expect($userToRemove->fresh()->permissions()->where('permission_id', $permission->id)->exists())->toBeFalse();
 });
 
 it('handles empty user list gracefully', function () {

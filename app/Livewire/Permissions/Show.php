@@ -35,14 +35,8 @@ class Show extends Component
     {
         $user = User::findOrFail($userId);
         
-        // 사용자의 모든 역할에서 이 권한을 가진 역할을 찾아서 제거
-        $rolesWithPermission = $user->roles()->whereHas('permissions', function ($query) {
-            $query->where('permission_id', $this->permission->id);
-        })->get();
-
-        foreach ($rolesWithPermission as $role) {
-            $user->roles()->detach($role->id);
-        }
+        // permission_user 테이블에서 직접 관계 제거
+        $this->permission->users()->detach($userId);
 
         $this->dispatch('user-removed-from-permission', [
             'message' => $user->name . '님의 권한이 제거되었습니다.'

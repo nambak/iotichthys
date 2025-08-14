@@ -1,8 +1,8 @@
-<div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 p-6 mb-6">
+<div class="bg-zinc-800 rounded-lg shadow-sm border border-zinc-700 p-6 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
             <flux:label>카테고리 이름</flux:label>
-            <div class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">{{ $category->name }}</div>
+            <div class="text-sm text-zinc-300 mt-1">{{ $category->name }}</div>
         </div>
         <div>
             <flux:label>상태</flux:label>

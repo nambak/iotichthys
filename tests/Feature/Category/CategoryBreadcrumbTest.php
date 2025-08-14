@@ -9,7 +9,7 @@ test('displays single level breadcrumb correctly', function () {
         'slug' => 'electronics',
     ]);
 
-    Livewire::test('category.category-breadcrumb', ['category' => $category])
+    Livewire::test('category.breadcrumb', ['category' => $category])
         ->assertSee('카테고리')
         ->assertSee('Electronics');
 });
@@ -26,7 +26,7 @@ test('displays two level breadcrumb correctly', function () {
         'parent_id' => $parent->id,
     ]);
 
-    Livewire::test('category.category-breadcrumb', ['category' => $child])
+    Livewire::test('category.breadcrumb', ['category' => $child])
         ->assertSee('카테고리')
         ->assertSee('Electronics')
         ->assertSee('Smartphones');
@@ -50,7 +50,7 @@ test('displays three level breadcrumb correctly', function () {
         'parent_id' => $parent->id,
     ]);
 
-    Livewire::test('category.category-breadcrumb', ['category' => $child])
+    Livewire::test('category.breadcrumb', ['category' => $child])
         ->assertSee('카테고리')
         ->assertSee('Electronics')
         ->assertSee('Smartphones') 
@@ -69,7 +69,7 @@ test('generates correct breadcrumb structure', function () {
         'parent_id' => $parent->id,
     ]);
 
-    $component = Livewire::test('category.category-breadcrumb', ['category' => $child]);
+    $component = Livewire::test('category.breadcrumb', ['category' => $child]);
     
     // Check that breadcrumb includes category index link
     expect($component->html())->toContain(route('category.index'));
@@ -86,7 +86,7 @@ test('handles deep nesting correctly', function () {
     $level4 = Category::create(['name' => 'Level 4', 'slug' => 'level-4', 'parent_id' => $level3->id]);
     $level5 = Category::create(['name' => 'Level 5', 'slug' => 'level-5', 'parent_id' => $level4->id]);
 
-    Livewire::test('category.category-breadcrumb', ['category' => $level5])
+    Livewire::test('category.breadcrumb', ['category' => $level5])
         ->assertSee('카테고리')
         ->assertSee('Level 1')
         ->assertSee('Level 2')

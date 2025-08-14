@@ -1,6 +1,7 @@
 <?php
 
-use App\Livewire\Category\CategoryPermissions;
+use App\Livewire\Category\AddUserModal;
+use App\Livewire\Category\Permissions;
 use App\Models\Category;
 use App\Models\CategoryAccessControl;
 use App\Models\User;
@@ -13,36 +14,32 @@ describe('카테고리 권한 관리 컴포넌트', function () {
     test('컴포넌트가 정상적으로 렌더링된다', function () {
         $category = Category::factory()->create();
         
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
-            ->assertStatus(200)
-            ->assertSee('권한 보유자')
-            ->assertSee('권한 부여');
+        Livewire::test(Permissions::class, ['category' => $category])
+            ->assertStatus(200);
     });
 
     test('권한이 있는 사용자와 없는 사용자가 올바르게 표시된다', function () {
         $category = Category::factory()->create();
         $userWithAccess = User::factory()->create(['name' => 'User With Access']);
-        $userWithoutAccess = User::factory()->create(['name' => 'User Without Access']);
-        
+
         // 한 사용자에게 권한 부여
         CategoryAccessControl::create([
             'user_id' => $userWithAccess->id,
             'category_id' => $category->id,
         ]);
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
+        Livewire::test(Permissions::class, ['category' => $category])
             ->assertSee($userWithAccess->name)
-            ->assertSee($userWithoutAccess->name)
-            ->assertSee('권한 취소')
-            ->assertSee('권한 부여');
+            ->assertSee('권한 취소');
     });
 
     test('사용자에게 권한을 부여할 수 있다', function () {
         $category = Category::factory()->create();
         $user = User::factory()->create(['name' => 'Test User']);
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
-            ->call('grantAccess', $user->id)
+        Livewire::test(AddUserModal::class, ['category' => $category])
+            ->set('foundUser', $user)
+            ->call('grantAccess')
             ->assertDispatched('show-success-toast');
 
         // 데이터베이스에 권한이 저장되었는지 확인
@@ -62,7 +59,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
             'category_id' => $category->id,
         ]);
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
+        Livewire::test(Permissions::class, ['category' => $category])
             ->call('revokeAccess', $user->id)
             ->assertDispatched('show-success-toast');
 
@@ -78,11 +75,13 @@ describe('카테고리 권한 관리 컴포넌트', function () {
         $userJohn = User::factory()->create(['name' => 'John Doe', 'email' => 'john@test.com']);
         $userJane = User::factory()->create(['name' => 'Jane Smith', 'email' => 'jane@test.com']);
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
-            ->set('searchTerm', 'John')
+        Livewire::test(AddUserModal::class, ['category' => $category])
+            ->set('email', 'john@test.com')
+            ->call('searchUser')
             ->assertSee($userJohn->name)
             ->assertDontSee($userJane->name)
-            ->set('searchTerm', 'jane@test.com')
+            ->set('email', 'jane@test.com')
+            ->call('searchUser')
             ->assertSee($userJane->name)
             ->assertDontSee($userJohn->name);
     });
@@ -98,7 +97,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
         ]);
 
         // 중복 권한 부여 시도
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
+        Livewire::test(AddUserModal::class, ['category' => $category])
             ->call('grantAccess', $user->id);
 
         // 권한이 하나만 있는지 확인
@@ -112,7 +111,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
         $category = Category::factory()->create();
         $user = User::factory()->create(['name' => 'Test User']);
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
+        Livewire::test(Permissions::class, ['category' => $category])
             ->call('revokeAccess', $user->id)
             ->assertDispatched('show-success-toast');
     });
@@ -120,7 +119,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
     test('권한 없는 메시지가 올바르게 표시된다', function () {
         $category = Category::factory()->create();
 
-        Livewire::test(CategoryPermissions::class, ['category' => $category])
+        Livewire::test(Permissions::class, ['category' => $category])
             ->assertSee('권한을 가진 사용자가 없습니다');
     });
 });
