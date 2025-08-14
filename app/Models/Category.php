@@ -195,7 +195,42 @@ class Category extends Model
             }
         }
 
-        return false;
+        // 하위 카테고리 및 모든 하위 카테고리에 권한이 있는지 확인 (N+1 문제 없이)
+        $descendantIds = $this->getAllDescendantIds();
+        if (empty($descendantIds)) {
+            return false;
+        }
+        return $this->accessControls()
+            ->where('user_id', $user->id)
+            ->whereIn('category_id', $descendantIds)
+            ->exists();
+    }
+
+    /**
+     * 현재 카테고리의 모든 하위(자손) 카테고리 ID를 반환
+     *
+     * @return array
+     */
+    public function getAllDescendantIds(): array
+    {
+        // 모든 카테고리를 한 번에 가져와서 메모리에서 트리 탐색
+        $allCategories = self::all(['id', 'parent_id']);
+        $descendantIds = [];
+        $stack = [$this->id];
+        $categoryMap = [];
+        foreach ($allCategories as $cat) {
+            $categoryMap[$cat->parent_id][] = $cat->id;
+        }
+        while ($stack) {
+            $parentId = array_pop($stack);
+            if (!empty($categoryMap[$parentId])) {
+                foreach ($categoryMap[$parentId] as $childId) {
+                    $descendantIds[] = $childId;
+                    $stack[] = $childId;
+                }
+            }
+        }
+        return $descendantIds;
     }
 
     /**
