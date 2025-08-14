@@ -98,7 +98,8 @@ describe('카테고리 권한 관리 컴포넌트', function () {
 
         // 중복 권한 부여 시도
         Livewire::test(AddUserModal::class, ['category' => $category])
-            ->call('grantAccess', $user->id);
+            ->set('email', $user->email)
+            ->call('grantAccess');
 
         // 권한이 하나만 있는지 확인
         expect(CategoryAccessControl::where('user_id', $user->id)
