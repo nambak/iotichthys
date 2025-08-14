@@ -21,42 +21,35 @@
                     />
                 </flux:field>
 
-                <flux:field>
-                    <flux:select 
-                        label="장치 모델" 
-                        placeholder="장치 모델을 선택해 주세요"
-                        wire:model="device_model_id"
-                    >
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 모델</label>
+                    <select wire:model="device_model_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                        <option value="">장치 모델을 선택해 주세요</option>
                         @foreach($deviceModels as $model)
-                            <flux:option value="{{ $model->id }}">{{ $model->name }}</flux:option>
+                            <option value="{{ $model->id }}">{{ $model->name }}</option>
                         @endforeach
-                    </flux:select>
-                </flux:field>
+                    </select>
+                </div>
 
-                <flux:field>
-                    <flux:select 
-                        label="장치 상태" 
-                        wire:model="status"
-                    >
-                        <flux:option value="active">활성</flux:option>
-                        <flux:option value="inactive">비활성</flux:option>
-                        <flux:option value="maintenance">점검중</flux:option>
-                        <flux:option value="error">오류</flux:option>
-                    </flux:select>
-                </flux:field>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 상태</label>
+                    <select wire:model="status" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                        <option value="active">활성</option>
+                        <option value="inactive">비활성</option>
+                        <option value="maintenance">점검중</option>
+                        <option value="error">오류</option>
+                    </select>
+                </div>
 
-                <flux:field>
-                    <flux:select 
-                        label="소속 조직" 
-                        placeholder="조직을 선택해 주세요 (선택사항)"
-                        wire:model="organization_id"
-                    >
-                        <flux:option value="">조직 없음</flux:option>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-zinc-800 dark:text-white">소속 조직</label>
+                    <select wire:model="organization_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                        <option value="">조직 없음</option>
                         @foreach($organizations as $organization)
-                            <flux:option value="{{ $organization->id }}">{{ $organization->name }}</flux:option>
+                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
                         @endforeach
-                    </flux:select>
-                </flux:field>
+                    </select>
+                </div>
 
                 <flux:field>
                     <flux:input
