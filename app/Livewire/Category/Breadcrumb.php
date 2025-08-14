@@ -5,7 +5,7 @@ namespace App\Livewire\Category;
 use App\Models\Category;
 use Livewire\Component;
 
-class CategoryBreadcrumb extends Component
+class Breadcrumb extends Component
 {
     public Category $category;
 
@@ -17,7 +17,7 @@ class CategoryBreadcrumb extends Component
     public function render()
     {
         $breadcrumbs = $this->getBreadcrumbs();
-        return view('livewire.category.category-breadcrumb', compact('breadcrumbs'));
+        return view('livewire.category.breadcrumb', compact('breadcrumbs'));
     }
 
     /**

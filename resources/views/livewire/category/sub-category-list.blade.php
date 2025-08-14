@@ -1,5 +1,14 @@
-<div class="mb-6">
-    <flux:heading size="lg" level="2" class="mb-4">하위 카테고리 ({{ $subCategories->total() }}개)</flux:heading>
+<div class="mb-6" x-data="subCategoryList()">
+    <div class="flex justify-between items-center">
+        <flux:heading size="lg" level="2" class="mb-4">하위 카테고리 ({{ $subCategories->total() }}개)</flux:heading>
+        <div class="flex space-x-2">
+            <flux:modal.trigger name="create-category">
+                <flux:button dusk="create-subcategory-button" variant="primary" icon="plus" wire:click="createSubcategory">
+                    {{ __('하위 카테고리 추가') }}
+                </flux:button>
+            </flux:modal.trigger>
+        </div>
+    </div>
 
     @if($subCategories->count() > 0)
     <div class="shadow-md rounded-lg overflow-hidden w-full">
@@ -49,7 +58,7 @@
                     />
                     <flux:icon.trash
                             class="size-4 hover:text-red-600 transition-colors cursor-pointer"
-                            @click="deleteSubcategory({{ $subcategory->id }})"
+                            x-on:click="deleteSubcategory({{ $subcategory->id }})"
                     />
                 </td>
             </tr>
@@ -70,3 +79,21 @@
     </div>
     @endif
 </div>
+
+<script>
+    function subCategoryList() {
+        return {
+            deleteSubcategory(categoryId) {
+                confirmDelete('정말로 이 하위 카테고리를 삭제하시겠습니까?', () => {
+                    this.$wire.deleteSubcategory(categoryId);
+                });
+            },
+
+            init() {
+                this.$wire.on('subcategory-deleted', (event) => {
+                    showSuccessToast('하위 카테고리가 삭제되었습니다.');
+                });
+            }
+        }
+    }
+</script>

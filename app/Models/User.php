@@ -186,6 +186,16 @@ class User extends Authenticatable
     }
 
     /**
+     * 사용자의 카테고리 접근 권한
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categoryAccessControls()
+    {
+        return $this->hasMany(CategoryAccessControl::class);
+    }
+
+    /**
      * 특정 권한을 가지고 있는지 확인
      *
      * @param string|array $permissions
@@ -217,6 +227,60 @@ class User extends Authenticatable
                 $query->whereIn('slug', $permissions);
             })
             ->exists();
+    }
+
+    /**
+     * 특정 카테고리에 접근 권한이 있는지 확인
+     *
+     * @param Category $category
+     * @return bool
+     */
+    public function hasAccessToCategory(Category $category): bool
+    {
+        return $category->hasUserAccess($this);
+    }
+
+    /**
+     * 사용자가 접근 가능한 모든 카테고리를 반환
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAccessibleCategories()
+    {
+        // 직접 권한이 있는 카테고리들
+        $directAccessCategories = Category::whereHas('accessControls', function ($query) {
+            $query->where('user_id', $this->id);
+        })->get();
+
+        $accessibleCategories = collect();
+
+        foreach ($directAccessCategories as $category) {
+            // 직접 권한이 있는 카테고리 추가
+            $accessibleCategories->push($category);
+            
+            // 부모 카테고리들도 접근 가능
+            $parent = $category->parent;
+            while ($parent) {
+                if (!$accessibleCategories->contains('id', $parent->id)) {
+                    $accessibleCategories->push($parent);
+                }
+                $parent = $parent->parent;
+            }
+        }
+
+        return $accessibleCategories->unique('id');
+    }
+
+    /**
+     * 사용자가 직접 권한을 가진 카테고리들을 반환
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getDirectAccessCategories()
+    {
+        return Category::whereHas('accessControls', function ($query) {
+            $query->where('user_id', $this->id);
+        })->get();
     }
 
 }

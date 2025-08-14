@@ -1,8 +1,11 @@
 {
-  "enableAllProjectMcpServers": false,
   "permissions": {
     "allow": [
-      "Bash(php artisan test:*)"
+      "Bash(php artisan test:*)",
+      "Bash(php artisan view:clear:*)",
+      "Bash(php artisan config:clear:*)",
+      "Bash(php artisan:*)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": false
 }

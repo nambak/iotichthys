@@ -66,6 +66,16 @@ class Category extends Model
     }
 
     /**
+     * 카테고리 접근 권한과의 관계 (일대다)
+     *
+     * @return HasMany
+     */
+    public function accessControls(): HasMany
+    {
+        return $this->hasMany(CategoryAccessControl::class);
+    }
+
+    /**
      * 최상위 카테고리만 조회하는 스코프
      *
      * @param Builder $query
@@ -141,5 +151,97 @@ class Category extends Model
         }
 
         return $level;
+    }
+
+    /**
+     * 사용자가 이 카테고리에 직접 접근 권한이 있는지 확인
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function hasDirectUserAccess(User $user): bool
+    {
+        return $this->accessControls()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * 사용자가 이 카테고리에 접근 권한이 있는지 확인 (직접 권한 또는 하위 카테고리 권한을 통해)
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function hasUserAccess(User $user): bool
+    {
+        // 직접 권한 확인
+        if ($this->hasDirectUserAccess($user)) {
+            return true;
+        }
+
+        // 하위 카테고리에 권한이 있는지 재귀적으로 확인
+        return $this->hasChildAccessForUser($user);
+    }
+
+    /**
+     * 사용자가 하위 카테고리에 권한이 있는지 재귀적으로 확인
+     *
+     * @param User $user
+     * @return bool
+     */
+    private function hasChildAccessForUser(User $user): bool
+    {
+        foreach ($this->children as $child) {
+            if ($child->hasDirectUserAccess($user) || $child->hasChildAccessForUser($user)) {
+                return true;
+            }
+        }
+
+        // 하위 카테고리 및 모든 하위 카테고리에 권한이 있는지 확인 (N+1 문제 없이)
+        $descendantIds = $this->getAllDescendantIds();
+        if (empty($descendantIds)) {
+            return false;
+        }
+        return $this->accessControls()
+            ->where('user_id', $user->id)
+            ->whereIn('category_id', $descendantIds)
+            ->exists();
+    }
+
+    /**
+     * 현재 카테고리의 모든 하위(자손) 카테고리 ID를 반환
+     *
+     * @return array
+     */
+    public function getAllDescendantIds(): array
+    {
+        // 모든 카테고리를 한 번에 가져와서 메모리에서 트리 탐색
+        $allCategories = self::all(['id', 'parent_id']);
+        $descendantIds = [];
+        $stack = [$this->id];
+        $categoryMap = [];
+        foreach ($allCategories as $cat) {
+            $categoryMap[$cat->parent_id][] = $cat->id;
+        }
+        while ($stack) {
+            $parentId = array_pop($stack);
+            if (!empty($categoryMap[$parentId])) {
+                foreach ($categoryMap[$parentId] as $childId) {
+                    $descendantIds[] = $childId;
+                    $stack[] = $childId;
+                }
+            }
+        }
+        return $descendantIds;
+    }
+
+    /**
+     * 이 카테고리에 직접 접근 권한이 있는 사용자들을 반환
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAuthorizedUsers()
+    {
+        return User::whereHas('categoryAccessControls', function ($query) {
+            $query->where('category_id', $this->id);
+        })->get();
     }
 }

@@ -58,7 +58,7 @@ test('can delete subcategory', function () {
         'parent_id' => $parent->id,
     ]);
 
-    Livewire::test('category.show', ['category' => $parent])
+    Livewire::test('category.subCategoryList', ['category' => $parent])
         ->call('deleteSubcategory', $child->id);
 
     $this->assertDatabaseMissing('categories', ['id' => $child->id]);
@@ -82,7 +82,7 @@ test('cannot delete subcategory with children', function () {
         'parent_id' => $parent->id,
     ]);
 
-    Livewire::test('category.show', ['category' => $grandparent])
+    Livewire::test('category.subCategoryList', ['category' => $grandparent])
         ->call('deleteSubcategory', $parent->id);
 
     // Parent should still exist because it has children
@@ -108,7 +108,7 @@ test('cannot delete subcategory that is not direct child', function () {
     ]);
 
     // Try to delete grandchild from grandparent (should fail)
-    Livewire::test('category.show', ['category' => $grandparent])
+    Livewire::test('category.subCategoryList', ['category' => $grandparent])
         ->call('deleteSubcategory', $child->id);
 
     // Child should still exist
@@ -127,7 +127,7 @@ test('dispatches events on subcategory actions', function () {
         'parent_id' => $parent->id,
     ]);
 
-    Livewire::test('category.show', ['category' => $parent])
+    Livewire::test('category.subCategoryList', ['category' => $parent])
         ->call('deleteSubcategory', $child->id)
         ->assertDispatched('subcategory-deleted');
 });
@@ -138,7 +138,7 @@ test('dispatches create subcategory event', function () {
         'slug' => 'electronics',
     ]);
 
-    Livewire::test('category.show', ['category' => $category])
+    Livewire::test('category.subCategoryList', ['category' => $category])
         ->call('createSubcategory')
         ->assertDispatched('open-create-subcategory', parentId: $category->id);
 });
