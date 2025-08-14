@@ -40,7 +40,6 @@ class SubCategoryList extends Component
      * @param int $categoryId
      * @return void
      */
-    #[On('delete-subcategory')]
     public function deleteSubcategory($categoryId): void
     {
         $subcategory = Category::findOrFail($categoryId);
