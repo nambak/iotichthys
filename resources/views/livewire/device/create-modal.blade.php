@@ -24,7 +24,7 @@
                 <flux:select
                     label="장치 모델"
                     placeholder="{{ count($deviceModels) == 0 ? '등록된 모델이 없습니다' : '장치 모델을 선택해 주세요' }}"
-                    wire:model="model_id"
+                    wire:model="device_model_id"
                 >
                     @foreach($deviceModels as $model)
                         <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>

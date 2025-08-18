@@ -56,7 +56,13 @@
                         <code class="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs">{{ $device->device_id }}</code>
                     </td>
                     <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
-                        {{ $device->deviceModel->name ?? '알 수 없음' }}
+                        @if($device->deviceModel)
+                            <a href="{{ route('device-model.show', $device->deviceModel) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                                {{ $device->deviceModel->name }}
+                            </a>
+                        @else
+                            알 수 없음
+                        @endif
                     </td>
                     <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
                         <flux:badge variant="{{ $device->status === 'active' ? 'lime' : ($device->status === 'error' ? 'red' : 'zinc') }}" size="sm">

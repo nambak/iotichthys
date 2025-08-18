@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('categories', \App\Livewire\Category\Index::class)->name('category.index');
     Route::get('categories/{category}', \App\Livewire\Category\Show::class)->name('category.show');
     Route::get('devices', \App\Livewire\Device\Index::class)->name('device.index');
+    Route::get('device-models', \App\Livewire\DeviceModel\Index::class)->name('device-model.index');
+    Route::get('device-models/{deviceModel}', \App\Livewire\DeviceModel\Show::class)->name('device-model.show');
 });
 
 require __DIR__.'/auth.php';
