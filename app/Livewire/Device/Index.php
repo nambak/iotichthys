@@ -39,7 +39,7 @@ class Index extends Component
     /**
      * 장치 편집 모달 열기
      *
-     * @param Device $device
+     * @param int $deviceId
      * @return void
      */
     public function editDevice(Device $device): void

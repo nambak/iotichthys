@@ -65,6 +65,7 @@ class CreateModal extends Component
     #[On('modal-closed')]
     public function resetForm()
     {
+        $this->resetValidation();
         $this->reset();
     }
 }

@@ -1,4 +1,4 @@
-<div x-data="createDeviceModal()">
+<div>
     <flux:modal name="create-device" class="md:w-96" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 장치 추가') }}</flux:heading>
@@ -21,35 +21,38 @@
                     />
                 </flux:field>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 모델</label>
-                    <select wire:model="device_model_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="">장치 모델을 선택해 주세요</option>
-                        @foreach($deviceModels as $model)
-                            <option value="{{ $model->id }}">{{ $model->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <flux:select
+                    label="장치 모델"
+                    placeholder="{{ count($deviceModels) == 0 ? '등록된 모델이 없습니다' : '장치 모델을 선택해 주세요' }}"
+                    wire:model="device_model_id"
+                >
+                    @foreach($deviceModels as $model)
+                        <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 상태</label>
-                    <select wire:model="status" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="active">활성</option>
-                        <option value="inactive">비활성</option>
-                        <option value="maintenance">점검중</option>
-                        <option value="error">오류</option>
-                    </select>
-                </div>
+                <flux:select
+                    label="장치 상태"
+                    placeholder="장치 상태를 입력해 주세요"
+                    wire:model="status"
+                >
+                    <flux:select.option value="active">활성</flux:select.option>
+                    <flux:select.option value="inactive">비활성</flux:select.option>
+                    <flux:select.option value="maintenance">점검중</flux:select.option>
+                    <flux:select.option value="error">오류</flux:select.option>
+                </flux:select>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">소속 조직</label>
-                    <select wire:model="organization_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="">조직 없음</option>
-                        @foreach($organizations as $organization)
-                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <flux:select
+                    label="소속 조직"
+                    placeholder="{{ count($organizations) == 0 ? '등록된 조직이 없습니다' : '조직을 선택해 주세요' }}"
+                    wire:model="organization_id"
+                >
+                    @foreach($organizations as $organization)
+                        <flux:select.option value="{{ $organization->id }}">
+                            {{ $organization->name }}
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
 
                 <flux:field>
                     <flux:input
@@ -67,28 +70,14 @@
                         rows="3"
                     />
                 </flux:field>
-            </div>
 
-            <div class="flex space-x-3 mt-6">
-                <flux:button type="submit" variant="primary">
-                    {{ __('장치 추가') }}
-                </flux:button>
-                <flux:modal.close>
-                    <flux:button variant="ghost">
-                        {{ __('취소') }}
+                <div class="flex">
+                    <flux:spacer />
+                    <flux:button type="submit" variant="primary">
+                        {{ __('장치 추가') }}
                     </flux:button>
-                </flux:modal.close>
+                </div>
             </div>
         </form>
     </flux:modal>
 </div>
-
-<script>
-function createDeviceModal() {
-    return {
-        resetForm() {
-            @this.call('resetForm');
-        }
-    }
-}
-</script>

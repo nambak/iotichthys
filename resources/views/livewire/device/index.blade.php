@@ -18,36 +18,35 @@
 
     <!-- 장치 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
+        <table class="w-full divide-y divide-white/20">
             <thead>
             <tr>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     장치명
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     장치 ID
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     모델
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     상태
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     소속 조직
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     설정 수
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                     등록일
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    액션
+                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
                 </th>
             </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-zinc-800/10 dark:bg-zinc-900 dark:divide-white/20">
+            <tbody class="bg-zinc-700 divide-white/20">
             @forelse($devices as $device)
                 <tr>
                     <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-zinc-900 dark:text-white">
@@ -74,29 +73,19 @@
                         {{ $device->created_at->format('Y-m-d') }}
                     </td>
                     <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                        <flux:button 
-                            size="sm" 
-                            variant="ghost" 
-                            icon="pencil-square"
-                            wire:click="editDevice({{ $device->id }})"
-                        >
-                            편집
-                        </flux:button>
-                        
-                        <flux:button 
-                            size="sm" 
-                            variant="danger" 
-                            icon="trash"
-                            wire:click="delete({{ $device->id }})"
-                            wire:confirm="정말로 이 장치를 삭제하시겠습니까?"
-                        >
-                            삭제
-                        </flux:button>
+                        <flux:icon.pencil-square
+                                class="size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
+                                wire:click="editDevice({{ $device->id }})"
+                        />
+                        <flux:icon.trash
+                                class="size-4 hover:text-red-600 transition-colors cursor-pointer"
+                                @click="deleteDevice({{ $device->id }})"
+                        />
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="px-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                    <td colspan="8" class="px-3 py-8 text-center text-sm text-zinc-400">
                         등록된 장치가 없습니다.
                     </td>
                 </tr>
@@ -106,23 +95,43 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <div class="mt-6">
-        {{ $devices->links() }}
+    <div class="mt-4 text-xs px-1 text-zinc-500 dark:text-zinc-300">
+        {{ $devices->links('custom-flux-pagination') }}
     </div>
 
     <!-- 장치 생성 모달 -->
-    @livewire('device.create-modal')
+    <livewire:device.create-modal/>
 
     <!-- 장치 편집 모달 -->
-    @livewire('device.edit-modal')
+    <livewire:device.edit-modal/>
 
 </section>
 
 <script>
 function deviceIndex() {
     return {
+        deleteCategory(deviceId) {
+            confirmDelete('정말로 이 장치를 삭제하시겠습니까?', () => {
+                this.$wire.delete(deviceId);
+            });
+        },
+
         init() {
-            // 장치 관련 이벤트 리스너
+            this.$wire.on('show-error-toast', (event) => {
+                showErrorToast(event[0].message);
+            });
+
+            this.$wire.on('device-deleted', () => {
+                showSuccessToast('장치가 삭제되었습니다.');
+            });
+
+            this.$wire.on('device-created', () => {
+                showSuccessToast('장치가 생성되었습니다.')
+            });
+
+            this.$wire.on('device-updated', () => {
+                showSuccessToast('장치가 수정되었습니다.');
+            });
         }
     }
 }
