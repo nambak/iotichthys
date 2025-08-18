@@ -18,15 +18,16 @@
             </flux:navlist>
 
             <flux:navlist>
-                <flux:navlist.group :heading="__('사용자 관리')" class="grid">
-                    <flux:navlist.item href="{{ route('organization.index') }}">조직 관리</flux:navlist.item>
-                    <flux:navlist.item href="{{ route('teams.index') }}">팀 관리</flux:navlist.item>
-                    <flux:navlist.item href="{{ route('users.index') }}">사용자 관리</flux:navlist.item>
-                    <flux:navlist.item href="{{ route('permissions.index') }}">권한 관리</flux:navlist.item>
+                <flux:navlist.group :heading="__('sidebar.user_manage')" class="grid">
+                    <flux:navlist.item href="{{ route('organization.index') }}">{{__('sidebar.organization_manage')}}</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('teams.index') }}">{{__('sidebar.team_manage')}}</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('users.index') }}">{{__('sidebar.user_manage')}}</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('permissions.index') }}">{{__('sidebar.permission_manage')}}</flux:navlist.item>
                 </flux:navlist.group>
                 
-                <flux:navlist.group :heading="__('컨텐츠 관리')" class="grid">
-                    <flux:navlist.item href="{{ route('category.index') }}">카테고리 관리</flux:navlist.item>
+                <flux:navlist.group :heading="__('sidebar.device_manage')" class="grid">
+                    <flux:navlist.item href="{{ route('device.index') }}">{{__('sidebar.device_manage')}}</flux:navlist.item>
+                    <flux:navlist.item href="{{ route('category.index') }}">{{__('sidebar.category_manage')}}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
