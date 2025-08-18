@@ -24,7 +24,7 @@ class DeviceRequest extends FormRequest
         return [
             'name'            => ['required', 'string', 'max:255'],
             'device_id'       => ['required', 'string', 'max:255', 'unique:devices,device_id'],
-            'model_id'        => ['required', 'exists:device_models,id'],
+            'device_model_id' => ['required', 'exists:device_models,id'],
             'status'          => ['required', 'in:active,inactive,maintenance,error'],
             'organization_id' => ['nullable', 'exists:organizations,id'],
             'description'     => ['nullable', 'string'],
@@ -40,13 +40,13 @@ class DeviceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'          => __('validation.device.name.required'),
-            'device_id.required'     => __('validation.device.id.required'),
-            'device_id.unique'       => __('validation.device.id.unique'),
-            'model_id.required'      => __('validation.device.model_id.required'),
-            'model_id.exists'        => __('validation.device.model_id.exists'),
-            'status.required'        => __('validation.device.status.required'),
-            'organization_id.exists' => __('validation.device.organization_id.exists'),
+            'name.required'            => __('validation.device.name.required'),
+            'device_id.required'       => __('validation.device.device_id.required'),
+            'device_id.unique'         => __('validation.device.device_id.unique'),
+            'device_model_id.required' => __('validation.device.model_id.required'),
+            'device_model_id.exists'   => __('validation.device.model_id.exists'),
+            'status.required'          => __('validation.device.status.required'),
+            'organization_id.exists'   => __('validation.device.organization_id.exists'),
         ];
     }
 }

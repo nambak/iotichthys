@@ -13,7 +13,7 @@ class CreateModal extends Component
 {
     public string $name = '';
     public string $device_id = '';
-    public string $model_id = '';
+    public string $device_model_id = '';
     public string $status = 'active';
     public string $organization_id = '';
     public string $description = '';
@@ -39,7 +39,8 @@ class CreateModal extends Component
 
         Device::create($validatedData);
 
-        $this->dispatch('modal-closed', modal: 'create-device');
+        $this->dispatch('device-created');
+        $this->resetForm();
     }
 
     /**
