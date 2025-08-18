@@ -7,4 +7,5 @@ return [
     'organization_manage' => '조직 관리',
     'team_manage'         => '팀 관리',
     'permission_manage'   => '권한 관리',
+    'dashboard'           => '대시보드',
 ];
