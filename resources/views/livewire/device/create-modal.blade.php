@@ -1,0 +1,83 @@
+<div>
+    <flux:modal name="create-device" class="md:w-96" @close="resetForm">
+        <div>
+            <flux:heading size="lg">{{ __('새 장치 추가') }}</flux:heading>
+        </div>
+        <form wire:submit.prevent="save" class="font-size-[14px] mt-10">
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:input
+                        label="장치명"
+                        placeholder="장치명을 입력해 주세요"
+                        wire:model="name"
+                    />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:input
+                        label="장치 ID"
+                        placeholder="고유한 장치 ID를 입력해 주세요"
+                        wire:model="device_id"
+                    />
+                </flux:field>
+
+                <flux:select
+                    label="장치 모델"
+                    placeholder="{{ count($deviceModels) == 0 ? '등록된 모델이 없습니다' : '장치 모델을 선택해 주세요' }}"
+                    wire:model="model_id"
+                >
+                    @foreach($deviceModels as $model)
+                        <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+
+                <flux:select
+                    label="장치 상태"
+                    placeholder="장치 상태를 입력해 주세요"
+                    wire:model="status"
+                >
+                    <flux:select.option value="active">활성</flux:select.option>
+                    <flux:select.option value="inactive">비활성</flux:select.option>
+                    <flux:select.option value="maintenance">점검중</flux:select.option>
+                    <flux:select.option value="error">오류</flux:select.option>
+                </flux:select>
+
+                <flux:select
+                    label="소속 조직"
+                    placeholder="{{ count($organizations) == 0 ? '등록된 조직이 없습니다' : '조직을 선택해 주세요' }}"
+                    wire:model="organization_id"
+                >
+                    @foreach($organizations as $organization)
+                        <flux:select.option value="{{ $organization->id }}">
+                            {{ $organization->name }}
+                        </flux:select.option>
+                    @endforeach
+                </flux:select>
+
+                <flux:field>
+                    <flux:input
+                        label="위치"
+                        placeholder="장치 설치 위치를 입력해 주세요 (선택사항)"
+                        wire:model="location"
+                    />
+                </flux:field>
+
+                <flux:field>
+                    <flux:textarea
+                        label="설명"
+                        placeholder="장치에 대한 설명을 입력해 주세요 (선택사항)"
+                        wire:model="description"
+                        rows="3"
+                    />
+                </flux:field>
+
+                <div class="flex">
+                    <flux:spacer />
+                    <flux:button type="submit" variant="primary">
+                        {{ __('장치 추가') }}
+                    </flux:button>
+                </div>
+            </div>
+        </form>
+    </flux:modal>
+</div>

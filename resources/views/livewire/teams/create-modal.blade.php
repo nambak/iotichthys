@@ -7,7 +7,7 @@
             <div class="space-y-6">
                 <flux:field>
                     <flux:select
-                        label="소속 조직"
+                label="소속 조직"
                         placeholder="조직을 선택해 주세요"
                         wire:model="organization_id"
                     >

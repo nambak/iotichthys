@@ -94,4 +94,24 @@ return [
             'boolean' => '활성화 상태는 참/거짓 값이어야 합니다.',
         ],
     ],
+    'device' => [
+        'name' => [
+            'required' => '장치명을 입력해주세요.'
+        ],
+        'device_id' => [
+            'required' => '장치 ID를 입력해주세요.',
+            'unique' => '이미 존재하는 장치 ID입니다.'
+        ],
+        'model_id' => [
+            'required' => '장치 모델을 선택해주세요.',
+            'exists' => '유효하지 않은 장치 모델입니다.'
+        ],
+        'status' => [
+            'required' => '장치 상태를 선택해주세요.'
+        ],
+        'organization_id' => [
+            'exists' => '유효하지 않은 조직입니다.'
+        ]
+
+    ]
 ];
