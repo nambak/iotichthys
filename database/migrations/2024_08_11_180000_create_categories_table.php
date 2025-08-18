@@ -23,7 +23,7 @@ return new class extends Migration
 
             // 외래키 설정 (자기 참조)
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
-            
+
             // 인덱스 설정
             $table->index(['parent_id', 'sort_order']);
             $table->index('is_active');

@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\Organization;
+use App\Models\User;
 use Laravel\Dusk\Browser;
 
 test('팀 생성 모달이 열리고 닫힐 때 입력 필드가 초기화되어야 함', function () {

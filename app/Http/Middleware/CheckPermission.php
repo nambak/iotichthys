@@ -11,17 +11,15 @@ class CheckPermission
     /**
      * 권한 확인을 위한 미들웨어
      *
-     * @param Request $request
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      * @param  string  $permission
      * @param  string|null  $scopeType
-     * @return Response
      */
     public function handle(Request $request, Closure $next, $permission, $scopeType = null): Response
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
@@ -34,7 +32,7 @@ class CheckPermission
             $scope = session('current_team');
         }
 
-        if (!$user->hasPermission($permission, $scope)) {
+        if (! $user->hasPermission($permission, $scope)) {
             abort(403, '이 작업을 수행할 권한이 없습니다.');
         }
 

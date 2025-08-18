@@ -21,53 +21,48 @@ class Index extends Component
     /**
      * 조직 삭제
      *
-     * @param int $organizationId
-     * @return void
+     * @param  int  $organizationId
      */
     public function delete($organizationId): void
     {
         $organization = Organization::findOrFail($organizationId);
-        
+
         // 조직에 속한 사용자가 있는지 확인
         if ($organization->users()->count() > 0) {
             $this->dispatch('show-error-toast', [
-                'message' => __('messages.organization.delete_has_users')
+                'message' => __('messages.organization.delete_has_users'),
             ]);
+
             return;
         }
 
         $organization->delete();
-        
+
         $this->dispatch('organization-deleted');
         $this->resetPage();
     }
 
     /**
      * 조직 삭제
-     *
-     * @param Organization $organization
-     * @return void
      */
     public function deleteOrganization(Organization $organization): void
     {
         // 권한 체크
-        if (!auth()->user()->can('delete', $organization)) {
+        if (! auth()->user()->can('delete', $organization)) {
             session()->flash('error', __('messages.organization_delete_unauthorized'));
+
             return;
         }
-        
+
         // TODO: 조직에 연결된 팀이나 사용자가 있는지 확인
-        
+
         $organization->delete();
-        
+
         $this->resetPage();
     }
 
     /**
      * 조직 편집 모달 열기
-     *
-     * @param Organization $organization
-     * @return void
      */
     public function editOrganization(Organization $organization): void
     {

@@ -14,7 +14,9 @@ class AddUserModal extends Component
     use WithPagination;
 
     public ?User $foundUser = null;
+
     public ?Permission $permission = null;
+
     public string $email = '';
 
     public function mount(Permission $permission)
@@ -29,18 +31,17 @@ class AddUserModal extends Component
 
     /**
      * 사용자 검색
-     *
-     * @return void
      */
     public function searchUser(): void
     {
-        $request = new SearchUserRequest();
+        $request = new SearchUserRequest;
         $this->validate($request->rules(), $request->messages());
 
         $this->foundUser = User::where('email', $this->email)->first();
 
-        if (!$this->foundUser) {
+        if (! $this->foundUser) {
             $this->addError('email', '해당 이메일로 가입된 사용자를 찾을 수 없습니다.');
+
             return;
         }
 
@@ -57,20 +58,19 @@ class AddUserModal extends Component
 
     /**
      * 권한에 사용자 추가
-     *
-     * @return void
      */
     public function addUserToPermission(): void
     {
-        if (!$this->foundUser) {
+        if (! $this->foundUser) {
             $this->addError('email', '먼저 사용자를 검색해주세요.');
+
             return;
         }
 
         $this->permission->users()->attach($this->foundUser->id);
 
         $this->dispatch('user-added-to-permission', [
-            'message' => $this->foundUser->name . '님에게 권한이 추가되었습니다.'
+            'message' => $this->foundUser->name.'님에게 권한이 추가되었습니다.',
         ]);
 
         $this->resetUserSearch();
@@ -80,8 +80,6 @@ class AddUserModal extends Component
 
     /**
      * 사용자 검색 초기화
-     *
-     * @return void
      */
     public function resetUserSearch(): void
     {
@@ -93,8 +91,6 @@ class AddUserModal extends Component
 
     /**
      * 사용자 추가 모달 닫기
-     *
-     * @return void
      */
     public function closeAddUserModal(): void
     {

@@ -23,11 +23,11 @@ class OrganizationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'                     => fake()->company(),
-            'owner'                    => fake()->name(),
+            'name' => fake()->company(),
+            'owner' => fake()->name(),
             'business_register_number' => fake()->numerify('##########'),
-            'address'                  => fake()->address(),
-            'phone_number'             => fake()->phoneNumber(),
+            'address' => fake()->address(),
+            'phone_number' => fake()->phoneNumber(),
         ];
     }
 }

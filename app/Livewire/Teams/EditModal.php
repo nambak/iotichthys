@@ -3,7 +3,6 @@
 namespace App\Livewire\Teams;
 
 use App\Http\Requests\Team\TeamRequest;
-use App\Http\Requests\Team\UpdateTeamRequest;
 use App\Models\Organization;
 use App\Models\Team;
 use Illuminate\Contracts\View\Factory;
@@ -13,11 +12,14 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public $team;
-    public string $name = '';
-    public string $slug = '';
-    public string $description = '';
-    public int $organization_id = 0;
 
+    public string $name = '';
+
+    public string $slug = '';
+
+    public string $description = '';
+
+    public int $organization_id = 0;
 
     /**
      * @return Factory|
@@ -62,13 +64,13 @@ class EditModal extends Component
      */
     public function update()
     {
-        if (!$this->team) {
+        if (! $this->team) {
             return;
         }
 
         //  TODO: 권한 체크
 
-        $request = new TeamRequest();
+        $request = new TeamRequest;
 
         $validatedData = $this->validate($request->rules(), $request->messages());
 

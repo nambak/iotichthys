@@ -46,7 +46,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
+            'password' => 'hashed',
         ];
     }
 
@@ -57,7 +57,7 @@ class User extends Authenticatable
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 
@@ -99,11 +99,6 @@ class User extends Authenticatable
 
     /**
      * 특정 역할을 가지고 있는지 확인
-     *
-     * @param string|array $roles
-     * @param string|null $scope
-     * @param int|null $scopeId
-     * @return bool
      */
     public function hasRole(string|array $roles, ?string $scope = null, ?int $scopeId = null): bool
     {
@@ -116,7 +111,7 @@ class User extends Authenticatable
         if ($scope && $scopeId) {
             $query->wherePivot('roleable_type', $scope)
                 ->wherePivot('roleable_id', $scopeId);
-        } elseif (!$scope && !$scopeId) {
+        } elseif (! $scope && ! $scopeId) {
             // 시스템 역할만 확인
             $query->where('is_system_role', true);
         }
@@ -126,18 +121,14 @@ class User extends Authenticatable
 
     /**
      * 활성 사용자인지 확인
-     *
-     * @return bool
      */
     public function isActive(): bool
     {
-        return !$this->trashed();
+        return ! $this->trashed();
     }
 
     /**
      * 탈퇴한 사용자인지 확인
-     *
-     * @return bool
      */
     public function isWithdrawn(): bool
     {
@@ -146,8 +137,6 @@ class User extends Authenticatable
 
     /**
      * 사용자 탈퇴 처리
-     *
-     * @return bool
      */
     public function withdraw(): bool
     {
@@ -156,8 +145,6 @@ class User extends Authenticatable
 
     /**
      * 사용자 상태 표시용 텍스트
-     *
-     * @return string
      */
     public function getStatusText(): string
     {
@@ -166,8 +153,6 @@ class User extends Authenticatable
 
     /**
      * 수정 가능한 사용자인지 확인
-     *
-     * @return bool
      */
     public function canBeEdited(): bool
     {
@@ -197,9 +182,6 @@ class User extends Authenticatable
 
     /**
      * 특정 권한을 가지고 있는지 확인
-     *
-     * @param string|array $permissions
-     * @return bool
      */
     public function hasPermission(string|array $permissions): bool
     {
@@ -231,9 +213,6 @@ class User extends Authenticatable
 
     /**
      * 특정 카테고리에 접근 권한이 있는지 확인
-     *
-     * @param Category $category
-     * @return bool
      */
     public function hasAccessToCategory(Category $category): bool
     {
@@ -257,11 +236,11 @@ class User extends Authenticatable
         foreach ($directAccessCategories as $category) {
             // 직접 권한이 있는 카테고리 추가
             $accessibleCategories->push($category);
-            
+
             // 부모 카테고리들도 접근 가능
             $parent = $category->parent;
             while ($parent) {
-                if (!$accessibleCategories->contains('id', $parent->id)) {
+                if (! $accessibleCategories->contains('id', $parent->id)) {
                     $accessibleCategories->push($parent);
                 }
                 $parent = $parent->parent;
@@ -282,5 +261,4 @@ class User extends Authenticatable
             $query->where('user_id', $this->id);
         })->get();
     }
-
 }

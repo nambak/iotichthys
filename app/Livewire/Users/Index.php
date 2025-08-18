@@ -23,8 +23,7 @@ class Index extends Component
     /**
      * 사용자 탈퇴 처리
      *
-     * @param int $userId
-     * @return void
+     * @param  int  $userId
      */
     public function withdraw($userId): void
     {
@@ -33,12 +32,14 @@ class Index extends Component
         // 자기 자신은 탈퇴할 수 없음
         if ($user->id === auth()->id()) {
             $this->dispatch('show-error-toast', ['message' => '자기 자신은 탈퇴시킬 수 없습니다.']);
+
             return;
         }
 
         // 이미 탈퇴한 사용자는 탈퇴할 수 없음
         if ($user->isWithdrawn()) {
             $this->dispatch('show-error-toast', ['message' => '이미 탈퇴한 사용자입니다.']);
+
             return;
         }
 
@@ -50,15 +51,13 @@ class Index extends Component
 
     /**
      * 사용자 편집 모달 열기
-     *
-     * @param User $user
-     * @return void
      */
     public function edit(User $user): void
     {
         // 탈퇴한 사용자는 편집할 수 없음
-        if (!$user->canBeEdited()) {
+        if (! $user->canBeEdited()) {
             $this->dispatch('show-error-toast', ['message' => '탈퇴한 사용자는 편집할 수 없습니다.']);
+
             return;
         }
 

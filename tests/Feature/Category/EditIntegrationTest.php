@@ -38,10 +38,10 @@ test('카테고리 수정 성공 후 Index 페이지가 새로고침됨', functi
     ]);
 
     $indexComponent = Livewire::test('category.index');
-    
+
     // 수정 성공 이벤트 발송
     $indexComponent->dispatch('category-updated');
-    
+
     // refreshAfterUpdate 메서드가 호출되어야 하며, 페이지가 리셋되어야 함
     expect(true)->toBeTrue(); // 이벤트 리스너가 등록되어 있는지 확인
 });
@@ -59,10 +59,10 @@ test('카테고리 수정 성공 후 Show 페이지가 새로고침됨', functio
     ]);
 
     $subCategoryListComponent = Livewire::test('category.subCategoryList', ['category' => $parent]);
-    
+
     // 하위 카테고리 수정 성공 이벤트 발송
     $subCategoryListComponent->dispatch('subcategory-updated');
-    
+
     // refreshAfterUpdate 메서드가 호출되어야 하며, 페이지가 리셋되어야 함
     expect(true)->toBeTrue(); // 이벤트 리스너가 등록되어 있는지 확인
 });

@@ -42,7 +42,7 @@ it('can create permission with valid data', function () {
         ->assertDispatched('modal-close', name: 'create-permission');
 
     expect(Permission::count())->toBe(1);
-    
+
     $permission = Permission::first();
     expect($permission->name)->toBe('Device Create');
     expect($permission->resource)->toBe('device');
@@ -79,7 +79,7 @@ it('validates required fields', function () {
         ->assertHasErrors([
             'name' => 'required',
             'resource' => 'required',
-            'action' => 'required'
+            'action' => 'required',
         ]);
 
     expect(Permission::count())->toBe(0);
@@ -99,7 +99,7 @@ it('validates maximum field lengths', function () {
         ->assertHasErrors([
             'name' => 'max',
             'resource' => 'max',
-            'action' => 'max'
+            'action' => 'max',
         ]);
 
     expect(Permission::count())->toBe(0);
@@ -120,7 +120,6 @@ it('handles empty description field', function () {
     expect(Permission::count())->toBe(1);
     expect(Permission::first()->description)->toBe('');
 });
-
 
 it('권한 이름이 비어있으면 에러 발생', function () {
     $user = User::factory()->create();

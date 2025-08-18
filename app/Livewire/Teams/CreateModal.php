@@ -10,14 +10,17 @@ use Livewire\Component;
 class CreateModal extends Component
 {
     public string $organization_id = '';
+
     public string $name = '';
+
     public string $slug = '';
+
     public string $description = '';
 
     public function render()
     {
         $organizations = Organization::orderBy('name')->get();
-        
+
         return view('livewire.teams.create-modal', compact('organizations'));
     }
 
@@ -29,7 +32,7 @@ class CreateModal extends Component
     public function save()
     {
         // Form Request 클래스에서 validation rules와 messages 가져오기
-        $request = new TeamRequest();
+        $request = new TeamRequest;
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         Team::create($validatedData);

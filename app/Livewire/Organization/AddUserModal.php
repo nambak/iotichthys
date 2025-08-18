@@ -14,9 +14,13 @@ class AddUserModal extends Component
     use WithPagination;
 
     public ?User $foundUser = null;
+
     public string $email = '';
+
     public bool $showAddUserModal = false;
-    public ?Organization $organization =  null;
+
+    public ?Organization $organization = null;
+
     public bool $canAddUser = false;
 
     public function mount(Organization $organization)
@@ -31,25 +35,25 @@ class AddUserModal extends Component
 
     /**
      * 사용자 검색
-     *
-     * @return void
      */
     public function searchUser(): void
     {
-        $request = new SearchUserRequest();
+        $request = new SearchUserRequest;
         $this->validate($request->rules(), $request->messages());
 
         $this->foundUser = User::where('email', $this->email)->first();
         $this->canAddUser = false;
 
-        if (!$this->foundUser) {
+        if (! $this->foundUser) {
             $this->addError('email', '해당 이메일로 가입된 사용자를 찾을 수 없습니다.');
+
             return;
         }
 
         // 이미 조직에 속해있는 사용자인지 확인
         if ($this->organization->users()->where('user_id', $this->foundUser->id)->exists()) {
             $this->addError('email', '해당 사용자는 이미 이 조직에 속해있습니다.');
+
             return;
         }
 
@@ -59,22 +63,21 @@ class AddUserModal extends Component
 
     /**
      * 조직에 사용자 추가
-     *
-     * @return void
      */
     public function addUserToOrganization(): void
     {
-        if (!$this->foundUser) {
+        if (! $this->foundUser) {
             $this->addError('email', '먼저 사용자를 검색해주세요.');
+
             return;
         }
 
         $this->organization->users()->attach($this->foundUser->id, [
-            'is_owner' => false
+            'is_owner' => false,
         ]);
 
         $this->dispatch('user-added-to-organization', [
-            'message' => $this->foundUser->name . '님이 조직에 추가되었습니다.'
+            'message' => $this->foundUser->name.'님이 조직에 추가되었습니다.',
         ]);
 
         $this->resetUserSearch();
@@ -84,8 +87,6 @@ class AddUserModal extends Component
 
     /**
      * 사용자 검색 초기화
-     *
-     * @return void
      */
     public function resetUserSearch(): void
     {
@@ -95,8 +96,6 @@ class AddUserModal extends Component
 
     /**
      * 사용자 추가 모달 열기
-     *
-     * @return void
      */
     public function openAddUserModal(): void
     {
@@ -106,8 +105,6 @@ class AddUserModal extends Component
 
     /**
      * 사용자 추가 모달 닫기
-     *
-     * @return void
      */
     public function closeAddUserModal(): void
     {

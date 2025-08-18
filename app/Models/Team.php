@@ -24,8 +24,6 @@ class Team extends Model
 
     /**
      * Boot 메서드 - 모델 이벤트 등록
-     *
-     * @return void
      */
     protected static function boot(): void
     {

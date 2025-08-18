@@ -13,7 +13,7 @@ uses(RefreshDatabase::class);
 describe('카테고리 권한 관리 컴포넌트', function () {
     test('컴포넌트가 정상적으로 렌더링된다', function () {
         $category = Category::factory()->create();
-        
+
         Livewire::test(Permissions::class, ['category' => $category])
             ->assertStatus(200);
     });
@@ -52,7 +52,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
     test('사용자의 권한을 취소할 수 있다', function () {
         $category = Category::factory()->create();
         $user = User::factory()->create(['name' => 'Test User']);
-        
+
         // 권한 부여
         CategoryAccessControl::create([
             'user_id' => $user->id,
@@ -89,7 +89,7 @@ describe('카테고리 권한 관리 컴포넌트', function () {
     test('이미 권한이 있는 사용자에게 중복 권한 부여를 시도해도 에러가 발생하지 않는다', function () {
         $category = Category::factory()->create();
         $user = User::factory()->create(['name' => 'Test User']);
-        
+
         // 권한 부여
         CategoryAccessControl::create([
             'user_id' => $user->id,

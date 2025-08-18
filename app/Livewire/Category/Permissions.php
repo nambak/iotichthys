@@ -28,7 +28,6 @@ class Permissions extends Component
         return view('livewire.category.permissions', compact('authorizedUsers'));
     }
 
-
     /**
      * 사용자의 카테고리 권한 취소
      */
@@ -41,7 +40,7 @@ class Permissions extends Component
             ->delete();
 
         $this->dispatch('show-success-toast', [
-            'message' => "{$user->name}님의 '{$this->category->name}' 카테고리 권한을 취소했습니다."
+            'message' => "{$user->name}님의 '{$this->category->name}' 카테고리 권한을 취소했습니다.",
         ]);
 
         $this->resetPage();
@@ -63,5 +62,4 @@ class Permissions extends Component
     {
         $this->resetPage();
     }
-
 }

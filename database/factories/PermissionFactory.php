@@ -23,9 +23,9 @@ class PermissionFactory extends Factory
         $action = $this->faker->word();
 
         return [
-            'name'        => ucfirst($resource) . ' ' . ucfirst($action),
-            'resource'    => $resource,
-            'action'      => $action,
+            'name' => ucfirst($resource).' '.ucfirst($action),
+            'resource' => $resource,
+            'action' => $action,
             'description' => $this->faker->sentence(),
         ];
     }
@@ -35,10 +35,10 @@ class PermissionFactory extends Factory
      */
     public function withResourceAction(string $resource, string $action): static
     {
-        return $this->state(fn(array $attributes) => [
-            'name'     => ucfirst($resource) . ' ' . ucfirst($action),
+        return $this->state(fn (array $attributes) => [
+            'name' => ucfirst($resource).' '.ucfirst($action),
             'resource' => $resource,
-            'action'   => $action,
+            'action' => $action,
         ]);
     }
 }

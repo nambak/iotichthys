@@ -10,10 +10,15 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?Category $category = null;
+
     public string $name = '';
+
     public string $description = '';
+
     public ?int $parent_id = null;
+
     public int $sort_order = 0;
+
     public bool $is_active = true;
 
     public function render()
@@ -24,8 +29,7 @@ class EditModal extends Component
     /**
      * 카테고리 편집 모달 열기
      *
-     * @param int $categoryId
-     * @return void
+     * @param  int  $categoryId
      */
     #[On('open-edit-category')]
     public function openEditModal($categoryId): void
@@ -47,12 +51,12 @@ class EditModal extends Component
      */
     public function update(): void
     {
-        if (!$this->category) {
+        if (! $this->category) {
             return;
         }
 
         // Form Request 클래스에서 validation rules와 messages 가져오기
-        $request = new CategoryRequest();
+        $request = new CategoryRequest;
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         // 카테고리 업데이트 - slug는 CategoryUpdating 이벤트에서 필요시 자동 갱신

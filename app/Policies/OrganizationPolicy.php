@@ -9,9 +9,6 @@ class OrganizationPolicy
 {
     /**
      * 조직 생성 권한
-     *
-     * @param User $user
-     * @return bool
      */
     public function create(User $user): bool
     {
@@ -20,10 +17,6 @@ class OrganizationPolicy
 
     /**
      * 조직 수정 권한
-     *
-     * @param User $user
-     * @param Organization $organization
-     * @return bool
      */
     public function update(User $user, Organization $organization): bool
     {
@@ -33,10 +26,6 @@ class OrganizationPolicy
 
     /**
      * 조직 삭제 권한
-     *
-     * @param User $user
-     * @param Organization $organization
-     * @return bool
      */
     public function delete(User $user, Organization $organization): bool
     {

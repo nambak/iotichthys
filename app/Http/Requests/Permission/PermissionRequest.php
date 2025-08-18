@@ -23,9 +23,9 @@ class PermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => ['required', 'string', 'max:255'],
-            'resource'    => ['required', 'string', 'max:255'],
-            'action'      => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'resource' => ['required', 'string', 'max:255'],
+            'action' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
     }
@@ -36,9 +36,9 @@ class PermissionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'     => __('validation.permission.name.required'),
+            'name.required' => __('validation.permission.name.required'),
             'resource.required' => __('validation.permission.resource.required'),
-            'action.required'   => __('validation.permission.action.required'),
+            'action.required' => __('validation.permission.action.required'),
         ];
     }
 }

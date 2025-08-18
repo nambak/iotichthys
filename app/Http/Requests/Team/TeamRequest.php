@@ -24,8 +24,8 @@ class TeamRequest extends FormRequest
     {
         return [
             'organization_id' => ['required', 'exists:organizations,id'],
-            'name'            => ['required', 'min:2', 'max:50'],
-            'description'     => ['nullable', 'max:500'],
+            'name' => ['required', 'min:2', 'max:50'],
+            'description' => ['nullable', 'max:500'],
         ];
     }
 
@@ -36,11 +36,11 @@ class TeamRequest extends FormRequest
     {
         return [
             'organization_id.required' => __('validation.team.organization_id.required'),
-            'organization_id.exists'   => __('validation.team.organization_id.exists'),
-            'name.required'            => __('validation.team.name.required'),
-            'name.min'                 => __('validation.team.name.min'),
-            'name.max'                 => __('validation.team.name.max'),
-            'description.max'          => __('validation.team.description.max'),
+            'organization_id.exists' => __('validation.team.organization_id.exists'),
+            'name.required' => __('validation.team.name.required'),
+            'name.min' => __('validation.team.name.min'),
+            'name.max' => __('validation.team.name.max'),
+            'description.max' => __('validation.team.description.max'),
         ];
     }
 }

@@ -7,6 +7,7 @@ use Livewire\Component;
 class TabHeader extends Component
 {
     public $activeTab = 'overview';
+
     public $tabs = [];
 
     public function mount($activeTab = 'overview')

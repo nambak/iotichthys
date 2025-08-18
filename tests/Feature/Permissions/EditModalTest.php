@@ -6,7 +6,7 @@ use App\Models\User;
 use Livewire\Livewire;
 
 it('can render edit modal', function () {
-    $user = User::factory()->create(); 
+    $user = User::factory()->create();
     $this->actingAs($user);
 
     Livewire::test(EditModal::class)
@@ -35,7 +35,7 @@ it('loads permission data when modal is opened', function () {
         'name' => 'Device Create',
         'resource' => 'device',
         'action' => 'create',
-        'description' => 'Permission to create devices'
+        'description' => 'Permission to create devices',
     ]);
 
     Livewire::test(EditModal::class)
@@ -53,7 +53,7 @@ it('loads permission data with null description', function () {
 
     $permission = Permission::factory()->create([
         'name' => 'Device Create',
-        'description' => null
+        'description' => null,
     ]);
 
     Livewire::test(EditModal::class)
@@ -70,7 +70,7 @@ it('can update permission with valid data', function () {
         'slug' => 'device_create',
         'resource' => 'device',
         'action' => 'create',
-        'description' => 'Old description'
+        'description' => 'Old description',
     ]);
 
     Livewire::test(EditModal::class)
@@ -106,7 +106,7 @@ it('validates required fields on update', function () {
         ->assertHasErrors([
             'name' => 'required',
             'resource' => 'required',
-            'action' => 'required'
+            'action' => 'required',
         ]);
 });
 
@@ -126,7 +126,7 @@ it('validates maximum field lengths on update', function () {
         ->assertHasErrors([
             'name' => 'max',
             'resource' => 'max',
-            'action' => 'max'
+            'action' => 'max',
         ]);
 });
 
@@ -183,7 +183,7 @@ it('handles updating permission with empty description', function () {
     $this->actingAs($user);
 
     $permission = Permission::factory()->create([
-        'description' => 'Original description'
+        'description' => 'Original description',
     ]);
 
     Livewire::test(EditModal::class)

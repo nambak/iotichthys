@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 // user_organizations 피벗 테이블
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */

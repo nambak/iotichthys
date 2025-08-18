@@ -10,11 +10,14 @@ use Livewire\Component;
 class CreateModal extends Component
 {
     public $name = '';
-    public $description = '';
-    public $parent_id = null;
-    public $sort_order = 0;
-    public $is_active = true;
 
+    public $description = '';
+
+    public $parent_id = null;
+
+    public $sort_order = 0;
+
+    public $is_active = true;
 
     public function render()
     {
@@ -24,7 +27,7 @@ class CreateModal extends Component
     /**
      * 하위 카테고리 생성 모달 열기
      *
-     * @param int $parentId
+     * @param  int  $parentId
      */
     #[On('open-create-subcategory')]
     public function openForSubcategory($parentId)
@@ -39,7 +42,7 @@ class CreateModal extends Component
     public function create()
     {
         // Form Request 클래스에서 validation rules와 messages 가져오기
-        $request = new CategoryRequest();
+        $request = new CategoryRequest;
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         // slug는 CategoryCreating 이벤트에서 GenerateSlug 리스너가 자동 생성

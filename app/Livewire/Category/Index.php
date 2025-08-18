@@ -26,32 +26,29 @@ class Index extends Component
     /**
      * 카테고리 삭제
      *
-     * @param int $categoryId
-     * @return void
+     * @param  int  $categoryId
      */
     public function delete($categoryId): void
     {
         $category = Category::findOrFail($categoryId);
-        
+
         // 카테고리 삭제 가능 여부 확인
-        if (!$category->canBeDeleted()) {
+        if (! $category->canBeDeleted()) {
             $this->dispatch('show-error-toast', [
-                'message' => __('하위 카테고리가 있어 삭제할 수 없습니다.')
+                'message' => __('하위 카테고리가 있어 삭제할 수 없습니다.'),
             ]);
+
             return;
         }
 
         $category->delete();
-        
+
         $this->dispatch('category-deleted');
         $this->resetPage();
     }
 
     /**
      * 카테고리 편집 모달 열기
-     *
-     * @param Category $category
-     * @return void
      */
     public function editCategory(Category $category): void
     {

@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Models\Category;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {

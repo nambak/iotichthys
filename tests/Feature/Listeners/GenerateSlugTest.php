@@ -39,7 +39,7 @@ it('이미 slug가 존재할 경우 새로운 slug 생성', function () {
     // Given
     Organization::factory()->create([
         'name' => 'Test Organization',
-        'slug' => 'test-organization'
+        'slug' => 'test-organization',
     ]);
 
     $newOrganization = new Organization(['name' => 'Test Organization']);
@@ -57,7 +57,8 @@ it('이미 slug가 존재할 경우 새로운 slug 생성', function () {
 it('최대 재시도 횟수 초과 시 예외 발생', function () {
 
     // 리스너를 상속해서 재시도 과정 캡처
-    $observableListener = new class($this->mockLogger) extends GenerateSlug {
+    $observableListener = new class($this->mockLogger) extends GenerateSlug
+    {
         public array $slugAttempts = [];
 
         public function handle(
@@ -88,19 +89,24 @@ it('최대 재시도 횟수 초과 시 예외 발생', function () {
                 $slug = $this->generateSlugCandidate($baseSlug, $attempt);
                 $this->slugAttempts[] = $slug;
 
-                if (!Organization::where('slug', $slug)->exists()) {
+                if (! Organization::where('slug', $slug)->exists()) {
                     return $slug;
                 }
             }
 
-            throw new RuntimeException("Failed to generate unique slug after 5 attempts");
+            throw new RuntimeException('Failed to generate unique slug after 5 attempts');
         }
 
         private function generateSlugCandidate(string $baseSlug, int $attempt): string
         {
-            if ($attempt === 0) return $baseSlug;
-            if ($attempt === 1) return $baseSlug . '-' . substr((string)(microtime(true) * 10000), -6);
-            return $baseSlug . '-' . Str::random(6);
+            if ($attempt === 0) {
+                return $baseSlug;
+            }
+            if ($attempt === 1) {
+                return $baseSlug.'-'.substr((string) (microtime(true) * 10000), -6);
+            }
+
+            return $baseSlug.'-'.Str::random(6);
         }
     };
 
@@ -138,7 +144,7 @@ it('slug가 중복되지 않게 생성', function () {
     // Given - 기존 slug가 존재 함
     Organization::factory()->create([
         'name' => 'Test Organization',
-        'slug' => 'test-organization'
+        'slug' => 'test-organization',
     ]);
 
     // When - 같은 이름으로 새 organization 생성

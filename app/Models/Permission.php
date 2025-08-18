@@ -17,8 +17,6 @@ class Permission extends Model
 
     /**
      * Boot 메서드 - 모델 이벤트 등록
-     *
-     * @return void
      */
     protected static function boot(): void
     {
@@ -35,8 +33,6 @@ class Permission extends Model
 
     /**
      * roles - permission 관계 (N:M)
-     *
-     * @return BelongsToMany
      */
     public function roles(): belongsToMany
     {
@@ -46,8 +42,6 @@ class Permission extends Model
 
     /**
      * roles - users 관계 (N:M)
-     *
-     * @return BelongsToMany
      */
     public function users(): belongsToMany
     {
@@ -57,8 +51,6 @@ class Permission extends Model
 
     /**
      * permission을 가진 user와 role을 조회
-     *
-     * @return Builder
      */
     public function usersWithRoles(): Builder
     {

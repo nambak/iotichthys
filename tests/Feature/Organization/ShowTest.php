@@ -16,7 +16,7 @@ describe('조직 상세 페이지', function () {
             'phone_number' => '02-1234-5678',
             'address' => '서울시 강남구',
             'detail_address' => '테헤란로 123',
-            'postcode' => '12345'
+            'postcode' => '12345',
         ]);
 
         $this->actingAs($user);
@@ -34,7 +34,7 @@ describe('조직 상세 페이지', function () {
     it('조직에 속한 사용자 목록을 표시한다', function () {
         $user = User::factory()->create();
         $organization = Organization::factory()->create();
-        
+
         // 조직에 사용자들 추가
         $member1 = User::factory()->create(['name' => '구성원1']);
         $member2 = User::factory()->create(['name' => '구성원2']);

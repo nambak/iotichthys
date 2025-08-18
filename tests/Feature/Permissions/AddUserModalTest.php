@@ -20,7 +20,7 @@ it('can search for user by email', function () {
     $currentUser = User::factory()->create();
     $targetUser = User::factory()->create([
         'name' => 'Target User',
-        'email' => 'target@example.com'
+        'email' => 'target@example.com',
     ]);
     $permission = Permission::factory()->create();
     $this->actingAs($currentUser);
@@ -52,11 +52,11 @@ it('shows error when user already has permission', function () {
     $targetUser = User::factory()->create(['email' => 'target@example.com']);
     $permission = Permission::factory()->create();
     $role = Role::factory()->create();
-    
+
     // Give user the permission through a role
     $role->permissions()->attach($permission->id);
     $targetUser->roles()->attach($role->id);
-    
+
     $this->actingAs($currentUser);
 
     Livewire::test(AddUserModal::class, ['permission' => $permission])
@@ -71,7 +71,7 @@ it('can add user to permission', function () {
     $targetUser = User::factory()->create(['email' => 'target@example.com']);
     $permission = Permission::factory()->create([
         'name' => 'Device Create',
-        'slug' => 'device-create'
+        'slug' => 'device-create',
     ]);
 
     $this->actingAs($currentUser);

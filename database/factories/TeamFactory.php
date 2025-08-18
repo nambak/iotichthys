@@ -25,11 +25,11 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         $name = fake()->words(2, true);
-        
+
         return [
             'organization_id' => Organization::factory(),
             'name' => $name,
-            'slug' => Str::slug($name) . '-' . fake()->randomNumber(3),
+            'slug' => Str::slug($name).'-'.fake()->randomNumber(3),
             'description' => fake()->sentence(),
         ];
     }

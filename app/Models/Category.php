@@ -67,8 +67,6 @@ class Category extends Model
 
     /**
      * 카테고리 접근 권한과의 관계 (일대다)
-     *
-     * @return HasMany
      */
     public function accessControls(): HasMany
     {
@@ -78,7 +76,7 @@ class Category extends Model
     /**
      * 최상위 카테고리만 조회하는 스코프
      *
-     * @param Builder $query
+     * @param  Builder  $query
      * @return Builder
      */
     public function scopeTopLevel($query)
@@ -89,7 +87,7 @@ class Category extends Model
     /**
      * 활성화된 카테고리만 조회하는 스코프
      *
-     * @param Builder $query
+     * @param  Builder  $query
      * @return Builder
      */
     public function scopeActive($query)
@@ -155,9 +153,6 @@ class Category extends Model
 
     /**
      * 사용자가 이 카테고리에 직접 접근 권한이 있는지 확인
-     *
-     * @param User $user
-     * @return bool
      */
     public function hasDirectUserAccess(User $user): bool
     {
@@ -166,9 +161,6 @@ class Category extends Model
 
     /**
      * 사용자가 이 카테고리에 접근 권한이 있는지 확인 (직접 권한 또는 하위 카테고리 권한을 통해)
-     *
-     * @param User $user
-     * @return bool
      */
     public function hasUserAccess(User $user): bool
     {
@@ -183,9 +175,6 @@ class Category extends Model
 
     /**
      * 사용자가 하위 카테고리에 권한이 있는지 재귀적으로 확인
-     *
-     * @param User $user
-     * @return bool
      */
     private function hasChildAccessForUser(User $user): bool
     {
@@ -200,6 +189,7 @@ class Category extends Model
         if (empty($descendantIds)) {
             return false;
         }
+
         return $this->accessControls()
             ->where('user_id', $user->id)
             ->whereIn('category_id', $descendantIds)
@@ -208,8 +198,6 @@ class Category extends Model
 
     /**
      * 현재 카테고리의 모든 하위(자손) 카테고리 ID를 반환
-     *
-     * @return array
      */
     public function getAllDescendantIds(): array
     {
@@ -223,13 +211,14 @@ class Category extends Model
         }
         while ($stack) {
             $parentId = array_pop($stack);
-            if (!empty($categoryMap[$parentId])) {
+            if (! empty($categoryMap[$parentId])) {
                 foreach ($categoryMap[$parentId] as $childId) {
                     $descendantIds[] = $childId;
                     $stack[] = $childId;
                 }
             }
         }
+
         return $descendantIds;
     }
 

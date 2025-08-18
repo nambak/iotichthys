@@ -11,12 +11,19 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?Organization $organization = null;
+
     public string $name = '';
+
     public string $owner = '';
+
     public string $postcode = '';
+
     public string $address = '';
+
     public string $detail_address = '';
+
     public string $phone_number = '';
+
     public string $business_register_number = '';
 
     /**
@@ -33,8 +40,7 @@ class EditModal extends Component
     /**
      * 조직 편집 모달 열기 (이벤트 리스너)
      *
-     * @param int $organizationId
-     * @return void
+     * @param  int  $organizationId
      */
     #[On('open-edit-organization')]
     public function openEdit($organizationId): void
@@ -63,13 +69,13 @@ class EditModal extends Component
      */
     public function update()
     {
-        if (!$this->organization) {
+        if (! $this->organization) {
             return;
         }
 
         //  TODO: 권한 체크
 
-        $request = new UpdateOrganizationRequest();
+        $request = new UpdateOrganizationRequest;
 
         request()->merge(['organization_id' => $this->organization->id]);
 

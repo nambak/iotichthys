@@ -9,7 +9,7 @@ describe('organization/edit-modal 컴포넌트', function () {
     beforeEach(function () {
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
-        
+
         $this->organization = Organization::factory()->create([
             'name' => '테스트 조직',
             'owner' => '홍길동',
@@ -17,7 +17,7 @@ describe('organization/edit-modal 컴포넌트', function () {
             'postcode' => '12345',
             'detail_address' => '상세주소',
             'phone_number' => '0212345678',
-            'business_register_number' => '1234567890'
+            'business_register_number' => '1234567890',
         ]);
     });
 
@@ -47,7 +47,7 @@ describe('organization/edit-modal 컴포넌트', function () {
             'postcode' => '54321',
             'detail_address' => '수정된 상세주소',
             'phone_number' => '0519876543',
-            'business_register_number' => '0987654321'
+            'business_register_number' => '0987654321',
         ];
 
         Livewire::test(EditModal::class)
@@ -71,7 +71,7 @@ describe('유효성 검증 테스트 - 수정', function () {
     beforeEach(function () {
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
-        
+
         $this->organization = Organization::factory()->create();
     });
 
@@ -85,7 +85,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasErrors(['name' => 'required'])
                 ->assertSee('사업자명을 입력해 주세요');
@@ -100,7 +100,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasErrors(['name' => 'min'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
@@ -115,7 +115,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasErrors(['name' => 'max'])
                 ->assertSee('사업자명은 최소 2글자 최대 30글자 입니다');
@@ -127,7 +127,7 @@ describe('유효성 검증 테스트 - 수정', function () {
             // 다른 조직 생성
             $existingBusinessNumber = '9876543210';
             Organization::factory()->create([
-                'business_register_number' => $existingBusinessNumber
+                'business_register_number' => $existingBusinessNumber,
             ]);
 
             Livewire::test(EditModal::class)
@@ -138,7 +138,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasErrors(['business_register_number' => 'unique'])
                 ->assertSee('이미 등록된 사업자번호입니다');
@@ -155,7 +155,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', fake()->postcode)
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasNoErrors();
         });
@@ -171,7 +171,7 @@ describe('유효성 검증 테스트 - 수정', function () {
                 ->set('address', fake()->address)
                 ->set('postcode', '1234')
                 ->set('detail_address', fake()->address)
-                ->set('phone_number', '02' . fake()->numerify('########'))
+                ->set('phone_number', '02'.fake()->numerify('########'))
                 ->call('update')
                 ->assertHasErrors(['postcode' => 'digits'])
                 ->assertSee('5자리 숫자로된 우편번호를 입력해 주세요');

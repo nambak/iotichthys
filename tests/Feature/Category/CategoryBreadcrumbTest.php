@@ -53,7 +53,7 @@ test('displays three level breadcrumb correctly', function () {
     Livewire::test('category.breadcrumb', ['category' => $child])
         ->assertSee('카테고리')
         ->assertSee('Electronics')
-        ->assertSee('Smartphones') 
+        ->assertSee('Smartphones')
         ->assertSee('iPhone');
 });
 
@@ -70,10 +70,10 @@ test('generates correct breadcrumb structure', function () {
     ]);
 
     $component = Livewire::test('category.breadcrumb', ['category' => $child]);
-    
+
     // Check that breadcrumb includes category index link
     expect($component->html())->toContain(route('category.index'));
-    
+
     // Check that parent category has a clickable link
     expect($component->html())->toContain(route('category.show', $parent));
 });

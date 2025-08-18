@@ -17,6 +17,7 @@ class Breadcrumb extends Component
     public function render()
     {
         $breadcrumbs = $this->getBreadcrumbs();
+
         return view('livewire.category.breadcrumb', compact('breadcrumbs'));
     }
 
@@ -33,7 +34,7 @@ class Breadcrumb extends Component
             array_unshift($breadcrumbs, [
                 'id' => $current->id,
                 'name' => $current->name,
-                'url' => route('category.show', $current)
+                'url' => route('category.show', $current),
             ]);
             $current = $current->parent;
         }

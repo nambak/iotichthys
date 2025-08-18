@@ -18,9 +18,9 @@ it('can render permission show page', function () {
 it('displays permission details correctly', function () {
     $user = User::factory()->create();
     $permission = Permission::factory()->create([
-        'name'        => 'Device Create',
-        'resource'    => 'device',
-        'action'      => 'create',
+        'name' => 'Device Create',
+        'resource' => 'device',
+        'action' => 'create',
         'description' => 'Permission to create devices',
     ]);
 

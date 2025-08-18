@@ -6,7 +6,7 @@ use Livewire\Livewire;
 
 test('사용자 목록 페이지가 정상적으로 렌더링된다', function () {
     $admin = User::factory()->create();
-    
+
     $this->actingAs($admin)
         ->get('/users')
         ->assertOk()
@@ -33,7 +33,7 @@ test('활성 사용자에게는 편집 및 탈퇴 버튼이 표시된다', funct
     $activeUser = User::factory()->create(['name' => 'Active User']);
 
     $response = $this->actingAs($admin)->get('/users');
-    
+
     $response->assertOk();
     // 활성 사용자의 행에는 편집/탈퇴 버튼이 있어야 함 (다른 사용자이므로)
 });

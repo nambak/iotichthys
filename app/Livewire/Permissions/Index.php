@@ -24,8 +24,7 @@ class Index extends Component
     /**
      * 권한 삭제
      *
-     * @param int $permissionId
-     * @return void
+     * @param  int  $permissionId
      */
     public function delete($permissionId): void
     {
@@ -34,6 +33,7 @@ class Index extends Component
         // 권한이 사용 중인지 확인
         if ($permission->roles()->count() > 0) {
             $this->dispatch('show-error-toast', ['message' => '역할에 할당된 권한은 삭제할 수 없습니다.']);
+
             return;
         }
 
@@ -45,9 +45,6 @@ class Index extends Component
 
     /**
      * 권한 편집 모달 열기
-     *
-     * @param Permission $permission
-     * @return void
      */
     public function edit(Permission $permission): void
     {

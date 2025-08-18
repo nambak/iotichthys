@@ -10,9 +10,13 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?Permission $permission = null;
+
     public string $name = '';
+
     public string $action = '';
+
     public string $resource = '';
+
     public string $description = '';
 
     public function render()
@@ -23,8 +27,7 @@ class EditModal extends Component
     /**
      * 권한 편집 모달 열기
      *
-     * @param int $permissionId
-     * @return void
+     * @param  int  $permissionId
      */
     #[On('open-edit-permission')]
     public function openEditModal($permissionId): void
@@ -44,7 +47,7 @@ class EditModal extends Component
      */
     public function update(): void
     {
-        $request = new PermissionRequest();
+        $request = new PermissionRequest;
 
         $validatedData = $this->validate($request->rules(), $request->messages());
 

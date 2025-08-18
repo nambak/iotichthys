@@ -28,7 +28,7 @@ test('includes breadcrumb component', function () {
     ]);
 
     $component = Livewire::test('category.show', ['category' => $child]);
-    
+
     // Check that breadcrumb is rendered
     expect($component->html())
         ->toContain('카테고리')

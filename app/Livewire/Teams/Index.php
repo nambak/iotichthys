@@ -24,8 +24,7 @@ class Index extends Component
     /**
      * 팀 삭제
      *
-     * @param int $teamId
-     * @return void
+     * @param  int  $teamId
      */
     public function delete($teamId): void
     {
@@ -34,6 +33,7 @@ class Index extends Component
         // 팀에 속한 사용자가 있는지 확인
         if ($team->users()->count() > 0) {
             $this->dispatch('show-error-toast', ['message' => '팀에 속한 사용자가 있어 삭제할 수 없습니다.']);
+
             return;
         }
 
@@ -45,9 +45,6 @@ class Index extends Component
 
     /**
      * 팀 편집 모달 열기
-     *
-     * @param Team $team
-     * @return void
      */
     public function editTeam(Team $team): void
     {

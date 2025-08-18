@@ -10,7 +10,7 @@ test('카테고리 생성 시 자동으로 slug가 생성됨', function () {
         ->call('create');
 
     $category = Category::where('name', 'Test Category')->first();
-    
+
     expect($category)->not->toBeNull();
     expect($category->slug)->toBe('test-category');
     expect($category->description)->toBe('Test Description');
@@ -29,7 +29,7 @@ test('중복된 이름으로 카테고리 생성 시 고유한 slug가 생성됨
         ->call('create');
 
     $categories = Category::where('name', 'Duplicate Category')->get();
-    
+
     expect($categories)->toHaveCount(2);
     expect($categories->pluck('slug')->toArray())->toContain('duplicate-category');
     expect($categories->pluck('slug')->unique())->toHaveCount(2); // 모든 slug가 고유함
@@ -77,8 +77,8 @@ test('하위 카테고리 모달 열기가 정상 작동함', function () {
     ]);
 
     $component = Livewire::test('category.create-modal');
-    
+
     $component->dispatch('open-create-subcategory', parentId: $parent->id);
-    
+
     expect($component->get('parent_id'))->toBe($parent->id);
 });

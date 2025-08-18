@@ -33,4 +33,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('categories/{category}', Show::class)->name('category.show');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

@@ -22,8 +22,6 @@ class CategoryAccessControl extends Model
 
     /**
      * 사용자와의 관계 (다대일)
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -32,8 +30,6 @@ class CategoryAccessControl extends Model
 
     /**
      * 카테고리와의 관계 (다대일)
-     *
-     * @return BelongsTo
      */
     public function category(): BelongsTo
     {

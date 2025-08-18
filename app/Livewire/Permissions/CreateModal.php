@@ -9,8 +9,11 @@ use Livewire\Component;
 class CreateModal extends Component
 {
     public string $name = '';
+
     public string $resource = '';
+
     public string $action = '';
+
     public string $description = '';
 
     public function render()
@@ -24,11 +27,11 @@ class CreateModal extends Component
     public function create(): void
     {
         // Form Request 클래스에서 validation rules와 messages 가져오기
-        $request = new PermissionRequest();
+        $request = new PermissionRequest;
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         // slug 자동 생성
-        $validatedData['slug'] = strtolower(str_replace(' ', '_', $this->resource . '_' . $this->action));
+        $validatedData['slug'] = strtolower(str_replace(' ', '_', $this->resource.'_'.$this->action));
 
         Permission::create($validatedData);
 

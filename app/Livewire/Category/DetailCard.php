@@ -19,4 +19,3 @@ class DetailCard extends Component
         return view('livewire.category.detail-card');
     }
 }
-

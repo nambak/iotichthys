@@ -24,7 +24,7 @@ describe('조직 생성', function () {
         $owner = fake()->name;
         $address = fake()->address;
         $companyName = fake()->company;
-        $phoneNumber = '02' . fake()->numerify('########');
+        $phoneNumber = '02'.fake()->numerify('########');
         $businessRegisterNumber = fake()->numerify('##########');
         $postcode = fake()->postcode;
 
@@ -41,10 +41,10 @@ describe('조직 생성', function () {
             ->assertHasNoErrors();
 
         $this->assertDatabaseHas('organizations', [
-            'owner'                    => $owner,
-            'address'                  => $address,
-            'name'                     => $companyName,
-            'phone_number'             => $phoneNumber,
+            'owner' => $owner,
+            'address' => $address,
+            'name' => $companyName,
+            'phone_number' => $phoneNumber,
             'business_register_number' => $businessRegisterNumber,
         ]);
     });
@@ -95,7 +95,7 @@ describe('조직 생성', function () {
         Livewire::test(Index::class)
             ->call('delete', $organization->id)
             ->assertDispatched('show-error-toast', [
-                'message' => __('messages.organization.delete_has_users')
+                'message' => __('messages.organization.delete_has_users'),
             ]);
     });
 
@@ -120,7 +120,7 @@ describe('조직 이름 클릭 기능', function () {
 
         Livewire::test(Index::class)
             ->assertSee('테스트 조직')
-            ->assertSeeHtml('href="' . route('organization.show', $organization) . '"');
+            ->assertSeeHtml('href="'.route('organization.show', $organization).'"');
     });
 
     it('여러 조직의 이름이 각각 올바른 상세 페이지로 연결된다', function () {
@@ -133,7 +133,7 @@ describe('조직 이름 클릭 기능', function () {
         Livewire::test(Index::class)
             ->assertSee('조직 1')
             ->assertSee('조직 2')
-            ->assertSeeHtml('href="' . route('organization.show', $organization1) . '"')
-            ->assertSeeHtml('href="' . route('organization.show', $organization2) . '"');
+            ->assertSeeHtml('href="'.route('organization.show', $organization1).'"')
+            ->assertSeeHtml('href="'.route('organization.show', $organization2).'"');
     });
 });

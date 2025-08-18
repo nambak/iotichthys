@@ -23,7 +23,7 @@ class SearchUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email']
+            'email' => ['required', 'email'],
         ];
     }
 
@@ -31,7 +31,7 @@ class SearchUserRequest extends FormRequest
     {
         return [
             'email.required' => __('validation.organization.email.required'),
-            'email.email'    => __('validation.organization.email.email'),
+            'email.email' => __('validation.organization.email.email'),
         ];
     }
 }

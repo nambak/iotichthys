@@ -10,10 +10,11 @@ use Livewire\WithPagination;
 class SubCategoryList extends Component
 {
     use WithPagination;
-    
+
     public Category $category;
 
-    public function mount(Category $category) {
+    public function mount(Category $category)
+    {
         $this->category = $category;
     }
 
@@ -37,8 +38,7 @@ class SubCategoryList extends Component
     /**
      * 하위 카테고리 삭제
      *
-     * @param int $categoryId
-     * @return void
+     * @param  int  $categoryId
      */
     public function deleteSubcategory($categoryId): void
     {
@@ -47,16 +47,18 @@ class SubCategoryList extends Component
         // 삭제하려는 카테고리가 현재 카테고리의 직접 하위인지 확인
         if ($subcategory->parent_id !== $this->category->id) {
             $this->dispatch('show-error-toast', [
-                'message' => __('권한이 없습니다.')
+                'message' => __('권한이 없습니다.'),
             ]);
+
             return;
         }
 
         // 카테고리 삭제 가능 여부 확인
-        if (!$subcategory->canBeDeleted()) {
+        if (! $subcategory->canBeDeleted()) {
             $this->dispatch('show-error-toast', [
-                'message' => __('하위 카테고리가 있어 삭제할 수 없습니다.')
+                'message' => __('하위 카테고리가 있어 삭제할 수 없습니다.'),
             ]);
+
             return;
         }
 

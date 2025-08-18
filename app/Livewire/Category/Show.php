@@ -24,9 +24,6 @@ class Show extends Component
 
     /**
      * 하위 카테고리 편집 모달 열기
-     *
-     * @param Category $subcategory
-     * @return void
      */
     public function editSubcategory(Category $subcategory): void
     {

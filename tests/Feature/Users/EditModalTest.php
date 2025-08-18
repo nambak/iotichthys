@@ -6,14 +6,14 @@ use Livewire\Livewire;
 
 test('사용자 편집 모달이 정상적으로 렌더링된다', function () {
     $component = Livewire::test(EditModal::class);
-    
+
     $component->assertStatus(200);
 });
 
 test('편집 모달이 사용자 정보로 정상적으로 초기화된다', function () {
     $user = User::factory()->create([
         'name' => 'Test User',
-        'email' => 'test@example.com'
+        'email' => 'test@example.com',
     ]);
 
     Livewire::test(EditModal::class)
@@ -35,7 +35,7 @@ test('탈퇴한 사용자는 편집 모달을 열 수 없다', function () {
 test('유효한 데이터로 사용자 정보를 수정할 수 있다', function () {
     $user = User::factory()->create([
         'name' => 'Original Name',
-        'email' => 'original@example.com'
+        'email' => 'original@example.com',
     ]);
 
     Livewire::test(EditModal::class)
@@ -90,7 +90,7 @@ test('중복된 이메일로는 수정할 수 없다', function () {
 test('같은 이메일로 수정하는 것은 허용된다', function () {
     $user = User::factory()->create([
         'name' => 'Test User',
-        'email' => 'test@example.com'
+        'email' => 'test@example.com',
     ]);
 
     Livewire::test(EditModal::class)
@@ -120,7 +120,7 @@ test('이메일 길이 검증이 동작한다', function () {
 
     Livewire::test(EditModal::class)
         ->call('openEditModal', $user->id)
-        ->set('email', str_repeat('a', 250) . '@example.com') // 255자 초과
+        ->set('email', str_repeat('a', 250).'@example.com') // 255자 초과
         ->call('update')
         ->assertHasErrors(['email' => 'max']);
 });
@@ -128,7 +128,7 @@ test('이메일 길이 검증이 동작한다', function () {
 test('폼 리셋이 정상적으로 동작한다', function () {
     $user = User::factory()->create([
         'name' => 'Test User',
-        'email' => 'test@example.com'
+        'email' => 'test@example.com',
     ]);
 
     $component = Livewire::test(EditModal::class)

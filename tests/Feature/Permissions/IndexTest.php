@@ -31,7 +31,7 @@ it('displays permissions ordered by resource and action', function () {
 
     // Should be ordered by resource first, then action
     $permissions = $component->viewData('permissions');
-    
+
     expect($permissions->items())->toHaveCount(4);
     expect($permissions->items()[0]->resource)->toBe('device');
     expect($permissions->items()[0]->action)->toBe('create');
@@ -79,7 +79,7 @@ it('cannot delete permission when roles are attached', function () {
 
     $permission = Permission::factory()->create();
     $role = Role::factory()->create();
-    
+
     // Attach permission to role
     $role->permissions()->attach($permission->id);
 
@@ -89,7 +89,7 @@ it('cannot delete permission when roles are attached', function () {
     Livewire::test(Index::class)
         ->call('delete', $permission->id)
         ->assertDispatched('show-error-toast', [
-            'message' => '역할에 할당된 권한은 삭제할 수 없습니다.'
+            'message' => '역할에 할당된 권한은 삭제할 수 없습니다.',
         ]);
 
     // Permission should still exist
@@ -105,10 +105,10 @@ it('resets pagination after deleting permission', function () {
     $permission = Permission::factory()->create();
 
     $component = Livewire::test(Index::class);
-    
+
     // Navigate to page 2
     $component->call('gotoPage', 2);
-    
+
     // Verify we're on page 2 by checking pagination state
     $viewData = $component->viewData('permissions');
     expect($viewData->currentPage())->toBe(2);
@@ -139,10 +139,10 @@ it('refreshes after permission is created', function () {
     Permission::factory()->count(15)->create();
 
     $component = Livewire::test(Index::class);
-    
+
     // Navigate to page 2
     $component->call('gotoPage', 2);
-    
+
     // Verify we're on page 2
     $viewData = $component->viewData('permissions');
     expect($viewData->currentPage())->toBe(2);
@@ -162,10 +162,10 @@ it('refreshes after permission is updated', function () {
     Permission::factory()->count(15)->create();
 
     $component = Livewire::test(Index::class);
-    
+
     // Navigate to page 2
     $component->call('gotoPage', 2);
-    
+
     // Verify we're on page 2
     $viewData = $component->viewData('permissions');
     expect($viewData->currentPage())->toBe(2);
