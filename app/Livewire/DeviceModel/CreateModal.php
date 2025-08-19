@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DeviceModel;
 
+use App\Http\Requests\DeviceModelRequest;
 use App\Models\DeviceModel;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -24,14 +25,8 @@ class CreateModal extends Component
      */
     public function save()
     {
-        $validatedData = $this->validate([
-            'name'           => 'required|string|max:255',
-            'specifications' => 'nullable|string',
-            'description'    => 'nullable|string',
-        ], [
-            'name.required' => '모델명을 입력해주세요.',
-            'name.max'      => '모델명은 255자 이하로 입력해주세요.',
-        ]);
+        $request = new DeviceModelRequest;
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
         // specifications를 JSON으로 변환 (배열 형태가 아닌 경우)
         if (!empty($validatedData['specifications'])) {
@@ -46,7 +41,6 @@ class CreateModal extends Component
         DeviceModel::create($validatedData);
 
         $this->dispatch('device-model-created');
-
         $this->dispatch('modal-close', modal: 'create-device-model');
     }
 

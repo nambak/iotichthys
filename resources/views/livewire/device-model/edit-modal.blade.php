@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="edit-device-model" class="md:w-96">
+    <flux:modal name="edit-device-model" class="w-1/2">
         <div>
             <flux:heading size="lg">{{ __('장치 모델 편집') }}</flux:heading>
         </div>

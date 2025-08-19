@@ -1,10 +1,9 @@
 <section class="w-full" x-data="deviceModelIndex()">
-
-    <div class="relative mb-6 w-full">
+    <div class="relative mb-3 w-full">
         <div class="flex justify-between items-center">
             <div>
                 <flux:heading size="xl" level="1" class="mb-6">{{ __('장치 모델 관리') }}</flux:heading>
-                <flux:subheading size="lg" class="mb-6">{{ __('장치 모델을 생성하고 관리합니다.') }}</flux:subheading>
+                <flux:subheading size="lg" class="mb-3">{{ __('장치 모델을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
             <flux:modal.trigger name="create-device-model">

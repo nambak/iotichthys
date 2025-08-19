@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DeviceModel;
 
+use App\Http\Requests\DeviceModelRequest;
 use App\Models\DeviceModel;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -26,7 +27,8 @@ class EditModal extends Component
     {
         $this->deviceModel = DeviceModel::findOrFail($deviceModelId);
         $this->loadDeviceModelData();
-        $this->dispatch('open-modal', 'edit-device-model');
+        $this->resetValidation();
+        $this->modal('edit-device-model')->show();
     }
 
     /**
@@ -52,14 +54,8 @@ class EditModal extends Component
      */
     public function save()
     {
-        $validatedData = $this->validate([
-            'name'           => 'required|string|max:255',
-            'specifications' => 'nullable|string',
-            'description'    => 'nullable|string',
-        ], [
-            'name.required' => '모델명을 입력해주세요.',
-            'name.max'      => '모델명은 255자 이하로 입력해주세요.',
-        ]);
+        $request = new DeviceModelRequest;
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
         // specifications를 JSON으로 변환
         if (!empty($validatedData['specifications'])) {
@@ -72,7 +68,11 @@ class EditModal extends Component
 
         $this->deviceModel->update($validatedData);
 
-        $this->dispatch('close-modal', 'edit-device-model');
         $this->dispatch('device-model-updated');
+
+        $this->dispatch('modal-close', modal: 'edit-device-model');
+
+        $this->reset();
+        $this->resetValidation();
     }
 }
