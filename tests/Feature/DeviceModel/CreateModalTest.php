@@ -67,4 +67,17 @@ describe('장치 모델 생성', function () {
         $deviceModel = DeviceModel::first();
         expect($deviceModel->specifications)->toBeNull();
     });
+
+    it('모델 생성 후 모달이 닫힌다', function () {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        Livewire::test(CreateModal::class)
+            ->set('name', '모달 테스트 모델')
+            ->set('description', '모달 닫힘 테스트')
+            ->call('save')
+            ->assertDispatched('close-modal', 'create-device-model')
+            ->assertDispatched('device-model-created');
+    });
 });

@@ -36,8 +36,8 @@
 
         <flux:navlist.group :heading="__('sidebar.device_manage')" class="grid">
             <flux:navlist.item href="{{ route('device.index') }}">{{__('sidebar.device_manage')}}</flux:navlist.item>
-            <flux:navlist.item href="{{ route('category.index') }}">{{__('sidebar.category_manage')}}
-            </flux:navlist.item>
+            <flux:navlist.item href="{{ route('category.index') }}">{{__('sidebar.category_manage')}}</flux:navlist.item>
+            <flux:navlist.item href="{{ route('device-model.index') }}">{{__('sidebar.device_model_manage')}}</flux:navlist.item>
         </flux:navlist.group>
     </flux:navlist>
 

@@ -8,4 +8,5 @@ return [
     'team_manage'         => '팀 관리',
     'permission_manage'   => '권한 관리',
     'dashboard'           => '대시보드',
+    'device_model_manage' => '장치 모델 관리'
 ];

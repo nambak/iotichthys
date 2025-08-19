@@ -45,9 +45,9 @@ class CreateModal extends Component
 
         DeviceModel::create($validatedData);
 
-        $this->dispatch('close-modal', 'create-device-model');
         $this->dispatch('device-model-created');
-        $this->resetForm();
+
+        $this->dispatch('modal-close', modal: 'create-device-model');
     }
 
     /**

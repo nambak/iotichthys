@@ -13,70 +13,69 @@
                 </flux:button>
             </flux:modal.trigger>
         </div>
-        <flux:separator variant="subtle"/>
     </div>
 
     <!-- 장치 모델 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full divide-y divide-white/20">
+        <table class="w-full divide-white/20">
             <thead>
             <tr>
-                <th class="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     {{ __('모델명') }}
                 </th>
-                <th class="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     {{ __('설명') }}
                 </th>
-                <th class="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     {{ __('사용 장치 수') }}
                 </th>
-                <th class="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     {{ __('생성일') }}
                 </th>
-                <th class="px-3 py-3 text-left text-xs font-medium text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">
-                    {{ __('관리') }}
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                 </th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-white/10">
-            @forelse($deviceModels as $deviceModel)
-                <tr class="hover:bg-white/5 transition-colors">
-                    <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
-                        <a href="{{ route('device-model.show', $deviceModel) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-                            {{ $deviceModel->name }}
-                        </a>
-                    </td>
-                    <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
-                        <div class="max-w-xs truncate">
-                            {{ $deviceModel->description ?? '설명 없음' }}
-                        </div>
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
-                        <flux:badge variant="{{ $deviceModel->devices_count > 0 ? 'blue' : 'zinc' }}" size="sm">
-                            {{ $deviceModel->devices_count }}개
-                        </flux:badge>
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
-                        {{ $deviceModel->created_at->format('Y-m-d') }}
-                    </td>
-                    <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                        <flux:icon.pencil-square
-                                class="size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
-                                wire:click="editDeviceModel({{ $deviceModel->id }})"
-                        />
-                        <flux:icon.trash
-                                class="size-4 hover:text-red-600 transition-colors cursor-pointer"
-                                @click="deleteDeviceModel({{ $deviceModel->id }})"
-                        />
-                    </td>
-                </tr>
-            @empty
-            <tr>
-                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                    {{ __('등록된 장치 모델이 없습니다. 새 모델을 생성해보세요!') }}
-                </td>
-            </tr>
-            @endforelse
+            <tbody class="bg-zinc-700/50 divide-white/10">
+                @forelse($deviceModels as $deviceModel)
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            <a href="{{ route('device-model.show', $deviceModel) }}"
+                               class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                                {{ $deviceModel->name }}
+                            </a>
+                        </td>
+                        <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
+                            <div class="max-w-lg truncate">
+                                {{ $deviceModel->description ?? '설명 없음' }}
+                            </div>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <flux:badge variant="{{ $deviceModel->devices_count > 0 ? 'blue' : 'zinc' }}" size="sm">
+                                {{ $deviceModel->devices_count }}개
+                            </flux:badge>
+                        </td>
+                        <td class="px-3 py-4 text-center whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $deviceModel->created_at->format('Y-m-d') }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <flux:icon.pencil-square
+                                    class="inline-block size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
+                                    wire:click="editDeviceModel({{ $deviceModel->id }})"
+                            />
+                            <flux:icon.trash
+                                    class="inline-block size-4 hover:text-red-600 transition-colors cursor-pointer"
+                                    @click="deleteDeviceModel({{ $deviceModel->id }})"
+                            />
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                            {{ __('등록된 장치 모델이 없습니다. 새 모델을 생성해보세요!') }}
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -95,31 +94,31 @@
 </section>
 
 <script>
-function deviceModelIndex() {
-    return {
-        deleteDeviceModel(deviceModelId) {
-            confirmDelete('정말로 이 장치 모델을 삭제하시겠습니까?', () => {
-                this.$wire.delete(deviceModelId);
-            });
-        },
+    function deviceModelIndex() {
+        return {
+            deleteDeviceModel(deviceModelId) {
+                confirmDelete('정말로 이 장치 모델을 삭제하시겠습니까?', () => {
+                    this.$wire.delete(deviceModelId);
+                });
+            },
 
-        init() {
-            this.$wire.on('show-error-toast', (event) => {
-                showErrorToast(event[0].message);
-            });
+            init() {
+                this.$wire.on('show-error-toast', (event) => {
+                    showErrorToast(event[0].message);
+                });
 
-            this.$wire.on('device-model-deleted', () => {
-                showSuccessToast('장치 모델이 삭제되었습니다.');
-            });
+                this.$wire.on('device-model-deleted', () => {
+                    showSuccessToast('장치 모델이 삭제되었습니다.');
+                });
 
-            this.$wire.on('device-model-created', () => {
-                showSuccessToast('장치 모델이 생성되었습니다.');
-            });
+                this.$wire.on('device-model-created', () => {
+                    showSuccessToast('장치 모델이 생성되었습니다.');
+                });
 
-            this.$wire.on('device-model-updated', () => {
-                showSuccessToast('장치 모델이 수정되었습니다.');
-            });
-        }
-    };
-}
+                this.$wire.on('device-model-updated', () => {
+                    showSuccessToast('장치 모델이 수정되었습니다.');
+                });
+            }
+        };
+    }
 </script>

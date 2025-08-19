@@ -39,7 +39,7 @@ class CreateModal extends Component
     /**
      * 카테고리 생성
      */
-    public function create()
+    public function save()
     {
         // Form Request 클래스에서 validation rules와 messages 가져오기
         $request = new CategoryRequest;

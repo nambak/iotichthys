@@ -4,7 +4,7 @@
             {{ $parent_id ? '하위 카테고리 생성' : '카테고리 생성' }}
         </flux:heading>
     </div>
-    <form wire:submit.prevent="create" class="font-siz0-[14px] mt-10">
+    <form wire:submit.prevent="save" class="font-siz0-[14px] mt-10">
         <div class="space-y-6">
             <flux:field>
                 <flux:input
