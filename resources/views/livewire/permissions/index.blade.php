@@ -1,9 +1,9 @@
 <section class="w-full" x-data="permissionsIndex()">
-    <div class="relative mb-6 w-full">
+    <div class="relative mb-3 w-full">
         <div class="flex justify-between items-center">
             <div>
                 <flux:heading size="xl" level="1" class="mb-6">{{ __('권한 관리') }}</flux:heading>
-                <flux:subheading size="lg" class="mb-6">{{ __('시스템 권한을 생성하고 관리합니다.') }}</flux:subheading>
+                <flux:subheading size="lg" class="mb-3">{{ __('시스템 권한을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
             <!-- TODO: 권한 생성 권한 체크 -->
@@ -13,91 +13,84 @@
                 </flux:button>
             </flux:modal.trigger>
         </div>
-        <flux:separator variant="subtle"/>
     </div>
     <!-- 권한 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
+        <table class="w-full divide-white/20">
             <thead>
             <tr>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    권한 이름
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('권한 이름') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    리소스
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('리소스') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    액션
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('액션') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    설명
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('설명') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    사용자 수
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('사용자 수') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    등록일
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('등록일') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    &nbsp;
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                 </th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-800/10 dark:divide-white/20">
-            @forelse ($permissions as $permission)
-            <tr>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <a href="{{ route('permissions.show', $permission) }}" 
-                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 hover:underline">
-                        {{ $permission->name }}
-                    </a>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
-                        {{ $permission->resource }}
-                    </span>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full">
-                        {{ $permission->action }}
-                    </span>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
-                    {{ $permission->description ?? '-' }}
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-full">
-                        {{ $permission->roles->flatMap->users->unique('id')->count() }} 명
-                    </span>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $permission->created_at->format('Y-m-d H:i:s') }}
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <flux:icon.pencil-square
-                            class="size-4 mr-1 hover:text-blue-600 transition-colors"
-                            wire:click="edit({{ $permission->id }})"
-                    />
-                    <flux:icon.trash
-                            class="size-4 hover:text-red-600 transition-colors"
-                            @click="deletePermission({{ $permission->id }})"
-                    />
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                    {{ __('권한이 없습니다. 새 권한을 생성해보세요!') }}
-                </td>
-            </tr>
-            @endforelse
+            <tbody class="bg-zinc-700/50 divide-white/10">
+                @forelse ($permissions as $permission)
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            <a href="{{ route('permissions.show', $permission) }}" 
+                               class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                                {{ $permission->name }}
+                            </a>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <flux:badge variant="blue" size="sm">
+                                {{ $permission->resource }}
+                            </flux:badge>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <flux:badge variant="lime" size="sm">
+                                {{ $permission->action }}
+                            </flux:badge>
+                        </td>
+                        <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
+                            <div class="max-w-lg truncate">
+                                {{ $permission->description ?? '설명 없음' }}
+                            </div>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <flux:badge variant="{{ $permission->roles->flatMap->users->unique('id')->count() > 0 ? 'blue' : 'zinc' }}" size="sm">
+                                {{ $permission->roles->flatMap->users->unique('id')->count() }}명
+                            </flux:badge>
+                        </td>
+                        <td class="px-3 py-4 text-center whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $permission->created_at->format('Y-m-d') }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <flux:icon.pencil-square
+                                    class="inline-block size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
+                                    wire:click="edit({{ $permission->id }})"
+                            />
+                            <flux:icon.trash
+                                    class="inline-block size-4 hover:text-red-600 transition-colors cursor-pointer"
+                                    @click="deletePermission({{ $permission->id }})"
+                            />
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                            {{ __('권한이 없습니다. 새 권한을 생성해보세요!') }}
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="create-device" class="md:w-96" @close="resetForm">
+    <flux:modal name="create-device" class="w-1/2" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 장치 추가') }}</flux:heading>
         </div>
@@ -24,7 +24,7 @@
                 <flux:select
                     label="장치 모델"
                     placeholder="{{ count($deviceModels) == 0 ? '등록된 모델이 없습니다' : '장치 모델을 선택해 주세요' }}"
-                    wire:model="model_id"
+                    wire:model="device_model_id"
                 >
                     @foreach($deviceModels as $model)
                         <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>

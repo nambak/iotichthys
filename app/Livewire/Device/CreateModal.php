@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Device;
 
-use App\Http\Requests\DeviceRequest;
+use App\Http\Requests\CreateDeviceRequest;
 use App\Models\Device;
 use App\Models\DeviceModel;
 use App\Models\Organization;
@@ -34,12 +34,13 @@ class CreateModal extends Component
      */
     public function save()
     {
-        $request = new DeviceRequest();
+        $request = new CreateDeviceRequest();
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         Device::create($validatedData);
 
         $this->dispatch('device-created');
+        $this->dispatch('modal-close', modal: 'create-device');
         $this->resetForm();
     }
 

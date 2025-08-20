@@ -1,10 +1,9 @@
 <section class="w-full" x-data="organizationIndex()">
-
-    <div class="relative mb-6 w-full">
+    <div class="relative mb-3 w-full">
         <div class="flex justify-between items-center">
             <div>
                 <flux:heading size="xl" level="1" class="mb-6">{{ __('조직 관리') }}</flux:heading>
-                <flux:subheading size="lg" class="mb-6">{{ __('조직을 생성하고 관리합니다.') }}</flux:subheading>
+                <flux:subheading size="lg" class="mb-3">{{ __('조직을 생성하고 관리합니다.') }}</flux:subheading>
             </div>
 
             <!-- TODO: 조직 생성 권한 체크 -->
@@ -14,85 +13,78 @@
                 </flux:button>
             </flux:modal.trigger>
         </div>
-        <flux:separator variant="subtle"/>
     </div>
     <!-- 조직 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
+        <table class="w-full divide-white/20">
             <thead>
             <tr>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    조직 이름
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('조직 이름') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    대표자 명
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('대표자 명') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    사업자 번호
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('사업자 번호') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    주소
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('주소') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    사업장 연락처
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('사업장 연락처') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    등록일
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('등록일') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    &nbsp;
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                 </th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-800/10 dark:divide-white/20">
-            @forelse ($organizations as $organization)
-            <tr>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <a href="{{ route('organization.show', $organization) }}" 
-                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">
-                        {{ $organization->name }}
-                    </a>
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->owner }}
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->business_register_number }}
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->address }}
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->phone_number }}
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $organization->created_at->format('Y-m-d H:i:s') }}
-                </td>
-                <td class="py-3 px-3 text-sm  text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <flux:icon.pencil-square
-                            class="size-4 mr-1 hover:text-blue-600 transition-colors"
-                            wire:click="editOrganization({{ $organization->id }})"
-                    />
-                    <flux:icon.trash
-                            class="size-4 hover:text-red-600 transition-colors"
-                            @click="deleteOrganization({{ $organization->id }})"
-                    />
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                    {{ __('조직이 없습니다. 새 조직을 생성해보세요!') }}
-                </td>
-            </tr>
-            @endforelse
+            <tbody class="bg-zinc-700/50 divide-white/10">
+                @forelse ($organizations as $organization)
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            <a href="{{ route('organization.show', $organization) }}" 
+                               class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">
+                                {{ $organization->name }}
+                            </a>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $organization->owner }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <code class="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs">{{ $organization->business_register_number }}</code>
+                        </td>
+                        <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
+                            <div class="max-w-lg truncate">
+                                {{ $organization->address }}
+                            </div>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $organization->phone_number }}
+                        </td>
+                        <td class="px-3 py-4 text-center whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $organization->created_at->format('Y-m-d') }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <flux:icon.pencil-square
+                                    class="inline-block size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
+                                    wire:click="editOrganization({{ $organization->id }})"
+                            />
+                            <flux:icon.trash
+                                    class="inline-block size-4 hover:text-red-600 transition-colors cursor-pointer"
+                                    @click="deleteOrganization({{ $organization->id }})"
+                            />
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                            {{ __('조직이 없습니다. 새 조직을 생성해보세요!') }}
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

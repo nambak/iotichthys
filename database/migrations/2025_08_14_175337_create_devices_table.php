@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('장치명');
-            $table->string('device_id')->unique()->comment('장치 ID');
+            $table->string('device_id')->comment('장치 ID');
             $table->foreignId('device_model_id')->constrained('device_models')->onDelete('cascade')->comment('장치 모델 ID');
             $table->enum('status', ['active', 'inactive', 'maintenance', 'error'])->default('active')->comment('장치 상태');
             $table->foreignId('organization_id')->nullable()->constrained('organizations')->onDelete('cascade')->comment('소속 조직 ID');
