@@ -77,7 +77,7 @@ describe('장치 모델 생성', function () {
             ->set('name', '모달 테스트 모델')
             ->set('description', '모달 닫힘 테스트')
             ->call('save')
-            ->assertDispatched('close-modal', 'create-device-model')
+            ->assertDispatched('modal-close')
             ->assertDispatched('device-model-created');
     });
 });

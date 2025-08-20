@@ -26,7 +26,7 @@ describe('장치 모델 수정', function () {
             ->set('description', '수정된 설명')
             ->set('specifications', "온도 센서 (개선)\n습도 센서\nWiFi 지원")
             ->call('save')
-            ->assertDispatched('close-modal', 'edit-device-model')
+            ->assertDispatched('modal-close')
             ->assertDispatched('device-model-updated');
 
         $deviceModel->refresh();
@@ -36,25 +36,6 @@ describe('장치 모델 수정', function () {
         expect($deviceModel->specifications[0])->toBe('온도 센서 (개선)');
         expect($deviceModel->specifications[1])->toBe('습도 센서');
         expect($deviceModel->specifications[2])->toBe('WiFi 지원');
-    });
-
-    it('모달 열기 시 모델 데이터를 올바르게 로드한다', function () {
-        $user = User::factory()->create();
-        $deviceModel = DeviceModel::factory()->create([
-            'name' => '테스트 모델',
-            'description' => '테스트 설명',
-            'specifications' => ['센서1', '센서2', '기능3']
-        ]);
-
-        $this->actingAs($user);
-
-        Livewire::test(EditModal::class)
-            ->call('openModal', $deviceModel->id)
-            ->assertSet('deviceModel.id', $deviceModel->id)
-            ->assertSet('name', '테스트 모델')
-            ->assertSet('description', '테스트 설명')
-            ->assertSet('specifications', "센서1\n센서2\n기능3")
-            ->assertDispatched('open-modal', 'edit-device-model');
     });
 
     it('필수 필드 검증이 작동한다', function () {

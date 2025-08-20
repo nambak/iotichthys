@@ -7,7 +7,7 @@ test('카테고리 생성 시 자동으로 slug가 생성됨', function () {
     Livewire::test('category.create-modal')
         ->set('name', 'Test Category')
         ->set('description', 'Test Description')
-        ->call('create');
+        ->call('save');
 
     $category = Category::where('name', 'Test Category')->first();
 
@@ -26,7 +26,7 @@ test('중복된 이름으로 카테고리 생성 시 고유한 slug가 생성됨
     // 두 번째 카테고리 생성 (같은 이름)
     Livewire::test('category.create-modal')
         ->set('name', 'Duplicate Category')
-        ->call('create');
+        ->call('save');
 
     $categories = Category::where('name', 'Duplicate Category')->get();
 
@@ -44,7 +44,7 @@ test('하위 카테고리 생성 시 이벤트가 올바르게 발송됨', funct
     Livewire::test('category.create-modal')
         ->set('name', 'Child Category')
         ->set('parent_id', $parent->id)
-        ->call('create')
+        ->call('save')
         ->assertDispatched('subcategory-created');
 
     $child = Category::where('name', 'Child Category')->first();
@@ -55,7 +55,7 @@ test('하위 카테고리 생성 시 이벤트가 올바르게 발송됨', funct
 test('최상위 카테고리 생성 시 이벤트가 올바르게 발송됨', function () {
     Livewire::test('category.create-modal')
         ->set('name', 'Root Category')
-        ->call('create')
+        ->call('save')
         ->assertDispatched('category-created');
 
     $category = Category::where('name', 'Root Category')->first();
@@ -66,7 +66,7 @@ test('최상위 카테고리 생성 시 이벤트가 올바르게 발송됨', fu
 test('유효성 검사가 정상 작동함', function () {
     Livewire::test('category.create-modal')
         ->set('name', '')
-        ->call('create')
+        ->call('save')
         ->assertHasErrors(['name']);
 });
 
