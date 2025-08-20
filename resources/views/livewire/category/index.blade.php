@@ -18,71 +18,65 @@
 
     <!-- 카테고리 목록 테이블 -->
     <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20">
+        <table class="w-full divide-white/20">
             <thead>
             <tr>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    카테고리 이름
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('카테고리 이름') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    설명
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('설명') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    상태
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('상태') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                    생성일
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('생성일') }}
                 </th>
-                <th scope="col"
-                    class="py-3 px-3 text-start text-sm font-medium text-zinc-800 dark:text-white">
-                        &nbsp;
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                 </th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-800/10 dark:divide-white/20">
-            @forelse ($categories as $category)
-            <tr>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <a href="{{ route('category.show', $category) }}" 
-                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">
-                        {{ $category->name }}
-                    </a>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300">
-                    <div class="max-w-xs truncate">
-                        {{ $category->description ?? '-' }}
-                    </div>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    <flux:badge variant="{{ $category->is_active ? 'success' : 'warning' }}">
-                        {{ $category->is_active ? '활성' : '비활성' }}
-                    </flux:badge>
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap">
-                    {{ $category->created_at->format('Y-m-d') }}
-                </td>
-                <td class="py-3 px-3 text-sm text-zinc-500 dark:text-zinc-300 whitespace-nowrap flex">
-                    <flux:icon.pencil-square
-                            class="size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
-                            wire:click="editCategory({{ $category->id }})"
-                    />
-                    <flux:icon.trash
-                            class="size-4 hover:text-red-600 transition-colors cursor-pointer"
-                            @click="deleteCategory({{ $category->id }})"
-                    />
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
-                    {{ __('카테고리가 없습니다. 새 카테고리를 생성해보세요!') }}
-                </td>
-            </tr>
-            @endforelse
+            <tbody class="bg-zinc-700/50 divide-white/10">
+                @forelse($categories as $category)
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            <a href="{{ route('category.show', $category) }}"
+                               class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                                {{ $category->name }}
+                            </a>
+                        </td>
+                        <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
+                            <div class="max-w-lg truncate">
+                                {{ $category->description ?? '-' }}
+                            </div>
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            <flux:badge variant="{{ $category->is_active ? 'success' : 'warning' }}">
+                                {{ $category->is_active ? '활성' : '비활성' }}
+                            </flux:badge>
+                        </td>
+                        <td class="px-3 py-4 text-center whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $category->created_at->format('Y-m-d') }}
+                        </td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <flux:icon.pencil-square
+                                    class="inline-block size-4 mr-1 hover:text-blue-600 transition-colors cursor-pointer"
+                                    wire:click="editCategory({{ $category->id }})"
+                            />
+                            <flux:icon.trash
+                                    class="inline-block size-4 hover:text-red-600 transition-colors cursor-pointer"
+                                    @click="deleteCategory({{ $category->id }})"
+                            />
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                            {{ __('카테고리가 없습니다. 새 카테고리를 생성해보세요!') }}
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

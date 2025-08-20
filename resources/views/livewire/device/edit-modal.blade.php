@@ -1,5 +1,5 @@
 <div x-data="editDeviceModal()">
-    <flux:modal name="edit-device" class="md:w-96" @close="resetForm">
+    <flux:modal name="edit-device" class="w-1/2" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('장치 수정') }}</flux:heading>
         </div>
@@ -21,34 +21,41 @@
                     />
                 </flux:field>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 모델</label>
-                    <select wire:model="device_model_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                <flux:field>
+                    <flux:select
+                        label="장치 모델"
+                        wire:model="device_model_id"
+                    >
                         @foreach($deviceModels as $model)
-                            <option value="{{ $model->id }}">{{ $model->name }}</option>
+                            <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>
                         @endforeach
-                    </select>
-                </div>
+                    </flux:select>
+                </flux:field>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">장치 상태</label>
-                    <select wire:model="status" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="active">활성</option>
-                        <option value="inactive">비활성</option>
-                        <option value="maintenance">점검중</option>
-                        <option value="error">오류</option>
-                    </select>
-                </div>
+                <flux:field>
+                    <flux:select
+                       label="장치 상태"
+                       wire:model="status"
+                    >
+                        <flux:select.option value="active">활성</flux:select.option>
+                        <flux:select.option value="inactive">비활성</flux:select.option>
+                        <flux:select.option value="maintenance">점검중</flux:select.option>
+                        <flux:select.option value="error">오류</flux:select.option>
+                    </flux:select>
+                </flux:field>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-zinc-800 dark:text-white">소속 조직</label>
-                    <select wire:model="organization_id" class="w-full px-3 py-2 border border-zinc-300 rounded-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="">조직 없음</option>
+                <flux:field>
+                    <flux:select
+                        label="소속 조직"
+                        wire:model="organization_id"
+                    >
                         @foreach($organizations as $organization)
-                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
+                            <flux:select.option value="{{ $organization->id }}">
+                                {{ $organization->name }}
+                            </flux:select.option>
                         @endforeach
-                    </select>
-                </div>
+                    </flux:select>
+                </flux:field>
 
                 <flux:field>
                     <flux:input
@@ -66,17 +73,13 @@
                         rows="3"
                     />
                 </flux:field>
-            </div>
 
-            <div class="flex space-x-3 mt-6">
-                <flux:button type="submit" variant="primary">
-                    {{ __('수정 완료') }}
-                </flux:button>
-                <flux:modal.close>
-                    <flux:button variant="ghost">
-                        {{ __('취소') }}
+                <div class="flex">
+                    <flux:spacer />
+                    <flux:button type="submit" variant="primary">
+                        {{ __('수정 완료') }}
                     </flux:button>
-                </flux:modal.close>
+                </div>
             </div>
         </form>
     </flux:modal>

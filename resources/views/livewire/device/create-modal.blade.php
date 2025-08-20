@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="create-device" class="md:w-96" @close="resetForm">
+    <flux:modal name="create-device" class="w-1/2" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 장치 추가') }}</flux:heading>
         </div>

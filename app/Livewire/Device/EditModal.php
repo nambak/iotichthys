@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Device;
 
+use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\Device;
 use App\Models\DeviceModel;
 use App\Models\Organization;
@@ -36,6 +37,7 @@ class EditModal extends Component
         $this->device = Device::findOrFail($deviceId);
         $this->loadDeviceData();
         $this->dispatch('open-modal', 'edit-device');
+        $this->modal('edit-device')->show();
     }
 
     /**
@@ -59,29 +61,14 @@ class EditModal extends Component
      */
     public function save()
     {
-        $validatedData = $this->validate([
-            'name'            => 'required|string|max:255',
-            'device_id'       => 'required|string|max:255|unique:devices,device_id,' . $this->device->id,
-            'device_model_id' => 'required|exists:device_models,id',
-            'status'          => 'required|in:active,inactive,maintenance,error',
-            'organization_id' => 'nullable|exists:organizations,id',
-            'description'     => 'nullable|string',
-            'location'        => 'nullable|string|max:255',
-        ], [
-            'name.required'            => '장치명을 입력해주세요.',
-            'device_id.required'       => '장치 ID를 입력해주세요.',
-            'device_id.unique'         => '이미 존재하는 장치 ID입니다.',
-            'device_model_id.required' => '장치 모델을 선택해주세요.',
-            'device_model_id.exists'   => '유효하지 않은 장치 모델입니다.',
-            'status.required'          => '장치 상태를 선택해주세요.',
-            'organization_id.exists'   => '유효하지 않은 조직입니다.',
-        ]);
+        $request = new UpdateDeviceRequest;
+        $validatedData = $this->validate($request->rules(), $request->messages());
 
         $this->device->update($validatedData);
 
-        $this->dispatch('close-modal', 'edit-device');
-
         $this->dispatch('device-updated');
+
+        $this->dispatch('modal-close', modal: 'edit-device');
 
         $this->resetForm();
     }
@@ -91,13 +78,6 @@ class EditModal extends Component
      */
     public function resetForm()
     {
-        $this->device = null;
-        $this->name = '';
-        $this->device_id = '';
-        $this->device_model_id = '';
-        $this->status = 'active';
-        $this->organization_id = '';
-        $this->description = '';
-        $this->location = '';
+        $this->resetValidation();
     }
 }
