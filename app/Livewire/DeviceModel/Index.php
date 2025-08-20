@@ -51,7 +51,12 @@ class Index extends Component
      * @return void
      */
     public function editDeviceModel(DeviceModel $deviceModel): void
+     * @param int $deviceModelId
+     * @return void
+     */
+    public function editDeviceModel(int $deviceModelId): void
     {
+        $deviceModel = DeviceModel::findOrFail($deviceModelId);
         $this->dispatch('open-edit-device-model', deviceModelId: $deviceModel->id);
     }
 
