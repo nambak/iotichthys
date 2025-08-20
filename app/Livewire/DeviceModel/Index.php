@@ -47,10 +47,6 @@ class Index extends Component
     /**
      * 장치 모델 편집 모달 열기
      *
-     * @param DeviceModel $deviceModel
-     * @return void
-     */
-    public function editDeviceModel(DeviceModel $deviceModel): void
      * @param int $deviceModelId
      * @return void
      */
