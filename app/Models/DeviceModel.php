@@ -14,6 +14,7 @@ class DeviceModel extends Model
 
     protected $fillable = [
         'name',
+        'manufacturer',
         'specifications',
         'description',
     ];
@@ -26,8 +27,6 @@ class DeviceModel extends Model
 
     /**
      * 이 모델을 사용하는 장치들
-     *
-     * @return HasMany
      */
     public function devices(): HasMany
     {
@@ -36,8 +35,6 @@ class DeviceModel extends Model
 
     /**
      * 모델 삭제 가능 여부 확인
-     *
-     * @return bool
      */
     public function canBeDeleted(): bool
     {
@@ -46,8 +43,6 @@ class DeviceModel extends Model
 
     /**
      * 장치 수 반환
-     *
-     * @return int
      */
     public function getDevicesCountAttribute(): int
     {

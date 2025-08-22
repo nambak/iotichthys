@@ -17,7 +17,7 @@ class DeviceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company() . ' 장치',
+            'name' => $this->faker->company().' 장치',
             'device_id' => strtoupper($this->faker->unique()->lexify('DEVICE_???_???')),
             'device_model_id' => null, // 테스트에서 직접 설정
             'status' => $this->faker->randomElement(['active', 'inactive', 'maintenance', 'error']),

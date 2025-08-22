@@ -10,10 +10,15 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?Category $category = null;
+
     public string $name = '';
+
     public string $description = '';
+
     public ?int $parent_id = null;
+
     public int $sort_order = 0;
+
     public bool $is_active = true;
 
     public function render()

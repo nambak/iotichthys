@@ -12,20 +12,56 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?Device $device = null;
+
     public string $name = '';
+
     public string $device_id = '';
+
     public string $device_model_id = '';
+
     public string $status = 'active';
+
     public string $organization_id = '';
+
     public string $description = '';
+
     public string $location = '';
+
+    public string $manufacturerFilter = '';
 
     public function render()
     {
-        $deviceModels = DeviceModel::all();
+        $deviceModels = DeviceModel::query()
+            ->when($this->manufacturerFilter, function ($query) {
+                $query->where('manufacturer', $this->manufacturerFilter);
+            })
+            ->get();
+
         $organizations = Organization::all();
 
-        return view('livewire.device.edit-modal', compact('deviceModels', 'organizations'));
+        // 제조사 목록을 가져오기 (중복 제거)
+        $manufacturers = DeviceModel::whereNotNull('manufacturer')
+            ->where('manufacturer', '!=', '')
+            ->distinct()
+            ->pluck('manufacturer')
+            ->sort()
+            ->values();
+
+        return view('livewire.device.edit-modal', compact('deviceModels', 'organizations', 'manufacturers'));
+    }
+
+    /**
+     * 제조사 필터가 변경되면 선택된 모델을 초기화 (현재 모델이 필터에 맞지 않을 경우)
+     */
+    public function updatedManufacturerFilter()
+    {
+        // 현재 선택된 모델이 새로운 필터에 맞지 않으면 초기화
+        if ($this->device_model_id && $this->manufacturerFilter) {
+            $selectedModel = DeviceModel::find($this->device_model_id);
+            if ($selectedModel && $selectedModel->manufacturer !== $this->manufacturerFilter) {
+                $this->device_model_id = '';
+            }
+        }
     }
 
     /**
@@ -48,11 +84,16 @@ class EditModal extends Component
         if ($this->device) {
             $this->name = $this->device->name;
             $this->device_id = $this->device->device_id;
-            $this->device_model_id = (string)$this->device->device_model_id;
+            $this->device_model_id = (string) $this->device->device_model_id;
             $this->status = $this->device->status;
-            $this->organization_id = (string)($this->device->organization_id ?? '');
+            $this->organization_id = (string) ($this->device->organization_id ?? '');
             $this->description = $this->device->description ?? '';
             $this->location = $this->device->location ?? '';
+
+            // 현재 모델의 제조사로 필터 설정
+            if ($this->device->deviceModel && $this->device->deviceModel->manufacturer) {
+                $this->manufacturerFilter = $this->device->deviceModel->manufacturer;
+            }
         }
     }
 

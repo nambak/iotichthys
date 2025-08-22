@@ -21,7 +21,7 @@ describe('장치 모델 관리', function () {
         $deviceModel = DeviceModel::create([
             'name' => '테스트 모델',
             'description' => '테스트용 장치 모델',
-            'specifications' => ['온도 센서', 'WiFi 지원']
+            'specifications' => ['온도 센서', 'WiFi 지원'],
         ]);
 
         $this->actingAs($user);
@@ -35,7 +35,7 @@ describe('장치 모델 관리', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '삭제 테스트 모델',
-            'description' => '삭제 테스트용 장치 모델'
+            'description' => '삭제 테스트용 장치 모델',
         ]);
 
         $this->actingAs($user);
@@ -53,7 +53,7 @@ describe('장치 모델 관리', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '사용중인 모델',
-            'description' => '사용중인 장치 모델'
+            'description' => '사용중인 장치 모델',
         ]);
 
         // 이 모델을 사용하는 장치 생성
@@ -61,7 +61,7 @@ describe('장치 모델 관리', function () {
             'name' => '테스트 장치',
             'device_id' => 'TEST_DEVICE_001',
             'device_model_id' => $deviceModel->id,
-            'status' => 'active'
+            'status' => 'active',
         ]);
 
         $this->actingAs($user);

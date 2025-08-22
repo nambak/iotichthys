@@ -23,15 +23,14 @@ class Index extends Component
     /**
      * 장치 삭제
      *
-     * @param int $deviceId
-     * @return void
+     * @param  int  $deviceId
      */
     public function delete($deviceId): void
     {
         $device = Device::findOrFail($deviceId);
-        
+
         $device->delete();
-        
+
         $this->dispatch('device-deleted');
         $this->resetPage();
     }
@@ -39,8 +38,7 @@ class Index extends Component
     /**
      * 장치 편집 모달 열기
      *
-     * @param int $deviceId
-     * @return void
+     * @param  int  $deviceId
      */
     public function editDevice(Device $device): void
     {

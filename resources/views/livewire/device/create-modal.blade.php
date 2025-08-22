@@ -22,12 +22,25 @@
                 </flux:field>
 
                 <flux:select
+                    label="제조사 필터 (선택사항)"
+                    placeholder="제조사를 선택하면 해당 제조사의 모델만 표시됩니다"
+                    wire:model.live="manufacturerFilter"
+                >
+                    <flux:select.option value="">전체 제조사</flux:select.option>
+                    @foreach($manufacturers as $manufacturer)
+                        <flux:select.option value="{{ $manufacturer }}">{{ $manufacturer }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+
+                <flux:select
                     label="장치 모델"
                     placeholder="{{ count($deviceModels) == 0 ? '등록된 모델이 없습니다' : '장치 모델을 선택해 주세요' }}"
                     wire:model="device_model_id"
                 >
                     @foreach($deviceModels as $model)
-                        <flux:select.option value="{{ $model->id }}">{{ $model->name }}</flux:select.option>
+                        <flux:select.option value="{{ $model->id }}">
+                            {{ $model->name }}@if($model->manufacturer) ({{ $model->manufacturer }})@endif
+                        </flux:select.option>
                     @endforeach
                 </flux:select>
 

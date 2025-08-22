@@ -14,6 +14,14 @@
                 </flux:field>
 
                 <flux:field>
+                    <flux:input
+                        label="제조사"
+                        placeholder="제조사명을 입력해 주세요 (선택사항)"
+                        wire:model="manufacturer"
+                    />
+                </flux:field>
+
+                <flux:field>
                     <flux:textarea
                         label="사양"
                         placeholder="장치 사양을 줄바꿈으로 구분하여 입력해 주세요 (선택사항)"

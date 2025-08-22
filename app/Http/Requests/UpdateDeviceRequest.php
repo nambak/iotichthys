@@ -22,19 +22,19 @@ class UpdateDeviceRequest extends DeviceRequest
     public function rules(): array
     {
         return [
-            'name'            => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'device_model_id' => ['required', 'exists:device_models,id'],
-            'status'          => ['required', 'in:active,inactive,maintenance,error'],
+            'status' => ['required', 'in:active,inactive,maintenance,error'],
             'organization_id' => ['nullable', 'exists:organizations,id'],
-            'description'     => ['nullable', 'string'],
-            'location'        => ['nullable', 'string', 'max:255'],
-            'device_id'       => [
+            'description' => ['nullable', 'string'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'device_id' => [
                 'required',
                 'string',
                 'max:255',
                 Rule::unique('devices')
                     ->whereNull('deleted_at')
-                    ->whereNot('device_id', $this->input('device_id'))
+                    ->whereNot('device_id', $this->input('device_id')),
             ],
         ];
     }

@@ -30,8 +30,6 @@ class Device extends Model
 
     /**
      * 장치 모델
-     *
-     * @return BelongsTo
      */
     public function deviceModel(): BelongsTo
     {
@@ -40,8 +38,6 @@ class Device extends Model
 
     /**
      * 소속 조직
-     *
-     * @return BelongsTo
      */
     public function organization(): BelongsTo
     {
@@ -50,8 +46,6 @@ class Device extends Model
 
     /**
      * 장치 설정들
-     *
-     * @return HasMany
      */
     public function configs(): HasMany
     {
@@ -60,9 +54,6 @@ class Device extends Model
 
     /**
      * 특정 유형의 설정들
-     *
-     * @param string $type
-     * @return HasMany
      */
     public function configsByType(string $type): HasMany
     {
@@ -71,12 +62,10 @@ class Device extends Model
 
     /**
      * 장치 상태 텍스트
-     *
-     * @return string
      */
     public function getStatusTextAttribute(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'active' => '활성',
             'inactive' => '비활성',
             'maintenance' => '점검중',
@@ -87,36 +76,29 @@ class Device extends Model
 
     /**
      * 장치가 활성 상태인지 확인
-     *
-     * @return bool
      */
     public function isActive(): bool
     {
-        return $this->status === 'active' && !$this->trashed();
+        return $this->status === 'active' && ! $this->trashed();
     }
 
     /**
      * 특정 설정값 가져오기
      *
-     * @param string $key
-     * @param mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function getConfigValue(string $key, $default = null)
     {
         $config = $this->configs()->where('config_key', $key)->first();
+
         return $config ? $config->config_value : $default;
     }
 
     /**
      * 설정값 설정하기
      *
-     * @param string $type
-     * @param string $key
-     * @param mixed $value
-     * @param string|null $unit
-     * @param string|null $description
-     * @return DeviceConfig
+     * @param  mixed  $value
      */
     public function setConfig(string $type, string $key, $value, ?string $unit = null, ?string $description = null): DeviceConfig
     {

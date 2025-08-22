@@ -26,8 +26,6 @@ class DeviceConfig extends Model
 
     /**
      * 소속 장치
-     *
-     * @return BelongsTo
      */
     public function device(): BelongsTo
     {
@@ -36,12 +34,10 @@ class DeviceConfig extends Model
 
     /**
      * 설정 유형 텍스트
-     *
-     * @return string
      */
     public function getConfigTypeTextAttribute(): string
     {
-        return match($this->config_type) {
+        return match ($this->config_type) {
             'threshold' => '임계값',
             'sampling_period' => '샘플링 주기',
             'setting' => '일반 설정',
@@ -52,8 +48,6 @@ class DeviceConfig extends Model
 
     /**
      * 설정값이 숫자인지 확인
-     *
-     * @return bool
      */
     public function isNumericValue(): bool
     {
@@ -62,8 +56,6 @@ class DeviceConfig extends Model
 
     /**
      * 설정값을 숫자로 반환 (가능한 경우)
-     *
-     * @return float|null
      */
     public function getNumericValue(): ?float
     {
@@ -72,15 +64,14 @@ class DeviceConfig extends Model
 
     /**
      * 단위와 함께 설정값 반환
-     *
-     * @return string
      */
     public function getValueWithUnitAttribute(): string
     {
         $value = $this->config_value;
         if ($this->unit) {
-            return $value . ' ' . $this->unit;
+            return $value.' '.$this->unit;
         }
+
         return $value;
     }
 }

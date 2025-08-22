@@ -22,9 +22,10 @@ class DeviceModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'manufacturer' => ['nullable', 'string', 'max:255'],
             'specifications' => ['nullable', 'string'],
-            'description'    => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 
@@ -32,9 +33,8 @@ class DeviceModelRequest extends FormRequest
     {
         return [
             'name.required' => __('validation.device_model.name.required'),
-            'name.max'      => __('validation.device_model.name.max'),
+            'name.max' => __('validation.device_model.name.max'),
+            'manufacturer.max' => __('validation.device_model.manufacturer.max'),
         ];
     }
-
-
 }

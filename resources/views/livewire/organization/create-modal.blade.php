@@ -1,5 +1,5 @@
 <div x-data="createModal()">
-    <flux:modal name="create-organization" class="md:w-96" @close="resetForm">
+    <flux:modal name="create-organization" class="w-1/2" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 조직 추가') }}</flux:heading>
         </div>
@@ -27,7 +27,7 @@
                     />
                 </flux:field>
                 <flux:field>
-                    <div class="grid grid-cols-[3fr_1fr] items-top gap-2">
+                    <div class="grid grid-cols-[5fr_1fr] items-top gap-2">
                         <flux:input
                                 label="우편번호"
                                 id="postcode-input"
