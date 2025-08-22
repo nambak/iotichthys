@@ -51,7 +51,7 @@
                             <div class="flex-shrink-0">
                                 <div class="h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200">
-                                        {{ substr($user->name, 0, 1) }}
+                                        {{ Str::substr($user->name, 0, 1) }}
                                     </span>
                                 </div>
                             </div>

@@ -101,3 +101,36 @@ it('displays correct user count', function () {
     Livewire::test(Show::class, ['permission' => $permission])
         ->assertSee('권한을 가진 사용자 (2명)');
 });
+
+it('displays user initials correctly with unicode characters', function () {
+    $currentUser = User::factory()->create();
+    $koreanUser = User::factory()->create(['name' => '김민수', 'email' => 'kim@example.com']);
+    $englishUser = User::factory()->create(['name' => 'John Doe', 'email' => 'john@example.com']);
+
+    $permission = Permission::factory()->create();
+
+    // Assign users to permission
+    $koreanUser->permissions()->attach($permission->id);
+    $englishUser->permissions()->attach($permission->id);
+
+    $this->actingAs($currentUser);
+
+    $response = Livewire::test(Show::class, ['permission' => $permission])
+        ->assertSee('김민수')
+        ->assertSee('kim@example.com')
+        ->assertSee('John Doe')
+        ->assertSee('john@example.com');
+
+    // Verify that Unicode initials are displayed correctly in the component HTML
+    $html = $response->html();
+    expect($html)->toContain('김민수');
+    expect($html)->toContain('John Doe');
+
+    // More specifically, test that Korean initial is displayed correctly
+    // With Str::substr(), Korean character should be properly displayed as '김'
+    expect($html)->toContain('김');
+    expect($html)->toContain('J');
+
+    // Ensure no garbled characters (�) are displayed
+    expect($html)->not->toContain('�');
+});
