@@ -1,5 +1,5 @@
 <div>
-    <flux:modal name="create-team" class="md:w-96" @close="resetForm">
+    <flux:modal name="create-team" class="w-1/2" @close="resetForm">
         <div>
             <flux:heading size="lg">{{ __('새 팀 생성') }}</flux:heading>
         </div>
