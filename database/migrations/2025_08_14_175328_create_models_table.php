@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('device_models', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('모델명');
+            $table->string('manufacturer')->nullable()->comment('제조사');
             $table->json('specifications')->nullable()->comment('모델 사양 (JSON)');
             $table->text('description')->nullable()->comment('모델 설명');
             $table->timestamps();
