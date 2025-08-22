@@ -12,7 +12,7 @@ describe('장치 생성', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '테스트 모델',
-            'description' => '테스트용 장치 모델'
+            'description' => '테스트용 장치 모델',
         ]);
         $organization = Organization::create([
             'name' => '테스트 조직',
@@ -20,7 +20,7 @@ describe('장치 생성', function () {
             'business_register_number' => '1234567890',
             'address' => '테스트 주소',
             'phone_number' => '02-1234-5678',
-            'slug' => 'test-org'
+            'slug' => 'test-org',
         ]);
 
         $this->actingAs($user);
@@ -44,7 +44,7 @@ describe('장치 생성', function () {
             'status' => 'active',
             'organization_id' => $organization->id,
             'description' => '테스트 설명',
-            'location' => '테스트 위치'
+            'location' => '테스트 위치',
         ]);
     });
 
@@ -65,7 +65,7 @@ describe('장치 생성', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '테스트 모델',
-            'description' => '테스트용 장치 모델'
+            'description' => '테스트용 장치 모델',
         ]);
 
         // 기존 장치 생성
@@ -73,7 +73,7 @@ describe('장치 생성', function () {
             'name' => '기존 장치',
             'device_id' => 'DUPLICATE_ID',
             'device_model_id' => $deviceModel->id,
-            'status' => 'active'
+            'status' => 'active',
         ]);
 
         $this->actingAs($user);

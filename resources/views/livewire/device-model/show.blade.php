@@ -27,6 +27,12 @@
                         <dd class="text-sm text-zinc-900 dark:text-zinc-100">{{ $deviceModel->name }}</dd>
                     </div>
                     <div>
+                        <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">제조사</dt>
+                        <dd class="text-sm text-zinc-900 dark:text-zinc-100">
+                            {{ $deviceModel->manufacturer ?? '제조사 미상' }}
+                        </dd>
+                    </div>
+                    <div>
                         <dt class="text-sm font-medium text-zinc-500 dark:text-zinc-400">설명</dt>
                         <dd class="text-sm text-zinc-900 dark:text-zinc-100">
                             {{ $deviceModel->description ?? '설명이 없습니다.' }}

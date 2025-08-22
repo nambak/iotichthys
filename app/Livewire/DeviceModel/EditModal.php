@@ -10,8 +10,13 @@ use Livewire\Component;
 class EditModal extends Component
 {
     public ?DeviceModel $deviceModel = null;
+
     public string $name = '';
+
+    public string $manufacturer = '';
+
     public string $specifications = '';
+
     public string $description = '';
 
     public function render()
@@ -38,8 +43,9 @@ class EditModal extends Component
     {
         if ($this->deviceModel) {
             $this->name = $this->deviceModel->name;
+            $this->manufacturer = $this->deviceModel->manufacturer ?? '';
             $this->description = $this->deviceModel->description ?? '';
-            
+
             // specifications를 문자열로 변환
             if ($this->deviceModel->specifications && is_array($this->deviceModel->specifications)) {
                 $this->specifications = implode("\n", $this->deviceModel->specifications);
@@ -58,7 +64,7 @@ class EditModal extends Component
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         // specifications를 JSON으로 변환
-        if (!empty($validatedData['specifications'])) {
+        if (! empty($validatedData['specifications'])) {
             $specs = array_map('trim', explode("\n", $validatedData['specifications']));
             $specs = array_filter($specs); // 빈 줄 제거
             $validatedData['specifications'] = $specs;

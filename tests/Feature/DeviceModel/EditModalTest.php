@@ -11,7 +11,7 @@ describe('장치 모델 수정', function () {
         $deviceModel = DeviceModel::factory()->create([
             'name' => '기존 모델',
             'description' => '기존 설명',
-            'specifications' => ['온도 센서', 'WiFi 지원']
+            'specifications' => ['온도 센서', 'WiFi 지원'],
         ]);
 
         $this->actingAs($user);
@@ -69,7 +69,7 @@ describe('장치 모델 수정', function () {
     it('사양을 비워서 수정할 수 있다', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::factory()->create([
-            'specifications' => ['기존 사양1', '기존 사양2']
+            'specifications' => ['기존 사양1', '기존 사양2'],
         ]);
 
         $this->actingAs($user);
@@ -98,7 +98,7 @@ describe('장치 모델 수정', function () {
     it('빈 specifications 배열을 문자열로 올바르게 변환한다', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::factory()->create([
-            'specifications' => null
+            'specifications' => null,
         ]);
 
         $this->actingAs($user);
@@ -106,5 +106,69 @@ describe('장치 모델 수정', function () {
         Livewire::test(EditModal::class)
             ->call('openModal', $deviceModel->id)
             ->assertSet('specifications', '');
+    });
+
+    it('제조사 필드를 포함하여 장치 모델을 수정할 수 있다', function () {
+        $user = User::factory()->create();
+        $deviceModel = DeviceModel::factory()->create([
+            'name' => 'LG 센서',
+            'manufacturer' => 'LG전자',
+            'description' => '기존 설명',
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(EditModal::class)
+            ->call('openModal', $deviceModel->id)
+            ->assertSet('name', 'LG 센서')
+            ->assertSet('manufacturer', 'LG전자')
+            ->set('name', '업데이트된 LG 센서')
+            ->set('manufacturer', 'LG CNS')
+            ->set('description', '업데이트된 설명')
+            ->call('save')
+            ->assertDispatched('device-model-updated');
+
+        $deviceModel->refresh();
+        expect($deviceModel->name)->toBe('업데이트된 LG 센서');
+        expect($deviceModel->manufacturer)->toBe('LG CNS');
+        expect($deviceModel->description)->toBe('업데이트된 설명');
+    });
+
+    it('제조사 필드를 비워서 수정할 수 있다', function () {
+        $user = User::factory()->create();
+        $deviceModel = DeviceModel::factory()->create([
+            'manufacturer' => '기존 제조사',
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(EditModal::class)
+            ->call('openModal', $deviceModel->id)
+            ->assertSet('manufacturer', '기존 제조사')
+            ->set('manufacturer', '')
+            ->call('save')
+            ->assertDispatched('device-model-updated');
+
+        $deviceModel->refresh();
+        expect($deviceModel->manufacturer)->toBe('');
+    });
+
+    it('제조사가 없는 기존 모델을 수정할 수 있다', function () {
+        $user = User::factory()->create();
+        $deviceModel = DeviceModel::factory()->create([
+            'manufacturer' => null,
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(EditModal::class)
+            ->call('openModal', $deviceModel->id)
+            ->assertSet('manufacturer', '')
+            ->set('manufacturer', '새로운 제조사')
+            ->call('save')
+            ->assertDispatched('device-model-updated');
+
+        $deviceModel->refresh();
+        expect($deviceModel->manufacturer)->toBe('새로운 제조사');
     });
 });

@@ -3,7 +3,6 @@
 use App\Livewire\Device\Index;
 use App\Models\Device;
 use App\Models\DeviceModel;
-use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -21,14 +20,14 @@ describe('장치 관리', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '테스트 모델',
-            'description' => '테스트용 장치 모델'
+            'description' => '테스트용 장치 모델',
         ]);
-        
+
         $device = Device::create([
             'name' => '테스트 장치',
             'device_id' => 'TEST_DEVICE_001',
             'device_model_id' => $deviceModel->id,
-            'status' => 'active'
+            'status' => 'active',
         ]);
 
         $this->actingAs($user);
@@ -44,14 +43,14 @@ describe('장치 관리', function () {
         $user = User::factory()->create();
         $deviceModel = DeviceModel::create([
             'name' => '테스트 모델',
-            'description' => '테스트용 장치 모델'
+            'description' => '테스트용 장치 모델',
         ]);
-        
+
         $device = Device::create([
             'name' => '테스트 장치',
             'device_id' => 'TEST_DEVICE_001',
             'device_model_id' => $deviceModel->id,
-            'status' => 'active'
+            'status' => 'active',
         ]);
 
         $this->actingAs($user);

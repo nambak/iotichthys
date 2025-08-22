@@ -22,33 +22,29 @@ class Index extends Component
     /**
      * 장치 모델 삭제
      *
-     * @param int $deviceModelId
-     * @return void
+     * @param  int  $deviceModelId
      */
     public function delete($deviceModelId): void
     {
         $deviceModel = DeviceModel::findOrFail($deviceModelId);
-        
+
         // 연결된 장치가 있는지 확인
-        if (!$deviceModel->canBeDeleted()) {
+        if (! $deviceModel->canBeDeleted()) {
             $this->dispatch('show-error-toast', [
                 'message' => '이 모델을 사용하는 장치가 있어 삭제할 수 없습니다.',
             ]);
-            
+
             return;
         }
-        
+
         $deviceModel->delete();
-        
+
         $this->dispatch('device-model-deleted');
         $this->resetPage();
     }
 
     /**
      * 장치 모델 편집 모달 열기
-     *
-     * @param int $deviceModelId
-     * @return void
      */
     public function editDeviceModel(int $deviceModelId): void
     {

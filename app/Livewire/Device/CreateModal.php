@@ -12,19 +12,48 @@ use Livewire\Component;
 class CreateModal extends Component
 {
     public string $name = '';
+
     public string $device_id = '';
+
     public string $device_model_id = '';
+
     public string $status = 'active';
+
     public string $organization_id = '';
+
     public string $description = '';
+
     public string $location = '';
+
+    public string $manufacturerFilter = '';
 
     public function render()
     {
-        $deviceModels = DeviceModel::all();
+        $deviceModels = DeviceModel::query()
+            ->when($this->manufacturerFilter, function ($query) {
+                $query->where('manufacturer', $this->manufacturerFilter);
+            })
+            ->get();
+
         $organizations = Organization::all();
 
-        return view('livewire.device.create-modal', compact('deviceModels', 'organizations'));
+        // 제조사 목록을 가져오기 (중복 제거)
+        $manufacturers = DeviceModel::whereNotNull('manufacturer')
+            ->where('manufacturer', '!=', '')
+            ->distinct()
+            ->pluck('manufacturer')
+            ->sort()
+            ->values();
+
+        return view('livewire.device.create-modal', compact('deviceModels', 'organizations', 'manufacturers'));
+    }
+
+    /**
+     * 제조사 필터가 변경되면 선택된 모델을 초기화
+     */
+    public function updatedManufacturerFilter()
+    {
+        $this->device_model_id = '';
     }
 
     /**
@@ -34,7 +63,7 @@ class CreateModal extends Component
      */
     public function save()
     {
-        $request = new CreateDeviceRequest();
+        $request = new CreateDeviceRequest;
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         Device::create($validatedData);

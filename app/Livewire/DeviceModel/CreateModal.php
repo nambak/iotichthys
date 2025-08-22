@@ -10,7 +10,11 @@ use Livewire\Component;
 class CreateModal extends Component
 {
     public string $name = '';
+
+    public string $manufacturer = '';
+
     public string $specifications = '';
+
     public string $description = '';
 
     public function render()
@@ -29,7 +33,7 @@ class CreateModal extends Component
         $validatedData = $this->validate($request->rules(), $request->messages());
 
         // specifications를 JSON으로 변환 (배열 형태가 아닌 경우)
-        if (!empty($validatedData['specifications'])) {
+        if (! empty($validatedData['specifications'])) {
             // 간단한 텍스트를 JSON 배열로 변환
             $specs = array_map('trim', explode("\n", $validatedData['specifications']));
             $specs = array_filter($specs); // 빈 줄 제거

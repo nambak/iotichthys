@@ -23,6 +23,9 @@
                     {{ __('모델명') }}
                 </th>
                 <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
+                    {{ __('제조사') }}
+                </th>
+                <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     {{ __('설명') }}
                 </th>
                 <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700/80">
@@ -43,6 +46,9 @@
                                class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
                                 {{ $deviceModel->name }}
                             </a>
+                        </td>
+                        <td class="px-3 py-4 text-center text-sm text-zinc-800 dark:text-zinc-200">
+                            {{ $deviceModel->manufacturer ?? '제조사 미상' }}
                         </td>
                         <td class="px-3 py-4 text-sm text-zinc-800 dark:text-zinc-200">
                             <div class="max-w-lg truncate">
@@ -70,7 +76,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                        <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
                             {{ __('등록된 장치 모델이 없습니다. 새 모델을 생성해보세요!') }}
                         </td>
                     </tr>

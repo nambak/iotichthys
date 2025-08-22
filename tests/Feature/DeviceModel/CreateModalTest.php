@@ -80,4 +80,51 @@ describe('장치 모델 생성', function () {
             ->assertDispatched('modal-close')
             ->assertDispatched('device-model-created');
     });
+
+    it('제조사 필드가 포함된 장치 모델을 생성할 수 있다', function () {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        Livewire::test(CreateModal::class)
+            ->set('name', '삼성 IoT 센서')
+            ->set('manufacturer', '삼성전자')
+            ->set('description', '삼성에서 제조한 IoT 센서')
+            ->call('save')
+            ->assertDispatched('device-model-created');
+
+        $deviceModel = DeviceModel::first();
+        expect($deviceModel->name)->toBe('삼성 IoT 센서');
+        expect($deviceModel->manufacturer)->toBe('삼성전자');
+        expect($deviceModel->description)->toBe('삼성에서 제조한 IoT 센서');
+    });
+
+    it('제조사 필드를 비워두고도 모델을 생성할 수 있다', function () {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        Livewire::test(CreateModal::class)
+            ->set('name', '제조사 미상 센서')
+            ->set('manufacturer', '')
+            ->call('save')
+            ->assertDispatched('device-model-created');
+
+        $deviceModel = DeviceModel::first();
+        expect($deviceModel->manufacturer)->toBe('');
+    });
+
+    it('제조사명 최대 길이 검증이 작동한다', function () {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $longManufacturer = str_repeat('a', 256); // 255자 초과
+
+        Livewire::test(CreateModal::class)
+            ->set('name', '테스트 모델')
+            ->set('manufacturer', $longManufacturer)
+            ->call('save')
+            ->assertHasErrors(['manufacturer']);
+    });
 });
