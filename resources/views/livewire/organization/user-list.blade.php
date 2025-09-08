@@ -28,7 +28,7 @@
             <tbody class="bg-zinc-700/50 divide-white/10">
             @foreach ($users as $user)
             <tr class="hover:bg-white/5 transition-colors">
-                <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-200">
+                <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
                     {{ $user->name }}
                 </td>
                 <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
