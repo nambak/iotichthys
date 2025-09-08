@@ -1,4 +1,4 @@
-<div class="bg-zinc-800 rounded-lg shadow-md p-6" x-data="initUserList">
+<div class="bg-zinc-800 rounded-lg shadow-md p-6" x-data="initUserList()">
     <div class="flex justify-between items-center mb-4">
         <flux:heading size="lg">조직 구성원 ({{ $users->total() }}명)</flux:heading>
     </div>
@@ -76,10 +76,20 @@
 <script>
     function initUserList() {
         return {
+            isRemoving: false,
             removeUser(userId) {
-                confirmDelete('정말로 이 사용자를 조직에서 제거하시겠습니까?', () => {
-                    this.$wire.removeUserFromOrganization(userId);
-                });
+                const exec = () => {
+                    if (this.isRemoving) return;
+                    this.isRemoving = true;
+                    this.$wire.removeUserFromOrganization(userId)
+                        .finally(() => { this.isRemoving = false; });
+                };
+                if (typeof window.confirmDelete === 'function') {
+                    window.confirmDelete(
+                        '정말로 이 사용자를 조직에서 제거하시겠습니까?',
+                        exec
+                    )
+                }
             },
         }
     }
