@@ -8,19 +8,19 @@
         <table class="w-full divide-white/20">
             <thead>
             <tr>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
+                <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     이름
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
+                <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     이메일
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
+                <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     역할
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
+                <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     가입일
                 </th>
-                <th scope="col" class="py-3 px-3 text-start text-sm font-medium text-white bg-zinc-700/80">
+                <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
                     &nbsp;
                 </th>
             </tr>
