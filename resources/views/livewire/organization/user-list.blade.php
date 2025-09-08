@@ -4,8 +4,8 @@
     </div>
 
     @if($users->total() > 0)
-    <div class="shadow-md rounded-lg overflow-hidden w-full">
-        <table class="w-full divide-white/20">
+    <div class="shadow-md rounded-lg w-full overflow-x-auto">
+        <table class="w-full min-w-[720px]">
             <thead>
             <tr>
                 <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
