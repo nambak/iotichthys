@@ -27,32 +27,32 @@
             </thead>
             <tbody class="bg-zinc-700/50 divide-white/10">
             @foreach ($users as $user)
-                <tr class="hover:bg-white/5 transition-colors">
-                    <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-200">
-                        {{ $user->name }}
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
-                        {{ $user->email }}
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
-                        @if($user->pivot->is_owner)
-                        <flux:badge color="amber">소유자</flux:badge>
-                        @else
-                        <flux:badge color="zinc">구성원</flux:badge>
-                        @endif
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
-                        {{ $user->pivot->created_at->format('Y-m-d') }}
-                    </td>
-                    <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
-                        @if(!$user->pivot->is_owner)
-                        <flux:icon.trash
-                                class="size-4 hover:text-red-600 transition-colors cursor-pointer"
-                                @click="removeUser({{ $user->id }})"
-                        />
-                        @endif
-                    </td>
-                </tr>
+            <tr class="hover:bg-white/5 transition-colors">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-200">
+                    {{ $user->name }}
+                </td>
+                <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
+                    {{ $user->email }}
+                </td>
+                <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
+                    @if($user->pivot->is_owner)
+                    <flux:badge color="amber">소유자</flux:badge>
+                    @else
+                    <flux:badge color="zinc">구성원</flux:badge>
+                    @endif
+                </td>
+                <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
+                    {{ $user->pivot->created_at->format('Y-m-d') }}
+                </td>
+                <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
+                    @if(!$user->pivot->is_owner)
+                    <flux:icon.trash
+                            class="size-4 hover:text-red-600 transition-colors cursor-pointer"
+                            @click="removeUser({{ $user->id }})"
+                    />
+                    @endif
+                </td>
+            </tr>
             @endforeach
             </tbody>
         </table>
@@ -64,7 +64,7 @@
     </div>
     @else
     <div class="text-center py-8">
-        <flux:icon.users class="mx-auto h-12 w-12 text-gray-400" />
+        <flux:icon.users class="mx-auto h-12 w-12 text-gray-400"/>
         <flux:heading size="md" class="mt-2 text-gray-600 dark:text-gray-400">조직에 속한 구성원이 없습니다</flux:heading>
         <flux:subheading class="mt-1 text-gray-500">새로운 구성원을 추가해보세요.</flux:subheading>
     </div>
