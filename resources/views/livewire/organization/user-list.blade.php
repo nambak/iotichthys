@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-6">
+<div class="bg-zinc-800 rounded-lg shadow-md p-6" x-data="initUserList">
     <div class="flex justify-between items-center mb-4">
         <flux:heading size="lg">조직 구성원 ({{ $users->total() }}명)</flux:heading>
     </div>
@@ -21,7 +21,7 @@
                     가입일
                 </th>
                 <th scope="col" class="py-3 px-3 text-center text-sm font-medium text-white bg-zinc-700/80">
-                    &nbsp;
+                    <span class="sr-only">작업</span>
                 </th>
             </tr>
             </thead>
@@ -46,10 +46,12 @@
                 </td>
                 <td class="px-3 py-4 whitespace-nowrap text-center text-sm  text-zinc-200">
                     @if(!$user->pivot->is_owner)
-                    <flux:icon.trash
-                            class="size-4 hover:text-red-600 transition-colors cursor-pointer"
-                            @click="removeUser({{ $user->id }})"
-                    />
+                    <button class="inline-flex items-center justify-center w-8 h-8 rounded-md hover:text-red-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40">
+                        <flux:icon.trash
+                                class="w-4 h-4"
+                                @click="removeUser({{ $user->id }})"
+                        />
+                    </button>
                     @endif
                 </td>
             </tr>
@@ -59,14 +61,26 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <div class="mt-4 text-xs px-1 text-zinc-500 dark:text-zinc-300">
+    <div class="mt-4 text-xs px-1 text-zinc-300">
         {{ $users->links('custom-flux-pagination') }}
     </div>
     @else
     <div class="text-center py-8">
         <flux:icon.users class="mx-auto h-12 w-12 text-gray-400"/>
-        <flux:heading size="md" class="mt-2 text-gray-600 dark:text-gray-400">조직에 속한 구성원이 없습니다</flux:heading>
+        <flux:heading size="md" class="mt-2 text-gray-400">조직에 속한 구성원이 없습니다</flux:heading>
         <flux:subheading class="mt-1 text-gray-500">새로운 구성원을 추가해보세요.</flux:subheading>
     </div>
     @endif
 </div>
+
+<script>
+    function initUserList() {
+        return {
+            removeUser(userId) {
+                confirmDelete('정말로 이 사용자를 조직에서 제거하시겠습니까?', () => {
+                    this.$wire.removeUserFromOrganization(userId);
+                });
+            },
+        }
+    }
+</script>
