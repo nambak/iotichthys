@@ -30,12 +30,6 @@
 <script>
     function organizationShow() {
         return {
-            removeUser(userId) {
-                confirmDelete('정말로 이 사용자를 조직에서 제거하시겠습니까?', () => {
-                    this.$wire.removeUserFromOrganization(userId);
-                });
-            },
-
             init() {
                 this.$wire.on('user-added-to-organization', (event) => {
                     showSuccessToast(event[0].message);

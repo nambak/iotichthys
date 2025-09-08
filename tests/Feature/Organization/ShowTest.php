@@ -2,6 +2,7 @@
 
 use App\Livewire\Organization\AddUserModal;
 use App\Livewire\Organization\Show;
+use App\Livewire\Organization\UserList;
 use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
@@ -196,7 +197,7 @@ describe('사용자 제거 기능', function () {
 
         expect($organization->users()->count())->toBe(1);
 
-        Livewire::test(Show::class, ['organization' => $organization])
+        Livewire::test(UserList::class, ['organization' => $organization])
             ->call('removeUserFromOrganization', $member->id)
             ->assertDispatched('user-removed-from-organization');
 
@@ -215,7 +216,7 @@ describe('사용자 제거 기능', function () {
 
         expect($organization->users()->count())->toBe(1);
 
-        Livewire::test(Show::class, ['organization' => $organization])
+        Livewire::test(UserList::class, ['organization' => $organization])
             ->call('removeUserFromOrganization', $owner->id)
             ->assertDispatched('show-error-toast');
 
