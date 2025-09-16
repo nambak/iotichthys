@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('organizations', \App\Livewire\Organization\Index::class)->name('organization.index');
     Route::get('organizations/{organization}', \App\Livewire\Organization\Show::class)->name('organization.show');
     Route::get('teams', \App\Livewire\Teams\Index::class)->name('teams.index');
+    Route::get('teams/{team}', \App\Livewire\Teams\Show::class)->name('teams.show');
     Route::get('users', \App\Livewire\Users\Index::class)->name('users.index');
     Route::get('permissions', \App\Livewire\Permissions\Index::class)->name('permissions.index');
     Route::get('permissions/{permission}', \App\Livewire\Permissions\Show::class)->name('permissions.show');

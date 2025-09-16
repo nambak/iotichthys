@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Organization;
 
-use App\Http\Requests\Organization\SearchUserRequest;
 use App\Models\Organization;
-use App\Models\User;
+use App\Traits\UserSearchTrait;
 use Flux\Flux;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,16 +11,11 @@ use Livewire\WithPagination;
 class AddUserModal extends Component
 {
     use WithPagination;
-
-    public ?User $foundUser = null;
-
-    public string $email = '';
+    use UserSearchTrait;
 
     public bool $showAddUserModal = false;
 
     public ?Organization $organization = null;
-
-    public bool $canAddUser = false;
 
     public function mount(Organization $organization)
     {
@@ -33,33 +27,6 @@ class AddUserModal extends Component
         return view('livewire.organization.add-user-modal');
     }
 
-    /**
-     * 사용자 검색
-     */
-    public function searchUser(): void
-    {
-        $request = new SearchUserRequest;
-        $this->validate($request->rules(), $request->messages());
-
-        $this->foundUser = User::where('email', $this->email)->first();
-        $this->canAddUser = false;
-
-        if (! $this->foundUser) {
-            $this->addError('email', '해당 이메일로 가입된 사용자를 찾을 수 없습니다.');
-
-            return;
-        }
-
-        // 이미 조직에 속해있는 사용자인지 확인
-        if ($this->organization->users()->where('user_id', $this->foundUser->id)->exists()) {
-            $this->addError('email', '해당 사용자는 이미 이 조직에 속해있습니다.');
-
-            return;
-        }
-
-        // 여기까지 왔다면 추가 가능한 사용자
-        $this->canAddUser = true;
-    }
 
     /**
      * 조직에 사용자 추가
@@ -90,8 +57,7 @@ class AddUserModal extends Component
      */
     public function resetUserSearch(): void
     {
-        $this->reset();
-        $this->resetValidation();
+        $this->resetSearch();
     }
 
     /**
