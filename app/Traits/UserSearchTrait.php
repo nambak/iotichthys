@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Exceptions\UserAlreadyMemberException;
 use App\Http\Requests\Organization\SearchUserRequest;
 use App\Models\User;
 
@@ -11,7 +12,6 @@ trait UserSearchTrait
 {
     public string $email = '';
     public ?User $foundUser = null;
-    public bool $canAddUser = false;
 
     /**
      * 사용자 검색
@@ -21,44 +21,25 @@ trait UserSearchTrait
         $request = new SearchUserRequest;
         $this->validate($request->rules(), $request->messages());
 
-        $this->foundUser = User::where('email', $this->email)->first();
-        $this->canAddUser = false;
+        $this->foundUser = User::findByEmail($this->email);
 
-        if (! $this->foundUser) {
+        if (!$this->foundUser) {
             $this->addError('email', '해당 이메일로 가입된 사용자를 찾을 수 없습니다.');
 
             return;
         }
 
-        // 중복 체크
-        if ($this->isUserAlreadyAdded($this->foundUser)) {
-            return;
-        }
-
-        // 여기까지 왔다면 추가 가능한 사용자
-        $this->canAddUser = true;
+        // 중복 체크 - 예외 발생 시 호출하는 컴포넌트에서 처리
+        $this->validateUserNotDuplicate($this->foundUser);
     }
 
     /**
-     * 사용자가 이미 추가되었는지 확인
+     * 사용자가 이미 추가되었는지 확인하고 중복이면 예외 던지기
+     *
      */
-    protected function isUserAlreadyAdded(User $user): bool
+    protected function validateUserNotDuplicate(User $user): void
     {
-        if (isset($this->organization)) {
-            if ($this->organization->users()->where('user_id', $user->id)->exists()) {
-                $this->addError('email', '해당 사용자는 이미 이 조직에 속해있습니다.');
-                return true;
-            }
-        }
-
-        if (isset($this->team)) {
-            if ($this->team->users()->where('user_id', $user->id)->exists()) {
-                $this->addError('email', '해당 사용자는 이미 이 팀에 속해있습니다.');
-                return true;
-            }
-        }
-
-        return false;
+        $user->ensureNotMemberOf($this->organization ?? $this->team);
     }
 
     /**
@@ -84,7 +65,6 @@ trait UserSearchTrait
     {
         $this->email = '';
         $this->foundUser = null;
-        $this->canAddUser = false;
         $this->resetErrorBag('email');
     }
 }
