@@ -42,7 +42,9 @@
                 @forelse ($teams as $team)
                     <tr class="hover:bg-white/5 transition-colors">
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-zinc-800 dark:text-zinc-200">
-                            {{ $team->name }}
+                            <a href="{{ route('teams.show', $team) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
+                                {{ $team->name }}
+                            </a>
                         </td>
                         <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-800 dark:text-zinc-200">
                             {{ $team->organization->name }}
