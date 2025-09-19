@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Exceptions\UserAlreadyMemberException;
+use App\Exceptions\UserAlreadyMemberOfTeamException;
+use App\Exceptions\UserAlreadyUserOfOrganizationException;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -260,5 +263,55 @@ class User extends Authenticatable
         return Category::whereHas('accessControls', function ($query) {
             $query->where('user_id', $this->id);
         })->get();
+    }
+
+    /**
+     * 이메일로 사용자 찾기
+     */
+    public static function findByEmail(string $email): ?self
+    {
+        return static::where('email', $email)->first();
+    }
+
+    /**
+     * 이메일로 사용자 찾기 (없으면 예외)
+     */
+    public static function findByEmailOrFail(string $email): self
+    {
+        return static::where('email', $email)->firstOrFail();
+    }
+
+    /**
+     * 특정 조직의 멤버인지 확인
+     */
+    public function isMemberOfOrganization(Organization $organization): bool
+    {
+        return $this->organizations()->where('organization_id', $organization->id)->exists();
+    }
+
+    /**
+     * 특정 팀의 멤버인지 확인
+     */
+    public function isMemberOfTeam(Team $team): bool
+    {
+        return $this->teams()->where('team_id', $team->id)->exists();
+    }
+
+    /**
+     * 특정 조직/팀의 멤버가 아님을 보장 (멤버면 예외 발생)
+     *
+     * @param Organization|Team $entity
+     * @throws UserAlreadyMemberOfTeamException
+     * @throws UserAlreadyUserOfOrganizationException
+     */
+    public function ensureNotMemberOf(Organization|Team $entity): void
+    {
+        match(true) {
+            $entity instanceof Organization && $this->isMemberOfOrganization($entity) =>
+                throw new UserAlreadyUserOfOrganizationException(),
+            $entity instanceof Team && $this->isMemberOfTeam($entity) =>
+                throw new UserAlreadyMemberOfTeamException(),
+            default => null
+        };
     }
 }
