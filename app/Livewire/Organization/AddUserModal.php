@@ -3,6 +3,7 @@
 namespace App\Livewire\Organization;
 
 use App\Exceptions\UserAlreadyUserOfOrganizationException;
+use App\Http\Requests\Organization\SearchUserRequest;
 use App\Models\Organization;
 use App\Models\User;
 use Exception;
@@ -39,10 +40,17 @@ class AddUserModal extends Component
         $this->canAddUser = false;
 
         try {
-            $request = new \App\Http\Requests\Organization\SearchUserRequest;
+            $request = new SearchUserRequest;
             $this->validate($request->rules(), $request->messages());
 
             $this->foundUser = User::findByEmailOrFail($this->email);
+
+            // 사용자가 다른 조직에 속해있는지 확인
+            $hasAnyOrganization = $this->foundUser->organizations()->count() > 0;
+            if ($hasAnyOrganization) {
+                $existingOrg = $this->foundUser->organizations()->first();
+                throw new UserAlreadyUserOfOrganizationException("이미 '{$existingOrg->name}' 조직에 속해있는 사용자입니다.");
+            }
 
             $this->foundUser->ensureNotMemberOf($this->organization);
 
@@ -50,8 +58,11 @@ class AddUserModal extends Component
 
         } catch (ModelNotFoundException) {
             $this->addError('email', '해당 이메일로 가입된 사용자를 찾을 수 없습니다.');
-        } catch (UserAlreadyUserOfOrganizationException) {
-            $this->addError('email', '해당 사용자는 이미 이 조직에 속해있습니다.');
+        } catch (UserAlreadyUserOfOrganizationException $e) {
+            $this->addError('email', $e->getMessage() ?: '해당 사용자는 이미 조직에 속해있습니다.');
+        } catch (\Exception $e) {
+            logger("Unexpected error in searchUser: " . $e->getMessage());
+            $this->addError('email', '사용자 검색 중 오류가 발생했습니다: ' . $e->getMessage());
         }
     }
 
@@ -84,17 +95,6 @@ class AddUserModal extends Component
     }
 
     /**
-     * 검색 결과 초기화
-     */
-    public function reset(): void
-    {
-        $this->email = '';
-        $this->foundUser = null;
-        $this->canAddUser = false;
-        $this->resetErrorBag('email');
-    }
-
-    /**
      * 사용자 추가 모달 열기
      */
     public function openAddUserModal(): void
@@ -110,5 +110,6 @@ class AddUserModal extends Component
     {
         $this->showAddUserModal = false;
         $this->reset();
+        $this->resetErrorBag();
     }
 }

@@ -1,7 +1,14 @@
-<div x-data="createModal()">
-    <flux:modal name="create-organization" class="w-1/2" @close="resetForm">
+<div x-data="initModal()">
+    <flux:modal
+        name="{{$modalName}}"
+        class="w-1/2"
+        @close="resetForm"
+    >
         <div>
-            <flux:heading size="lg">{{ __('새 조직 추가') }}</flux:heading>
+            <flux:heading size="lg">
+                {{ $organization ? __('조직 수정') : __('조직 추가') }}
+                <!-- Debug: organization={{ $organization ? 'exists' : 'null' }} -->
+            </flux:heading>
         </div>
         <form wire:submit.prevent="save" class="font-size-[14px] mt-10">
             <div class="space-y-6">
@@ -36,7 +43,6 @@
                         />
                         <flux:button
                                 class="w-fit mt-6"
-                                dusk="search-address-button"
                                 @click="openAddressSearch"
                         >주소 검색
                         </flux:button>
@@ -66,7 +72,9 @@
                 </flux:field>
                 <div class="flex">
                     <flux:spacer/>
-                    <flux:button type="submit" variant="primary">{{ __('저장') }}</flux:button>
+                    <flux:button type="submit" variant="primary">
+                        {{ $organization ? __('수정') : __('추가') }}
+                    </flux:button>
                 </div>
             </div>
         </form>
@@ -75,12 +83,11 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-    function createModal() {
+    function initModal() {
         return {
             openAddressSearch() {
                 new daum.Postcode({
                     oncomplete: function (data) {
-                        // 🔥 @this.set()으로 Livewire 프로퍼티에 직접 값 설정
                         @this.set('postcode', data.zonecode || '')
                         @this.set('address', data.roadAddress || '')
 
@@ -99,13 +106,6 @@
                     // 팝업 스타일 설정
                     width: '100%',
                     height: '100%',
-
-                    // 팝업이 닫힐 때
-                    onclose: function (state) {
-                        if (state === 'FORCE_CLOSE') {
-                            console.log('주소 검색이 취소되었습니다.');
-                        }
-                    }
                 }).open();
             }
         }
