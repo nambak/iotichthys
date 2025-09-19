@@ -1,6 +1,6 @@
 <div x-data="organizationListTable()">
-    <div class="shadow-md rounded-lg overflow-hidden w-full bg-zinc-900">
-        <table class="w-full divide-white/20">
+    <div class="shadow-md rounded-lg overflow-hidden w-full overflow-x-auto">
+        <table class="w-full mind-w-[720px]">
             <thead>
             <tr>
                 <th class="px-3 py-3 text-center text-sm font-medium text-white bg-zinc-700">

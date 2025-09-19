@@ -1,10 +1,14 @@
 <div class="bg-zinc-800 rounded-lg shadow-md p-6" x-data="initUserList()">
     <div class="flex justify-between items-center mb-4">
         <flux:heading size="lg">조직 구성원 ({{ $users->total() }}명)</flux:heading>
+        <flux:modal.trigger name="add-user-modal">
+            <flux:button variant="primary" icon="plus">
+                {{ __('사용자 추가') }}
+            </flux:button>
+        </flux:modal.trigger>
     </div>
 
-    @if($users->total() > 0)
-    <div class="shadow-md rounded-lg w-full overflow-x-auto">
+    <div class="shadow-md rounded-lg w-full overflow-x-auto bg-zinc-900">
         <table class="w-full min-w-[720px]">
             <thead>
             <tr>
@@ -26,7 +30,7 @@
             </tr>
             </thead>
             <tbody class="bg-zinc-700/50 divide-white/10">
-            @foreach ($users as $user)
+            @forelse ($users as $user)
             <tr class="hover:bg-white/5 transition-colors">
                 <td class="px-3 py-4 whitespace-nowrap text-center text-sm text-zinc-200">
                     {{ $user->name }}
@@ -55,7 +59,13 @@
                     @endif
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                    {{ __('사용자가 없습니다. 새 사용자를 등록해보세요!') }}
+                </td>
+            </tr>
+            @endforelse
             </tbody>
         </table>
     </div>
@@ -64,13 +74,6 @@
     <div class="mt-4 text-xs px-1 text-zinc-300">
         {{ $users->links('custom-flux-pagination') }}
     </div>
-    @else
-    <div class="text-center py-8">
-        <flux:icon.users class="mx-auto h-12 w-12 text-gray-400"/>
-        <flux:heading size="md" class="mt-2 text-gray-400">조직에 속한 구성원이 없습니다</flux:heading>
-        <flux:subheading class="mt-1 text-gray-500">새로운 구성원을 추가해보세요.</flux:subheading>
-    </div>
-    @endif
 </div>
 
 <script>
